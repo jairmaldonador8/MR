@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montana Realty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Helvetica+Neue:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#ffffff;
+  --off:#f5f4f0;
+  --black:#0d0d0d;
+  --mid:#888;
+  --red:#b91c1c;
+  --serif:'Cormorant',Georgia,serif;
+  --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--black);color:var(--white);font-family:var(--sans);font-weight:300;overflow-x:hidden;cursor:none}
+#cur{position:fixed;width:6px;height:6px;background:var(--white);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .2s}
+#ring{position:fixed;width:32px;height:32px;border:1px solid rgba(255,255,255,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+#ring.big{width:56px;height:56px;border-color:rgba(185,28,28,.7)}
+body *{cursor:none!important}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:56px;transition:background .4s}
+#nav.opaque{background:rgba(13,13,13,.97);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo{font-family:var(--sans);font-size:13px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--white);text-decoration:none}
+.nav-logo b{color:var(--red);font-weight:200}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-action{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--white);background:none;font-family:var(--sans);font-weight:300;padding:8px 20px;border:1px solid rgba(255,255,255,.25);transition:border-color .2s;text-decoration:none;display:inline-block}
+.nav-action:hover{border-color:var(--white)}
+
+/* BLOCKS */
+.blk{position:relative;width:100%;overflow:hidden}
+.blk-full{height:100vh}
+.blk-tall{height:110vh}
+.blk-med{height:75vh}
+.blk-half{height:55vh}
+.blk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform 7s cubic-bezier(.25,.46,.45,.94)}
+.blk:hover img{transform:scale(1.04)}
+.veil-bot{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.05) 0%,rgba(13,13,13,0) 40%,rgba(13,13,13,.6) 100%);pointer-events:none}
+.veil-full{position:absolute;inset:0;background:rgba(13,13,13,.42);pointer-events:none}
+.veil-top{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.65) 0%,rgba(13,13,13,0) 55%);pointer-events:none}
+
+/* CAPTIONS */
+.cap{position:absolute;z-index:2}
+.cap-bl{bottom:56px;left:56px}
+.cap-br{bottom:56px;right:56px;text-align:right}
+.cap-tl{top:80px;left:56px}
+.cap-tr{top:80px;right:56px;text-align:right}
+.cap-c{top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%}
+
+/* TYPE */
+.eye{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);display:block;margin-bottom:14px}
+.eye-r{color:var(--red)}
+.h1{font-family:var(--serif);font-size:clamp(72px,10vw,144px);font-weight:300;line-height:.92;letter-spacing:-.02em;display:block}
+.h2{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:300;line-height:.94;letter-spacing:-.02em;display:block}
+.h3{font-family:var(--serif);font-size:clamp(36px,5vw,68px);font-weight:300;line-height:1.0;letter-spacing:-.01em;display:block}
+em{font-style:italic}
+.cta{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--white);text-decoration:none;margin-top:28px;transition:opacity .2s}
+.cta:hover{opacity:.6}
+.cta::after{content:'';display:block;width:28px;height:1px;background:currentColor}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:1fr 1fr}
+.split .blk{height:80vh}
+.split3{display:grid;grid-template-columns:1fr 1fr 1fr}
+.split3 .blk{height:70vh}
+
+/* TICKER */
+.ticker{overflow:hidden;background:var(--black);padding:18px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+.ticker-t{display:flex;gap:64px;animation:tk 28s linear infinite;white-space:nowrap}
+.ti{flex-shrink:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.td{color:var(--red);margin:0 32px}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* PROP GRID */
+.prop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--black)}
+.pi{position:relative;overflow:hidden;background:#111;aspect-ratio:3/4}
+.pi img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94),filter .5s;filter:brightness(.78);display:block}
+.pi:hover img{transform:scale(1.05);filter:brightness(.5)}
+.pi-info{position:absolute;bottom:0;left:0;right:0;padding:28px 24px;background:linear-gradient(to top,rgba(13,13,13,.9) 0%,transparent 100%);transform:translateY(4px);transition:transform .35s}
+.pi:hover .pi-info{transform:translateY(0)}
+.pi-tag{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+.pi-name{font-family:var(--serif);font-size:20px;font-weight:300;line-height:1.1;margin-bottom:4px}
+.pi-loc{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px}
+.pi-price{font-family:var(--serif);font-size:17px;font-weight:300}
+.pi-meta{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:5px}
+.pi-arrow{position:absolute;top:20px;right:20px;width:36px;height:36px;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--white);background:rgba(13,13,13,.4);backdrop-filter:blur(4px);opacity:0;transition:opacity .3s;text-decoration:none}
+.pi:hover .pi-arrow{opacity:1;border-color:rgba(255,255,255,.6)}
+
+/* FILTER */
+.fbar{display:flex;border-bottom:1px solid rgba(255,255,255,.08);background:var(--black);overflow-x:auto;scrollbar-width:none;padding:0 56px}
+.fbar::-webkit-scrollbar{display:none}
+.fb{background:none;border:none;font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.38);padding:16px 20px;border-bottom:1px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .2s}
+.fb.on{color:var(--white);border-bottom-color:var(--white)}
+.fb:hover{color:rgba(255,255,255,.75)}
+
+/* SHOWCASE */
+.detail{display:grid;grid-template-columns:1fr 420px;min-height:100vh}
+.dg{position:relative;overflow:hidden;min-height:70vh}
+.dg img{width:100%;height:100%;object-fit:cover;display:block}
+.dg-thumbs{position:absolute;bottom:28px;left:28px;display:flex;gap:5px}
+.thumb{width:48px;height:36px;object-fit:cover;opacity:.45;border:1px solid transparent;display:block;transition:opacity .2s,border-color .2s}
+.thumb.on{opacity:1;border-color:var(--white)}
+.di{background:var(--white);color:var(--black);padding:72px 44px;overflow-y:auto;display:flex;flex-direction:column}
+.di .eye{color:rgba(0,0,0,.4)}
+.di-name{font-family:var(--serif);font-size:clamp(34px,3vw,50px);font-weight:300;line-height:1.0;letter-spacing:-.01em;margin:10px 0 4px}
+.di-loc{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.38);margin-bottom:28px}
+.di-price{font-family:var(--serif);font-size:40px;font-weight:300;border-top:1px solid rgba(0,0,0,.1);padding-top:20px;margin-bottom:3px}
+.di-pnote{font-size:10px;color:rgba(0,0,0,.38);letter-spacing:.1em}
+.specs{margin:28px 0;display:grid;grid-template-columns:1fr 1fr;gap:0}
+.sr{padding:12px 0;border-bottom:1px solid rgba(0,0,0,.07)}
+.sk{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.38);margin-bottom:3px}
+.sv{font-size:13px;font-weight:300}
+.di-body{font-size:14px;line-height:1.9;color:rgba(0,0,0,.52);margin-bottom:28px;font-weight:300}
+.btn-blk{display:block;background:var(--black);color:var(--white);text-align:center;padding:15px;font-family:var(--sans);font-size:10px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;border:1px solid var(--black);font-weight:300}
+.btn-blk:hover{background:transparent;color:var(--black)}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:var(--black);text-align:center;padding:13px;font-family:var(--sans);font-size:10px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(0,0,0,.18);margin-top:8px;transition:border-color .2s;font-weight:300}
+.btn-wa:hover{border-color:var(--black)}
+.wa-s{width:16px;height:16px;fill:var(--black);flex-shrink:0}
+
+/* LEAD */
+.lead{display:grid;grid-template-columns:1fr 1fr}
+.ll{position:relative;overflow:hidden;min-height:640px}
+.ll img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.5)}
+.ll-text{position:absolute;bottom:56px;left:56px;right:56px}
+.lr{background:var(--black);padding:80px 56px;display:flex;flex-direction:column;justify-content:center}
+.fi{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);color:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;padding:13px 0;outline:none;transition:border-color .2s;display:block;margin-bottom:24px}
+.fi::placeholder{color:rgba(255,255,255,.24);font-size:13px}
+.fi:focus{border-bottom-color:var(--white)}
+.fl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:7px}
+.bsub{width:100%;background:var(--white);color:var(--black);border:none;font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:17px;font-weight:400;transition:background .2s,color .2s;margin-top:8px}
+.bsub:hover{background:var(--red);color:var(--white)}
+.fnote{font-size:10px;color:rgba(255,255,255,.2);margin-top:12px;letter-spacing:.04em}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr 1fr}
+.at{padding:100px 56px}
+.ai{position:relative;overflow:hidden;min-height:700px}
+.ai img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.55)}
+.numrow{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.07);margin-top:60px}
+.nc{padding:32px 0;border-right:1px solid rgba(255,255,255,.07)}
+.nc:last-child{border-right:none}
+.nv{font-family:var(--serif);font-size:42px;font-weight:300;line-height:1}
+.nl{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-top:7px}
+
+/* MAP STRIP */
+.map-strip{position:relative;height:52vh;overflow:hidden}
+.map-strip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(0) brightness(.35)}
+.map-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 56px;z-index:2}
+.map-tags{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.mt{background:rgba(255,255,255,.06);backdrop-filter:blur(8px);padding:18px 22px;border:1px solid rgba(255,255,255,.08)}
+.mt-z{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:5px}
+.mt-p{font-family:var(--serif);font-size:17px}
+
+/* ADMIN */
+.adm-sec{padding:80px 56px;border-top:1px solid rgba(255,255,255,.06)}
+.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px}
+.up-box{border:1px dashed rgba(255,255,255,.15);padding:56px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;transition:border-color .25s}
+.up-box:hover{border-color:rgba(255,255,255,.4)}
+.up-ic{font-size:26px;opacity:.22}
+.ai2{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.1);color:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;padding:12px 0;outline:none;transition:border-color .2s;display:block;margin-bottom:22px}
+.ai2::placeholder{color:rgba(255,255,255,.2)}
+.ai2:focus{border-bottom-color:var(--white)}
+.al{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:6px}
+.adm-tog{background:none;border:1px solid rgba(255,255,255,.2);color:var(--white);font-family:var(--sans);font-size:9px;letter-spacing:.25em;text-transform:uppercase;padding:12px 28px;transition:all .2s;font-weight:300}
+.adm-tog:hover{border-color:var(--white);background:var(--white);color:var(--black)}
+.adm-panel{display:none;margin-top:48px}
+.adm-panel.open{display:block}
+.iprevs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.iprevs img{width:68px;height:52px;object-fit:cover;opacity:.65}
+
+/* CONTACT */
+.ct{display:grid;grid-template-columns:1fr 1fr;min-height:80vh}
+.ctl{padding:100px 56px;border-right:1px solid rgba(255,255,255,.06)}
+.ctr{padding:100px 56px}
+.big{font-family:var(--serif);font-size:clamp(50px,7vw,96px);font-weight:300;line-height:.9;letter-spacing:-.02em;margin:24px 0 44px}
+.cr{margin-bottom:26px}
+.cl{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
+.cv{font-size:14px;font-weight:300}
+
+/* FOOTER */
+footer{display:flex;align-items:center;justify-content:space-between;padding:28px 56px;border-top:1px solid rgba(255,255,255,.07)}
+.flogo{font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-weight:200}
+.flogo b{color:var(--red);font-weight:200}
+.fnav{display:flex;gap:28px}
+.fnav a{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s}
+.fnav a:hover{color:var(--white)}
+.fcopy{font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.2)}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.25,.46,.45,.94),transform .85s cubic-bezier(.25,.46,.45,.94)}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.22s}.r.d3{transition-delay:.34s}
+.r.v{opacity:1;transform:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);background:var(--white);color:var(--black);padding:13px 32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;z-index:9000;opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap}
+.toast.on{opacity:1}
+
+/* MOBILE */
+@media(max-width:900px){
+  #nav{padding:0 20px}
+  .nav-links,.nav-action{display:none}
+  .cap-bl{bottom:28px;left:24px}.cap-br{bottom:28px;right:24px}.cap-tl{top:72px;left:24px}.cap-tr{top:72px;right:24px}
+  .h1{font-size:clamp(52px,12vw,80px)}.h2{font-size:clamp(36px,9vw,60px)}
+  .split,.split3,.lead,.about,.ct{grid-template-columns:1fr}
+  .split .blk,.split3 .blk{height:60vh}
+  .prop-grid{grid-template-columns:1fr 1fr}
+  .detail{grid-template-columns:1fr}
+  .di{padding:40px 24px}
+  .ll,.ai{min-height:320px}
+  .at,.lr,.ctl,.ctr{padding:56px 24px}
+  .fbar,.adm-sec{padding-left:20px;padding-right:20px}
+  footer{flex-direction:column;gap:18px;padding:28px 24px;text-align:center}
+  .numrow{grid-template-columns:1fr 1fr}
+  .adm-grid{grid-template-columns:1fr}
+  .map-inner{flex-direction:column;gap:24px;padding:24px}
+  .map-tags{grid-template-columns:repeat(3,1fr)}
+  .map-strip{height:auto;padding:80px 0}
+  .map-strip img{display:none}
+  .map-strip{background:#111}
+  .ctl{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  .big{font-size:clamp(40px,10vw,64px)}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Montana<b>.</b></a>
+  <ul class="nav-links">
+    <li><a href="#col">Propiedades</a></li>
+    <li><a href="#show">Destacado</a></li>
+    <li><a href="#abt">Nosotros</a></li>
+    <li><a href="#cta">Contacto</a></li>
+  </ul>
+  <a href="#cta" class="nav-action">Agendar visita</a>
+</nav>
+
+<!-- ① HERO -->
+<div class="blk blk-full">
+  <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=2000&q=90" alt="Montana Realty hero" loading="eager" id="heroBg">
+  <div class="veil-bot"></div>
+  <div class="cap cap-bl">
+    <span class="eye r v">San Pedro Garza García — 2025</span>
+    <span class="h1 r v">Curated<br><em>Living.</em></span>
+    <a href="#col" class="cta r v d1">Explorar propiedades</a>
+  </div>
+  <div class="cap cap-tr">
+    <span class="eye" style="margin-bottom:0">6 propiedades disponibles</span>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-t">
+    <span class="ti">Valle Oriente</span><span class="td">·</span>
+    <span class="ti">Del Valle</span><span class="td">·</span>
+    <span class="ti">San Agustín</span><span class="td">·</span>
+    <span class="ti">San Jerónimo</span><span class="td">·</span>
+    <span class="ti">Carretera Nacional</span><span class="td">·</span>
+    <span class="ti">Colinas de San Jerónimo</span><span class="td">·</span>
+    <span class="ti">Valle Oriente</span><span class="td">·</span>
+    <span class="ti">Del Valle</span><span class="td">·</span>
+    <span class="ti">San Agustín</span><span class="td">·</span>
+    <span class="ti">San Jerónimo</span><span class="td">·</span>
+    <span class="ti">Carretera Nacional</span><span class="td">·</span>
+    <span class="ti">Colinas de San Jerónimo</span><span class="td">·</span>
+  </div>
+</div>
+
+<!-- ② SPLIT EDITORIAL -->
+<div class="split">
+  <div class="blk">
+    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=85" alt="">
+    <div class="veil-bot"></div>
+    <div class="cap cap-bl">
+      <span class="eye eye-r r">Nueva exclusiva</span>
+      <span class="h2 r d1">Casa<br>Montaña</span>
+      <a href="#show" class="cta r d2" onclick="goDetail(event,0)">Ver propiedad</a>
+    </div>
+  </div>
+  <div class="blk">
+    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85" alt="">
+    <div class="veil-bot"></div>
+    <div class="cap cap-bl">
+      <span class="eye r">Sky Penthouse</span>
+      <span class="h2 r d1">Vista<br>Infinita</span>
+      <a href="#show" class="cta r d2" onclick="goDetail(event,5)">Descubrir</a>
+    </div>
+  </div>
+</div>
+
+<!-- ③ COLLECTION -->
+<section id="col" style="background:var(--black)">
+  <div style="padding:72px 56px 0;display:flex;align-items:flex-end;justify-content:space-between">
+    <div>
+      <span class="eye r">Portafolio</span>
+      <span class="h3 r d1" style="display:block">Nuestra <em>Selección</em></span>
+    </div>
+    <span class="r d2" style="font-family:var(--serif);font-size:56px;font-weight:300;color:rgba(255,255,255,.1)">06</span>
+  </div>
+  <div class="fbar r d1" style="margin-top:36px">
+    <button class="fb on" onclick="filt(this,'all')">Todos</button>
+    <button class="fb" onclick="filt(this,'casa')">Casas</button>
+    <button class="fb" onclick="filt(this,'pent')">Penthouses</button>
+    <button class="fb" onclick="filt(this,'terr')">Terrenos</button>
+    <button class="fb" onclick="filt(this,'b5')">Hasta $5M</button>
+    <button class="fb" onclick="filt(this,'s5')">$5M+</button>
+  </div>
+  <div class="prop-grid r d2" id="pg" style="margin-top:2px">
+    <div class="pi" data-t="casa" data-p="s5"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa · Destacada</div><div class="pi-name">Casa Montaña<br>del Valle</div><div class="pi-loc">Valle Oriente</div><div class="pi-price">$12,500,000 MXN</div><div class="pi-meta">5 rec · 6 baños · 620 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,0)">→</a></div>
+    <div class="pi" data-t="pent" data-p="s5"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Penthouse · Nuevo</div><div class="pi-name">Penthouse<br>Vistas</div><div class="pi-loc">Del Valle</div><div class="pi-price">$8,900,000 MXN</div><div class="pi-meta">3 rec · 3 baños · 280 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,1)">→</a></div>
+    <div class="pi" data-t="casa" data-p="s5"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa · Exclusiva</div><div class="pi-name">Villa<br>Serena</div><div class="pi-loc">San Agustín</div><div class="pi-price">$18,200,000 MXN</div><div class="pi-meta">6 rec · 7 baños · 850 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,2)">→</a></div>
+    <div class="pi" data-t="casa" data-p="b5"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa</div><div class="pi-name">Residencia<br>Altos</div><div class="pi-loc">Colinas, San Pedro</div><div class="pi-price">$4,600,000 MXN</div><div class="pi-meta">4 rec · 4 baños · 380 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,3)">→</a></div>
+    <div class="pi" data-t="terr" data-p="b5"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Terreno · Inversión</div><div class="pi-name">Terreno<br>Sierra</div><div class="pi-loc">San Jerónimo</div><div class="pi-price">$3,200,000 MXN</div><div class="pi-meta">1,200 m² · Vista montaña</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,4)">→</a></div>
+    <div class="pi" data-t="pent" data-p="s5"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Penthouse · Sky</div><div class="pi-name">Sky<br>Residence</div><div class="pi-loc">Carretera Nacional</div><div class="pi-price">$6,800,000 MXN</div><div class="pi-meta">4 rec · 4 baños · 320 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,5)">→</a></div>
+  </div>
+</section>
+
+<!-- ④ EDITORIAL BREAK -->
+<div class="blk blk-half">
+  <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=2000&q=85" alt="">
+  <div class="veil-full"></div>
+  <div class="cap cap-c">
+    <span class="eye r">San Pedro Garza García</span>
+    <span class="h3 r d1" style="font-size:clamp(38px,5.5vw,72px)">El municipio más próspero<br>de <em>México.</em></span>
+    <a href="#lead" class="cta r d2" style="justify-content:center;margin-top:28px">Guía de inversión gratuita</a>
+  </div>
+</div>
+
+<!-- ⑤ SHOWCASE / DETAIL -->
+<section id="show">
+  <div class="detail">
+    <div class="dg">
+      <img id="dMainImg" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="">
+      <div class="dg-thumbs">
+        <img class="thumb on" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=200" onclick="swapImg(this,'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90')" alt="">
+        <img class="thumb" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=200" onclick="swapImg(this,'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=90')" alt="">
+        <img class="thumb" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200" onclick="swapImg(this,'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=90')" alt="">
+        <img class="thumb" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=200" onclick="swapImg(this,'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1400&q=90')" alt="">
+      </div>
+    </div>
+    <div class="di">
+      <span class="eye">Propiedad destacada · Casa</span>
+      <div class="di-name" id="dName">Casa Montaña<br>del Valle</div>
+      <div class="di-loc" id="dLoc">Valle Oriente, San Pedro Garza García</div>
+      <div class="di-price" id="dPrice">$12,500,000</div>
+      <div class="di-pnote">MXN · Negociable</div>
+      <div class="specs">
+        <div class="sr"><div class="sk">Tipo</div><div class="sv" id="dTipo">Casa</div></div>
+        <div class="sr"><div class="sk">Área total</div><div class="sv" id="dArea">620 m²</div></div>
+        <div class="sr"><div class="sk">Terreno</div><div class="sv" id="dTerreno">1,100 m²</div></div>
+        <div class="sr"><div class="sk">Recámaras</div><div class="sv" id="dRec">5 + estudio</div></div>
+        <div class="sr"><div class="sk">Baños</div><div class="sv" id="dBanos">6 completos</div></div>
+        <div class="sr"><div class="sk">Cajones</div><div class="sv" id="dCaj">4 techados</div></div>
+        <div class="sr"><div class="sk">Alberca</div><div class="sv" id="dAlb">Infinity + Jacuzzi</div></div>
+        <div class="sr"><div class="sk">Año</div><div class="sv" id="dYear">2022</div></div>
+      </div>
+      <p class="di-body" id="dDesc">Posicionada en el corredor más codiciado de Valle Oriente, Casa Montaña del Valle no es simplemente una residencia — es una declaración sobre cómo puede y debe vivirse. Cada espacio respira la Sierra Madre: luz que cambia, tardes frescas, y la ciudad que se convierte en una alfombra luminosa.</p>
+      <a href="#cta" class="btn-blk">Solicitar visita privada</a>
+      <a href="https://wa.me/528112345678" class="btn-wa">
+        <svg class="wa-s" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ MAP STRIP -->
+<div class="map-strip">
+  <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=2000&q=80" alt="">
+  <div class="map-inner">
+    <div>
+      <span class="eye r">Ubicaciones</span>
+      <span class="h3 r d1" style="display:block">San Pedro<br><em>Garza García</em></span>
+    </div>
+    <div class="map-tags r d2">
+      <div class="mt"><div class="mt-z">Valle Oriente</div><div class="mt-p">$12.5M</div></div>
+      <div class="mt"><div class="mt-z">Del Valle</div><div class="mt-p">$8.9M</div></div>
+      <div class="mt"><div class="mt-z">San Agustín</div><div class="mt-p">$18.2M</div></div>
+      <div class="mt"><div class="mt-z">Colinas</div><div class="mt-p">$4.6M</div></div>
+      <div class="mt"><div class="mt-z">San Jerónimo</div><div class="mt-p">$3.2M</div></div>
+      <div class="mt"><div class="mt-z">Carr. Nacional</div><div class="mt-p">$6.8M</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑦ LEAD -->
+<div class="lead" id="lead">
+  <div class="ll">
+    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200&q=85" alt="">
+    <div class="ll-text">
+      <span class="eye r">Inversión inteligente</span>
+      <span class="h3 r d1" style="display:block;font-style:italic">"San Pedro es el mercado<br>inmobiliario más sofisticado<br>de México."</span>
+    </div>
+  </div>
+  <div class="lr">
+    <span class="eye r">Recurso gratuito</span>
+    <span class="h3 r d1" style="display:block;margin-bottom:8px">Invierte en<br><em>San Pedro</em></span>
+    <div style="width:28px;height:1px;background:var(--red);margin:18px 0 24px" class="r d2"></div>
+    <p style="font-size:13px;color:rgba(255,255,255,.42);line-height:1.85;margin-bottom:36px;max-width:400px" class="r d2">Descarga nuestra guía exclusiva con análisis de mercado, proyecciones de ROI y oportunidades en los corredores más valorados de San Pedro.</p>
+    <form onsubmit="subLead(event)" class="r d3">
+      <label class="fl">Nombre completo</label>
+      <input class="fi" type="text" placeholder="Tu nombre" required>
+      <label class="fl">Correo electrónico</label>
+      <input class="fi" type="email" placeholder="correo@ejemplo.com" required>
+      <label class="fl">WhatsApp</label>
+      <input class="fi" type="tel" placeholder="+52 81 XXXX XXXX">
+      <button class="bsub" type="submit">Descargar guía →</button>
+      <p class="fnote">Tu información es privada y nunca se comparte.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ⑧ ABOUT -->
+<div class="about" id="abt">
+  <div class="at">
+    <span class="eye r">Nuestra historia</span>
+    <span class="h3 r d1" style="display:block;margin-bottom:18px">Una casa boutique<br>para <em>hogares únicos</em></span>
+    <div style="width:28px;height:1px;background:var(--red);margin-bottom:36px" class="r d2"></div>
+    <p style="font-size:14px;color:rgba(255,255,255,.44);line-height:1.9;margin-bottom:18px" class="r d2">Montana Realty nació de una convicción: que encontrar tu hogar debería sentirse tan considerado y bello como el hogar mismo. No somos un marketplace. Somos una curaduría.</p>
+    <p style="font-size:14px;color:rgba(255,255,255,.44);line-height:1.9;margin-bottom:18px" class="r d2">Cada propiedad ha sido seleccionada personalmente por integridad arquitectónica, potencial de estilo de vida e inteligencia de ubicación. Trabajamos con un número limitado de clientes.</p>
+    <p style="font-size:14px;color:rgba(255,255,255,.44);line-height:1.9" class="r d3">Conocemos cada calle, cada corredor de vista, cada colonia emergente de San Pedro. Cuando trabajas con Montana, no estás buscando. Estás siendo guiado.</p>
+    <div class="numrow r d3">
+      <div class="nc"><div class="nv">127</div><div class="nl">Propiedades</div></div>
+      <div class="nc"><div class="nv">$2.4B</div><div class="nl">MXN transacciones</div></div>
+      <div class="nc"><div class="nv">8</div><div class="nl">Años San Pedro</div></div>
+      <div class="nc"><div class="nv">100%</div><div class="nl">Retención</div></div>
+    </div>
+  </div>
+  <div class="ai"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=85" alt=""></div>
+</div>
+
+<!-- ⑨ ADMIN -->
+<div class="adm-sec">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px">
+    <div>
+      <span class="eye r">Administración</span>
+      <span class="h3 r d1" style="display:block">Subir nueva <em>propiedad</em></span>
+    </div>
+    <button class="adm-tog r d2" onclick="togAdm()">Abrir panel →</button>
+  </div>
+  <div class="adm-panel" id="admP">
+    <div class="adm-grid">
+      <div>
+        <div class="up-box" onclick="document.getElementById('ifl').click()">
+          <div class="up-ic">⬆</div>
+          <span style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.22)">Arrastrar imágenes aquí</span>
+          <span style="font-size:11px;color:rgba(255,255,255,.15)">JPG · PNG · hasta 20MB</span>
+          <input type="file" id="ifl" multiple accept="image/*" style="display:none" onchange="prevImgs(event)">
+        </div>
+        <div class="iprevs" id="iprevs"></div>
+      </div>
+      <div>
+        <label class="al">Nombre de la propiedad</label>
+        <input class="ai2" type="text" placeholder="ej. Casa Montaña del Valle">
+        <label class="al">Precio (MXN)</label>
+        <input class="ai2" type="number" placeholder="12500000">
+        <label class="al">Colonia / Ubicación</label>
+        <input class="ai2" type="text" placeholder="Valle Oriente, San Pedro">
+        <label class="al">Tipo</label>
+        <select class="ai2" style="color:rgba(255,255,255,.55)">
+          <option style="background:#111">Casa</option><option style="background:#111">Penthouse</option>
+          <option style="background:#111">Terreno</option><option style="background:#111">Departamento</option>
+        </select>
+      </div>
+      <div>
+        <label class="al">Recámaras · Baños · Cajones</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+          <input class="ai2" type="number" placeholder="Rec.">
+          <input class="ai2" type="number" placeholder="Baños">
+          <input class="ai2" type="number" placeholder="Caj.">
+        </div>
+        <label class="al" style="margin-top:6px">Área total (m²)</label>
+        <input class="ai2" type="number" placeholder="620">
+        <label class="al">Características clave</label>
+        <input class="ai2" type="text" placeholder="Alberca infinity, Smart home, Vista montaña...">
+      </div>
+      <div>
+        <label class="al">Descripción lifestyle</label>
+        <textarea class="ai2" style="height:155px;resize:none;padding-top:10px;width:100%;font-family:var(--sans);font-size:13px" placeholder="Cuenta la historia de esta propiedad..."></textarea>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-top:4px">
+      <button class="bsub" style="width:auto;padding:15px 44px" onclick="subAdm(event)">Publicar propiedad →</button>
+      <label style="display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28)"><input type="checkbox" style="accent-color:var(--red)"> Destacada</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28)"><input type="checkbox" style="accent-color:var(--red)"> Exclusiva</label>
+    </div>
+  </div>
+</div>
+
+<!-- ⑩ CONTACT -->
+<div class="ct" id="cta">
+  <div class="ctl">
+    <span class="eye r">Comenzar</span>
+    <div class="big r d1">Encontremos<br>tu <em>hogar.</em></div>
+    <p style="font-size:13px;color:rgba(255,255,255,.36);line-height:1.9;max-width:360px" class="r d2">Sea que buscas residencia principal, segunda casa o inversión estratégica — nuestro equipo te guía con precisión y discreción.</p>
+    <div style="margin-top:44px" class="r d2">
+      <div class="cr"><div class="cl">Oficina</div><div class="cv">Valle Oriente, San Pedro Garza García, NL</div></div>
+      <div class="cr"><div class="cl">Correo</div><div class="cv">hola@montanarealty.mx</div></div>
+      <div class="cr"><div class="cl">Teléfono</div><div class="cv">+52 81 1234 5678</div></div>
+    </div>
+    <a href="https://wa.me/528112345678" class="cta r d3" style="margin-top:36px">WhatsApp directo</a>
+  </div>
+  <div class="ctr">
+    <span class="eye r">Enviar mensaje</span>
+    <form onsubmit="subCt(event)" style="margin-top:32px">
+      <div class="r d1"><label class="fl">Nombre</label><input class="fi" type="text" placeholder="Nombre completo" required></div>
+      <div class="r d1"><label class="fl">Correo</label><input class="fi" type="email" placeholder="correo@ejemplo.com" required></div>
+      <div class="r d2"><label class="fl">¿Qué buscas?</label>
+        <select class="fi" style="appearance:none;background:transparent;color:rgba(255,255,255,.65)">
+          <option style="background:#111">Comprar propiedad</option>
+          <option style="background:#111">Inversión inmobiliaria</option>
+          <option style="background:#111">Listar mi propiedad</option>
+          <option style="background:#111">Consulta de mercado</option>
+        </select>
+      </div>
+      <div class="r d2"><label class="fl">Presupuesto (MXN)</label>
+        <select class="fi" style="appearance:none;background:transparent;color:rgba(255,255,255,.65)">
+          <option style="background:#111">Menos de $3M</option>
+          <option style="background:#111">$3M — $8M</option>
+          <option style="background:#111">$8M — $15M</option>
+          <option style="background:#111">$15M+</option>
+        </select>
+      </div>
+      <div class="r d3"><label class="fl">Mensaje</label>
+        <textarea class="fi" style="height:96px;resize:none;width:100%;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);color:var(--white);outline:none;padding-top:10px" placeholder="Cuéntanos sobre tu propiedad ideal..."></textarea>
+      </div>
+      <button class="bsub r d3" type="submit" style="margin-top:16px">Enviar →</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">Montana<b>.</b></div>
+  <nav class="fnav">
+    <a href="#col">Propiedades</a>
+    <a href="#show">Destacado</a>
+    <a href="#abt">Nosotros</a>
+    <a href="#cta">Contacto</a>
+  </nav>
+  <div class="fcopy">© 2025 Montana Realty · San Pedro Garza García</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function t(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(t)})();
+document.querySelectorAll('a,button,.pi,.blk,.thumb,.mt').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.classList.add('big');cur.style.background='#b91c1c'});
+  el.addEventListener('mouseleave',()=>{ring.classList.remove('big');cur.style.background='#fff'});
+});
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('opaque',scrollY>60));
+
+// PARALLAX
+window.addEventListener('scroll',()=>{const b=document.getElementById('heroBg');if(b)b.style.transform=`scale(1.04) translateY(${scrollY*.2}px)`});
+
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.observe(el)});
+
+// FILTER
+function filt(btn,t){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('.pi').forEach(c=>{
+    const ok=t==='all'||c.dataset.t===t||c.dataset.p===t;
+    c.style.opacity=ok?'1':'0.15';c.style.pointerEvents=ok?'all':'none';c.style.transition='opacity .4s';
+  });
+}
+
+// GALLERY
+function swapImg(th,src){
+  document.getElementById('dMainImg').src=src;
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('on'));th.classList.add('on');
+}
+
+// DETAIL DATA
+const props=[
+  {n:'Casa Montaña<br>del Valle',l:'Valle Oriente, San Pedro Garza García',p:'$12,500,000',img:'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90',t:'Casa',a:'620 m²',tr:'1,100 m²',r:'5 + estudio',b:'6 completos',c:'4 techados',al:'Infinity + Jacuzzi',y:'2022',d:'Posicionada en el corredor más codiciado de Valle Oriente, Casa Montaña del Valle no es simplemente una residencia — es una declaración sobre cómo puede y debe vivirse. Cada espacio respira la Sierra Madre: luz que cambia, tardes frescas, y la ciudad que se convierte en una alfombra luminosa.'},
+  {n:'Penthouse Vistas',l:'Del Valle, San Pedro',p:'$8,900,000',img:'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=1400&q=90',t:'Penthouse',a:'280 m²',tr:'—',r:'3',b:'3 completos',c:'2 techados',al:'Rooftop privado',y:'2021',d:'Desde el último piso del edificio más icónico de Del Valle, Penthouse Vistas ofrece una perspectiva que pocos privilegiados han tenido el honor de llamar propia.'},
+  {n:'Villa Serena',l:'San Agustín, San Pedro',p:'$18,200,000',img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=90',t:'Casa',a:'850 m²',tr:'1,400 m²',r:'6',b:'7 completos',c:'5 techados',al:'Infinity + Spa',y:'2023',d:'Villa Serena no fue construida — fue concebida. Cada estancia, cada corredor, cada espacio exterior fue diseñado con la misma intención: que quien habite aquí no desee estar en ningún otro lugar.'},
+  {n:'Residencia Altos',l:'Colinas de San Jerónimo',p:'$4,600,000',img:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1400&q=90',t:'Casa',a:'380 m²',tr:'620 m²',r:'4',b:'4 completos',c:'3 techados',al:'Privada',y:'2019',d:'Una casa que equilibra la escala humana con la ambición arquitectónica. Residencia Altos es para quien busca profundidad, no ostentación.'},
+  {n:'Terreno Sierra',l:'San Jerónimo, San Pedro',p:'$3,200,000',img:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&q=90',t:'Terreno',a:'1,200 m²',tr:'1,200 m²',r:'—',b:'—',c:'—',al:'—',y:'—',d:'1,200 metros cuadrados de posibilidad pura. Con vista directa a la Sierra Madre y uso de suelo residencial premium, Terreno Sierra es una inversión que el tiempo únicamente apreciará.'},
+  {n:'Sky Residence',l:'Carretera Nacional, San Pedro',p:'$6,800,000',img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1400&q=90',t:'Penthouse',a:'320 m²',tr:'—',r:'4',b:'4 completos',c:'3 techados',al:'Sky pool',y:'2022',d:'Una residencia en las alturas que redefine lo que significa vivir sobre la ciudad. Sky Residence es arquitectura con actitud.'},
+];
+function goDetail(e,i){
+  e.preventDefault();
+  const p=props[i];
+  document.getElementById('dMainImg').src=p.img;
+  document.getElementById('dName').innerHTML=p.n;
+  document.getElementById('dLoc').textContent=p.l;
+  document.getElementById('dPrice').textContent=p.p;
+  document.getElementById('dTipo').textContent=p.t;
+  document.getElementById('dArea').textContent=p.a;
+  document.getElementById('dTerreno').textContent=p.tr;
+  document.getElementById('dRec').textContent=p.r;
+  document.getElementById('dBanos').textContent=p.b;
+  document.getElementById('dCaj').textContent=p.c;
+  document.getElementById('dAlb').textContent=p.al;
+  document.getElementById('dYear').textContent=p.y;
+  document.getElementById('dDesc').textContent=p.d;
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.thumb')[0].classList.add('on');
+  document.getElementById('show').scrollIntoView({behavior:'smooth'});
+}
+
+// ADMIN
+function togAdm(){
+  const p=document.getElementById('admP');p.classList.toggle('open');
+  document.querySelector('.adm-tog').textContent=p.classList.contains('open')?'Cerrar panel ×':'Abrir panel →';
+}
+function prevImgs(e){
+  const box=document.getElementById('iprevs');box.innerHTML='';
+  Array.from(e.target.files).slice(0,8).forEach(f=>{
+    const r=new FileReader();r.onload=ev=>{const img=new Image();img.src=ev.target.result;box.appendChild(img)};r.readAsDataURL(f);
+  });
+}
+function subAdm(e){e.preventDefault();toast('Propiedad publicada exitosamente.')}
+
+// FORMS
+function subLead(e){e.preventDefault();toast('Guía en camino — revisa tu correo.');e.target.reset()}
+function subCt(e){e.preventDefault();toast('Mensaje recibido — contacto en menos de 24h.');e.target.reset()}
+
+// TOAST
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3800)}
+</script>
+</body>
+</html>
