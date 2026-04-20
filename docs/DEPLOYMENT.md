@@ -74,7 +74,7 @@ Copy the example environment file:
 cp .env.example .env
 ```
 
-### Step 4: Initialize Database
+### Step 4: Start Server to Initialize Database
 
 ```bash
 mkdir -p data
@@ -203,8 +203,8 @@ CREATE TABLE IF NOT EXISTS leads (
   email TEXT NOT NULL UNIQUE,
   phone TEXT,
   property_ids TEXT,
-  budget_min REAL,
-  budget_max REAL,
+  budget_min INTEGER,
+  budget_max INTEGER,
   contact_preference TEXT DEFAULT 'whatsapp',
   source TEXT,
   status TEXT DEFAULT 'new',
@@ -214,6 +214,8 @@ CREATE TABLE IF NOT EXISTS leads (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
+**Status values:** `new | contacted | scheduled | closed`
 
 #### Conversations Table
 ```sql
@@ -245,9 +247,9 @@ CREATE TABLE IF NOT EXISTS automations (
 CREATE TABLE IF NOT EXISTS agents (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
-  email TEXT NOT NULL UNIQUE,
-  phone TEXT,
-  status TEXT DEFAULT 'available',
+  email TEXT UNIQUE NOT NULL,
+  whatsapp_phone TEXT,
+  active INTEGER DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
@@ -305,7 +307,7 @@ cp data/montana.db.backup-YYYYMMDD-HHMMSS data/montana.db
 Once configured, test with:
 
 ```bash
-curl -X GET "https://graph.instagram.com/v18.0/me/whatsapp_business_accounts?access_token=YOUR_ACCESS_TOKEN"
+curl -X GET "https://graph.facebook.com/v18.0/me/whatsapp_business_accounts?access_token=YOUR_ACCESS_TOKEN"
 ```
 
 Expected response should list your business accounts.
@@ -479,60 +481,9 @@ curl -X POST http://localhost:3000/api/comparison \
 
 ## Production Deployment
 
-### Option 1: Vercel
+### Option 1: AWS EC2
 
-Vercel provides serverless hosting for Node.js applications.
-
-**Setup:**
-
-1. Install Vercel CLI:
-   ```bash
-   npm install -g vercel
-   ```
-
-2. Deploy:
-   ```bash
-   vercel
-   ```
-
-3. Set environment variables in Vercel dashboard:
-   - All `.env` variables
-
-4. Redeploy:
-   ```bash
-   vercel --prod
-   ```
-
-### Option 2: Heroku
-
-Heroku offers simple container deployment.
-
-**Setup:**
-
-1. Create Heroku account: https://heroku.com
-2. Install Heroku CLI
-3. Create app:
-   ```bash
-   heroku create montana-realty
-   ```
-
-4. Set environment variables:
-   ```bash
-   heroku config:set PORT=3000
-   heroku config:set NODE_ENV=production
-   heroku config:set DB_PATH=/var/lib/montana/montana.db
-   heroku config:set WHATSAPP_PHONE_NUMBER_ID=your_id
-   # ... set all other variables
-   ```
-
-5. Deploy:
-   ```bash
-   git push heroku main
-   ```
-
-### Option 3: AWS EC2
-
-For more control, deploy to AWS.
+For more control and persistent database support, deploy to AWS.
 
 **Setup:**
 
@@ -592,7 +543,34 @@ For more control, deploy to AWS.
    sudo certbot --nginx -d yourdomain.com
    ```
 
-### Option 4: Docker
+### Option 2: Heroku
+
+Heroku offers simple container deployment.
+
+**Setup:**
+
+1. Create Heroku account: https://heroku.com
+2. Install Heroku CLI
+3. Create app:
+   ```bash
+   heroku create montana-realty
+   ```
+
+4. Set environment variables:
+   ```bash
+   heroku config:set PORT=3000
+   heroku config:set NODE_ENV=production
+   heroku config:set DB_PATH=/var/lib/montana/montana.db
+   heroku config:set WHATSAPP_PHONE_NUMBER_ID=your_id
+   # ... set all other variables
+   ```
+
+5. Deploy:
+   ```bash
+   git push heroku main
+   ```
+
+### Option 3: Docker
 
 Containerize your application.
 
@@ -618,15 +596,39 @@ docker build -t montana-realty .
 docker run -p 3000:3000 --env-file .env montana-realty
 ```
 
-### Option 5: DigitalOcean App Platform
+### Option 4: DigitalOcean App Platform
 
-Simple PaaS alternative to Heroku.
+Simple PaaS alternative to Heroku with persistent storage support.
 
 1. Connect GitHub repository
 2. Set build command: `npm install`
 3. Set run command: `npm start`
 4. Configure environment variables
 5. Deploy
+
+### Option 5: Vercel (Requires PostgreSQL Migration)
+
+**WARNING:** Vercel provides serverless hosting which is ephemeral (stateless). SQLite databases cannot persist reliably on Vercel. If using Vercel, you MUST first migrate from SQLite to PostgreSQL or another cloud database.
+
+**Setup (after database migration):**
+
+1. Install Vercel CLI:
+   ```bash
+   npm install -g vercel
+   ```
+
+2. Deploy:
+   ```bash
+   vercel
+   ```
+
+3. Set environment variables in Vercel dashboard:
+   - All `.env` variables pointing to your cloud database
+
+4. Redeploy:
+   ```bash
+   vercel --prod
+   ```
 
 ### Production Checklist
 

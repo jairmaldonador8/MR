@@ -123,8 +123,7 @@ montana-realty/
 │   └── integration.test.js  # Integration tests
 ├── docs/                    # Documentation
 │   ├── API.md              # Complete API reference
-│   ├── DEPLOYMENT.md       # Deployment instructions
-│   └── README.md           # This file
+│   └── DEPLOYMENT.md       # Deployment instructions
 ├── config.js               # Configuration loader
 ├── database.js             # Database utilities
 ├── server.js               # Express app entry point
@@ -134,7 +133,7 @@ montana-realty/
 
 ## API Documentation
 
-Complete API endpoint documentation is available in [docs/API.md](docs/API.md).
+Complete API endpoint documentation is available in [docs/API.md](/docs/API.md).
 
 ### Core Endpoints
 
@@ -161,7 +160,7 @@ curl -X POST http://localhost:3000/api/leads \
 
 ## Deployment
 
-Comprehensive deployment instructions for local, staging, and production environments are available in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Comprehensive deployment instructions for local, staging, and production environments are available in [docs/DEPLOYMENT.md](/docs/DEPLOYMENT.md).
 
 ### Quick Deployment Summary
 
@@ -236,25 +235,28 @@ LOG_LEVEL=info
 WEBHOOK_VERIFY_TOKEN=your_secure_token
 ```
 
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed configuration instructions.
+See [docs/DEPLOYMENT.md](/docs/DEPLOYMENT.md) for detailed configuration instructions.
 
 ## Features in Detail
 
 ### Lead Scoring Algorithm
 
-Leads are scored on a 0-100 scale based on multiple factors:
+Leads are scored based on multiple factors with a maximum possible score of approximately 30:
 
-| Factor | Points | Notes |
-|--------|--------|-------|
-| Property Interest | 0-40 | Higher budget properties = higher score |
-| Budget Range | 0-30 | Larger budgets indicate serious intent |
-| Contact Preference | 0-15 | WhatsApp preference indicates higher engagement |
-| Source | 0-15 | Direct sources weighted higher than referrals |
+| Factor | Points |
+|--------|--------|
+| Base score (form submission) | 10 |
+| Property interest | +1 per property (max 5) |
+| Budget specified | +5 |
+| Narrow budget range (<2M) | +2 |
+| WhatsApp preference | +3 |
+| Comparison tool source | +5 |
+| **Maximum possible score** | **~30** |
 
 **Priority Tiers:**
-- **High (70-100):** Immediate follow-up required
-- **Medium (40-69):** Standard follow-up within 24 hours
-- **Low (0-39):** Educational nurture sequence
+- **Hot (score >= 25):** Immediate follow-up required
+- **Warm (score 15-24):** Standard follow-up within 24 hours
+- **Cold (score < 15):** Educational nurture sequence
 
 ### WhatsApp Automation Sequence
 
@@ -331,7 +333,7 @@ npm run dev
 2. Test connectivity: `curl https://api.realgeeks.com`
 3. Check API key has correct permissions
 
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed troubleshooting guide.
+See [docs/DEPLOYMENT.md](/docs/DEPLOYMENT.md) for detailed troubleshooting guide.
 
 ## Git Workflow
 
@@ -415,8 +417,8 @@ Phase 2:
 
 For issues, questions, or feature requests:
 
-1. Check the [API documentation](docs/API.md)
-2. Review the [deployment guide](docs/DEPLOYMENT.md)
+1. Check the [API documentation](/docs/API.md)
+2. Review the [deployment guide](/docs/DEPLOYMENT.md)
 3. Check server logs: `npm run dev`
 4. Open an issue on GitHub
 

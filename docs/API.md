@@ -4,7 +4,7 @@ Complete API reference for the Montana Realty Lead Generation Platform.
 
 ## Base URL
 
-```
+```text
 http://localhost:3000/api
 ```
 
@@ -137,8 +137,8 @@ curl -X POST http://localhost:3000/api/leads \
 {
   "success": true,
   "leadId": 1,
-  "leadScore": 78,
-  "priority": "high",
+  "leadScore": 28,
+  "priority": "hot",
   "message": "Un agente te contactará en menos de 5 minutos"
 }
 ```
@@ -149,8 +149,8 @@ curl -X POST http://localhost:3000/api/leads \
 |-------|------|-------------|
 | `success` | boolean | Indicates successful lead creation |
 | `leadId` | number | Unique identifier for the created lead |
-| `leadScore` | number | Lead quality score (0-100) |
-| `priority` | string | Lead priority level (low/medium/high) |
+| `leadScore` | number | Lead quality score (0-~30) |
+| `priority` | string | Lead priority level (cold/warm/hot) |
 | `message` | string | Confirmation message for the user |
 
 **Background Actions Triggered:**
@@ -185,7 +185,7 @@ GET /api/leads
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `status` | string | - | Filter by lead status (new/contacted/qualified/converted) |
+| `status` | string | - | Filter by lead status (new/contacted/scheduled/closed) |
 | `assignedAgent` | string | - | Filter by assigned agent ID |
 | `limit` | number | 50 | Maximum number of leads to return |
 | `offset` | number | 0 | Number of leads to skip (for pagination) |
@@ -219,7 +219,7 @@ curl -X GET "http://localhost:3000/api/leads?assignedAgent=agent123&limit=50"
     "contact_preference": "whatsapp",
     "source": "form",
     "status": "new",
-    "lead_score": 78,
+    "lead_score": 28,
     "assigned_agent_id": null,
     "created_at": "2026-04-20T14:30:00.000Z",
     "updated_at": "2026-04-20T14:30:00.000Z"
@@ -235,7 +235,7 @@ curl -X GET "http://localhost:3000/api/leads?assignedAgent=agent123&limit=50"
     "contact_preference": "whatsapp",
     "source": "form",
     "status": "contacted",
-    "lead_score": 85,
+    "lead_score": 30,
     "assigned_agent_id": "agent456",
     "created_at": "2026-04-19T10:00:00.000Z",
     "updated_at": "2026-04-20T09:00:00.000Z"
@@ -256,8 +256,8 @@ curl -X GET "http://localhost:3000/api/leads?assignedAgent=agent123&limit=50"
 | `budget_max` | number | Maximum budget in MXN |
 | `contact_preference` | string | Preferred contact method |
 | `source` | string | Source of the lead |
-| `status` | string | Current status (new/contacted/qualified/converted) |
-| `lead_score` | number | Lead quality score (0-100) |
+| `status` | string | Current status (new/contacted/scheduled/closed) |
+| `lead_score` | number | Lead quality score (0-~30) |
 | `assigned_agent_id` | string\|null | ID of assigned agent, or null if unassigned |
 | `created_at` | string | ISO 8601 timestamp of creation |
 | `updated_at` | string | ISO 8601 timestamp of last update |
@@ -297,7 +297,7 @@ curl -X GET http://localhost:3000/api/leads/1
   "contact_preference": "whatsapp",
   "source": "form",
   "status": "new",
-  "lead_score": 78,
+  "lead_score": 28,
   "assigned_agent_id": null,
   "created_at": "2026-04-20T14:30:00.000Z",
   "updated_at": "2026-04-20T14:30:00.000Z"
@@ -404,9 +404,11 @@ curl -X POST http://localhost:3000/api/comparison \
 | `properties[].location` | string | Property location |
 | `properties[].roi` | number | Return on investment percentage |
 | `properties[].appreciation` | string | Expected appreciation level |
-| `analysis.bestValue` | number | Property ID with best value |
-| `analysis.bestROI` | number | Property ID with best ROI |
+| `analysis.bestValue` | number | Property ID with best value (currently returns first property - full implementation pending) |
+| `analysis.bestROI` | number | Property ID with best ROI (currently returns first property - full implementation pending) |
 | `analysis.summary` | string | Summary of comparison |
+
+**Note:** The `bestValue` and `bestROI` fields currently return the first property in the list and are not yet fully implemented.
 
 **Error Response (400):**
 ```json
@@ -477,12 +479,7 @@ interface Property {
 ```
 
 ### Paginated Response
-When using `limit` and `offset`, the response is an array. Include metadata headers:
-```
-X-Total-Count: 150
-X-Page-Count: 3
-X-Page-Number: 1
-```
+When using `limit` and `offset`, the response is a plain JSON array of leads without additional headers.
 
 ## Testing Endpoints
 
@@ -592,4 +589,4 @@ For issues:
 2. Review error message and status code
 3. Check logs: `tail -f server.log`
 4. Verify environment variables are set correctly
-5. Ensure database is initialized: `npm run init-db`
+5. Database initializes automatically on first server start: `npm run dev`
