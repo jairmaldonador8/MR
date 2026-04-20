@@ -187,6 +187,45 @@ em{font-style:italic}
 .cl{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
 .cv{font-size:14px;font-weight:300}
 
+/* TESTIMONIOS */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:48px}
+.tc{border:1px solid rgba(255,255,255,.07);padding:40px 32px;display:flex;flex-direction:column;gap:20px;transition:border-color .3s}
+.tc:hover{border-color:rgba(255,255,255,.18)}
+.tc-quote{font-family:var(--serif);font-size:19px;font-weight:300;line-height:1.6;font-style:italic;color:rgba(255,255,255,.78);flex:1}
+.tc-sep{width:28px;height:1px;background:var(--red)}
+.tc-info{display:flex;align-items:center;gap:14px}
+.tc-img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;filter:brightness(.88)}
+.tc-name{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--white);margin-bottom:4px}
+.tc-prop{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+
+/* INSIGHTS */
+.ins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px}
+.ic{background:#111;overflow:hidden;position:relative}
+.ic-img{width:100%;aspect-ratio:16/9;overflow:hidden}
+.ic-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s,filter .5s;filter:brightness(.75)}
+.ic:hover .ic-img img{transform:scale(1.04);filter:brightness(.9)}
+.ic-body{padding:24px 28px 32px}
+.ic-tag{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.ic-title{font-family:var(--serif);font-size:20px;font-weight:300;line-height:1.2;margin-bottom:10px}
+.ic-excerpt{font-size:12px;line-height:1.8;color:rgba(255,255,255,.42);margin-bottom:16px}
+.ic-date{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+
+/* TEAM */
+.team{padding:100px 56px;border-top:1px solid rgba(255,255,255,.06)}
+.team-header{margin-bottom:64px}
+.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:56px;margin-top:48px}
+.team-card{position:relative;overflow:hidden}
+.team-img{width:100%;aspect-ratio:3/4;overflow:hidden;background:#111;margin-bottom:28px}
+.team-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.25,.46,.45,.94);filter:brightness(.85)}
+.team-card:hover .team-img img{transform:scale(1.03);filter:brightness(1)}
+.team-name{font-family:var(--serif);font-size:clamp(24px,2.5vw,32px);font-weight:300;line-height:1.1;letter-spacing:-.01em;margin-bottom:8px}
+.team-role{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+.team-desc{font-size:13px;line-height:1.8;color:rgba(255,255,255,.42);margin-bottom:28px}
+.team-contact{display:flex;flex-direction:column;gap:12px;border-top:1px solid rgba(255,255,255,.07);padding-top:28px}
+.team-link{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:8px}
+.team-link:hover{color:var(--white)}
+.team-icon{font-size:12px}
+
 /* FOOTER */
 footer{display:flex;align-items:center;justify-content:space-between;padding:28px 56px;border-top:1px solid rgba(255,255,255,.07)}
 .flogo{font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-weight:200;display:flex;align-items:center}
@@ -234,13 +273,13 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
   .nav-links,.nav-action{display:none}
   .cap-bl{bottom:28px;left:24px}.cap-br{bottom:28px;right:24px}.cap-tl{top:72px;left:24px}.cap-tr{top:72px;right:24px}
   .h1{font-size:clamp(52px,12vw,80px)}.h2{font-size:clamp(36px,9vw,60px)}
-  .split,.split3,.lead,.about,.ct{grid-template-columns:1fr}
+  .split,.split3,.lead,.about,.ct,.team-grid,.test-grid,.ins-grid{grid-template-columns:1fr}
   .split .blk,.split3 .blk{height:60vh}
   .prop-grid{grid-template-columns:1fr 1fr}
   .detail{grid-template-columns:1fr}
   .di{padding:40px 24px}
   .ll,.ai{min-height:320px}
-  .at,.lr,.ctl,.ctr{padding:56px 24px}
+  .at,.lr,.ctl,.ctr,.team{padding:56px 24px}
   .fbar,.adm-sec{padding-left:20px;padding-right:20px}
   footer{flex-direction:column;gap:18px;padding:28px 24px;text-align:center}
   .numrow{grid-template-columns:1fr 1fr}
@@ -271,6 +310,8 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
     <li><a href="#col">Propiedades</a></li>
     <li><a href="#show">Destacado</a></li>
     <li><a href="#abt">Nosotros</a></li>
+    <li><a href="#testimonios">Clientes</a></li>
+    <li><a href="#insights">Insights</a></li>
     <li><a href="#cta">Contacto</a></li>
   </ul>
   <a href="#cta" class="nav-action">Agendar visita</a>
@@ -574,6 +615,126 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
   </div>
 </div>
 
+<!-- ⑪ TESTIMONIOS -->
+<div style="padding:100px 56px;border-top:1px solid rgba(255,255,255,.06)" id="testimonios">
+  <span class="eye r">Clientes</span>
+  <span class="h3 r d1">Ellos ya encontraron<br><em>su hogar.</em></span>
+  <div style="width:28px;height:1px;background:var(--red);margin:18px 0 0" class="r d2"></div>
+  <div class="test-grid r d2">
+    <div class="tc">
+      <div class="tc-quote">"No pensé que encontraría una propiedad con esta combinación de privacidad, ubicación y arquitectura. Montana lo hizo posible."</div>
+      <div class="tc-sep"></div>
+      <div class="tc-info">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80" alt="Cliente" class="tc-img">
+        <div>
+          <div class="tc-name">Sandra López</div>
+          <div class="tc-prop">Casa Montaña del Valle</div>
+        </div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tc-quote">"El equipo entiende que comprar en San Pedro no es una transacción, es una decisión de vida. Eso se sintió en cada paso."</div>
+      <div class="tc-sep"></div>
+      <div class="tc-info">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80" alt="Cliente" class="tc-img">
+        <div>
+          <div class="tc-name">Carlos Rodríguez</div>
+          <div class="tc-prop">Penthouse Vistas</div>
+        </div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tc-quote">"Profesionalismo, discreción y resultados excepcionales. Montana Realty redefinió mis expectativas del sector."</div>
+      <div class="tc-sep"></div>
+      <div class="tc-info">
+        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80" alt="Cliente" class="tc-img">
+        <div>
+          <div class="tc-name">María Fernández</div>
+          <div class="tc-prop">Villa Serena</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑫ INSIGHTS / BLOG -->
+<div style="padding:100px 56px;border-top:1px solid rgba(255,255,255,.06)" id="insights">
+  <span class="eye r">Mercado</span>
+  <span class="h3 r d1">Insights del sector<br><em>inmobiliario</em></span>
+  <div style="width:28px;height:1px;background:var(--red);margin:18px 0 0" class="r d2"></div>
+  <div class="ins-grid r d2">
+    <div class="ic">
+      <div class="ic-img">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85" alt="Valle Oriente">
+      </div>
+      <div class="ic-body">
+        <div class="ic-tag">Análisis de mercado</div>
+        <div class="ic-title">Valle Oriente: La zona de mayor apreciación</div>
+        <div class="ic-excerpt">Descubre por qué Valle Oriente sigue siendo el corredor de mayor valuación y proyecciones de apreciación en San Pedro Garza García.</div>
+        <div class="ic-date">20 de abril, 2025</div>
+      </div>
+    </div>
+    <div class="ic">
+      <div class="ic-img">
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=85" alt="Inversión">
+      </div>
+      <div class="ic-body">
+        <div class="ic-tag">Finanzas</div>
+        <div class="ic-title">Inmuebles vs. Bolsa de Valores 2025</div>
+        <div class="ic-excerpt">Un análisis profundo sobre por qué los clientes del segmento de lujo prefieren bienes raíces como vehículo de riqueza generacional.</div>
+        <div class="ic-date">18 de abril, 2025</div>
+      </div>
+    </div>
+    <div class="ic">
+      <div class="ic-img">
+        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=85" alt="Guía">
+      </div>
+      <div class="ic-body">
+        <div class="ic-tag">Guía completa</div>
+        <div class="ic-title">Tu primer hogar en San Pedro</div>
+        <div class="ic-excerpt">Paso a paso: cómo navegar el proceso de compra, financiamiento y cierre de una propiedad de lujo en San Pedro.</div>
+        <div class="ic-date">15 de abril, 2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑬ TEAM -->
+<div class="team" id="team">
+  <div class="team-header">
+    <span class="eye r">Nuestro equipo</span>
+    <span class="h3 r d1" style="display:block;margin-bottom:18px">Profesionales<br><em>apasionados</em></span>
+    <div style="width:28px;height:1px;background:var(--red);margin-bottom:36px" class="r d2"></div>
+    <p style="font-size:14px;color:rgba(255,255,255,.44);line-height:1.9;max-width:600px" class="r d2">Con más de 15 años de experiencia en el mercado inmobiliario de lujo, nuestro equipo combina experticia, integridad y pasión por conectar a las personas con sus hogares ideales en San Pedro Garza García.</p>
+  </div>
+  <div class="team-grid r d3">
+    <div class="team-card">
+      <div class="team-img">
+        <img src="assets/img/team/maricela-arcia.png" alt="Maricela Arcia">
+      </div>
+      <div class="team-name">Maricela Arcia</div>
+      <div class="team-role">Directora & Fundadora</div>
+      <p class="team-desc">Visionaria del mercado inmobiliario de San Pedro. Con una carrera destacada en bienes raíces de lujo, Maricela ha liderado la curaduría de cada propiedad en nuestro portafolio con discreción y excelencia.</p>
+      <div class="team-contact">
+        <a href="https://wa.me/528110448818" class="team-link"><span class="team-icon">💬</span>WhatsApp: +52 81 1044 8818</a>
+        <a href="mailto:contacto@montana-realty-co.com" class="team-link"><span class="team-icon">✉</span>contacto@montana-realty-co.com</a>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-img">
+        <img src="assets/img/team/federico-mecutchen.png" alt="Federico Mecutchen">
+      </div>
+      <div class="team-name">Federico Mecutchen</div>
+      <div class="team-role">Director de Ventas & Marketing</div>
+      <p class="team-desc">Estratega de mercado con profundo conocimiento de los corredores más valorados de San Pedro. Federico guía a cada cliente a través del proceso de adquisición con transparencia y precisión analítica.</p>
+      <div class="team-contact">
+        <a href="https://wa.me/528123532365" class="team-link"><span class="team-icon">💬</span>WhatsApp: +52 81 2353 2365</a>
+        <a href="mailto:contacto@montana-realty-co.com" class="team-link"><span class="team-icon">✉</span>contacto@montana-realty-co.com</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="flogo"><img src="assets/logo.png" alt="Montana Realty Logo"></div>
@@ -581,6 +742,8 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
     <a href="#col">Propiedades</a>
     <a href="#show">Destacado</a>
     <a href="#abt">Nosotros</a>
+    <a href="#testimonios">Clientes</a>
+    <a href="#insights">Insights</a>
     <a href="#cta">Contacto</a>
   </nav>
   <div class="fcopy">© 2025 Montana Realty · San Pedro Garza García</div>
