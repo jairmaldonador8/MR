@@ -17,8 +17,8 @@ A modern, high-performance lead generation and customer engagement platform buil
 - **Visual Comparison:** Side-by-side property details for easy evaluation
 
 ### 3. Lead Scoring Algorithm
-- **Intelligent Scoring:** 0-100 scale based on property interest, budget, and source
-- **Priority Levels:** Automatic categorization (Low/Medium/High)
+- **Intelligent Scoring:** Automatic scoring based on property interest, budget, and source
+- **Priority Levels:** Automatic categorization (cold/warm/hot)
 - **Real-Time Calculation:** Scores computed instantly on form submission
 - **Lead Ranking:** Helps agents prioritize follow-ups
 
