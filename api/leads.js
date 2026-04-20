@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { run, get, all } = require('../database');
+const AutomationService = require('../services/automation');
 
 // POST /api/leads - Submit lead form
 router.post('/', async (req, res) => {
@@ -21,7 +22,11 @@ router.post('/', async (req, res) => {
 
     console.log(`✅ Lead created: ${email} (ID: ${result.id})`);
 
-    // TODO: Queue WhatsApp notification
+    // Initialize WhatsApp automations
+    AutomationService.initializeLeadAutomations(result.id).catch(err => {
+      console.error('Error initializing automations:', err);
+    });
+
     // TODO: Queue CRM sync
     // TODO: Calculate lead score
 
