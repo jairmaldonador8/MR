@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 const { initDatabase } = require('./database');
 const config = require('./config');
 
@@ -14,6 +15,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+
+// Static files
+app.use(express.static(path.join(__dirname, 'admin')));
 
 // Routes
 app.use('/api/leads', leadsApi);

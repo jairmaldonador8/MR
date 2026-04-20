@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Montana Realty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Helvetica+Neue:wght@100;200;300;400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --white: #ffffff;
+      --off: #f5f4f0;
+      --black: #0d0d0d;
+      --mid: #888;
+      --red: #b91c1c;
+      --serif: 'Cormorant', Georgia, serif;
+      --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --light-gray: #f9f9f9;
+      --border-gray: #e5e5e5;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    .admin-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-logo b {
+      color: var(--red);
+      font-weight: 200;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-info {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .user-email {
+      color: var(--white);
+      font-weight: 400;
+    }
+
+    .btn-logout {
+      background: var(--red);
+      color: var(--white);
+      border: 1px solid var(--red);
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+
+    .btn-logout:hover {
+      background: transparent;
+      color: var(--red);
+    }
+
+    /* LOGIN FORM */
+    .login-container {
+      display: none;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container.active {
+      display: flex;
+    }
+
+    .login-form {
+      background: var(--white);
+      padding: 60px 40px;
+      border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .login-title {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .login-subtitle {
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group:last-of-type {
+      margin-bottom: 32px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .form-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      color: var(--black);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
+      padding: 12px 0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input::placeholder {
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    .form-input:focus {
+      border-bottom-color: var(--red);
+    }
+
+    .form-error {
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form-error.show {
+      display: block;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: var(--red);
+      color: var(--white);
+      border: 1px solid var(--red);
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 300;
+    }
+
+    .btn-login:hover {
+      background: transparent;
+      color: var(--red);
+    }
+
+    .btn-login:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* DASHBOARD */
+    .dashboard-container {
+      display: none;
+    }
+
+    .dashboard-container.active {
+      display: block;
+    }
+
+    .dashboard-content {
+      padding: 40px;
+    }
+
+    /* STATS SECTION */
+    .stats-section {
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+      color: var(--black);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .stat-card {
+      background: var(--light-gray);
+      padding: 32px;
+      border-radius: 4px;
+      border-left: 3px solid var(--red);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .stat-value {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .stat-subtext {
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.4);
+      margin-top: 12px;
+    }
+
+    /* LEADS TABLE */
+    .leads-section {
+      margin-bottom: 60px;
+    }
+
+    .table-container {
+      background: var(--white);
+      border: 1px solid var(--border-gray);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--light-gray);
+      border-bottom: 1px solid var(--border-gray);
+    }
+
+    th {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.5);
+      font-weight: 400;
+    }
+
+    td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-gray);
+      font-size: 13px;
+      color: var(--black);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(185, 28, 28, 0.02);
+    }
+
+    /* LEAD DATA */
+    .lead-name {
+      font-weight: 400;
+      color: var(--black);
+    }
+
+    .lead-email {
+      color: rgba(0, 0, 0, 0.6);
+      word-break: break-all;
+    }
+
+    .lead-phone {
+      font-family: monospace;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .lead-budget {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .lead-score {
+      display: inline-block;
+      padding: 4px 8px;
+      background: rgba(185, 28, 28, 0.1);
+      color: var(--red);
+      border-radius: 2px;
+      font-weight: 500;
+    }
+
+    .lead-score.hot {
+      background: rgba(185, 28, 28, 0.2);
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .lead-status {
+      display: inline-block;
+      padding: 4px 8px;
+      background: rgba(0, 0, 0, 0.08);
+      color: rgba(0, 0, 0, 0.6);
+      border-radius: 2px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .lead-status.pending {
+      background: rgba(255, 193, 7, 0.1);
+      color: #f57c00;
+    }
+
+    .lead-status.contacted {
+      background: rgba(76, 175, 80, 0.1);
+      color: #2e7d32;
+    }
+
+    .lead-status.scheduled {
+      background: rgba(33, 150, 243, 0.1);
+      color: #1565c0;
+    }
+
+    /* ACTIONS */
+    .lead-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+      font-family: var(--sans);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+
+    .btn-action:hover {
+      background: transparent;
+      color: var(--black);
+    }
+
+    .btn-action.whatsapp {
+      background: #25d366;
+      border-color: #25d366;
+      color: var(--white);
+    }
+
+    .btn-action.whatsapp:hover {
+      background: #1ec857;
+      border-color: #1ec857;
+      color: var(--white);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 60px 40px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+      opacity: 0.3;
+    }
+
+    .empty-state-text {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* LOADING STATE */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-content {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-content {
+        padding: 24px 16px;
+      }
+
+      .stat-card {
+        padding: 24px;
+      }
+
+      .section-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+      }
+
+      .lead-actions {
+        flex-wrap: wrap;
+      }
+
+      .btn-action {
+        font-size: 8px;
+        padding: 5px 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .login-form {
+        padding: 40px 24px;
+      }
+
+      .admin-header {
+        font-size: 11px;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 700px;
+      }
+
+      .stat-value {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (hidden during login) -->
+  <div id="header" class="admin-header" style="display: none;">
+    <div class="header-logo">
+      Montana <b>Realty</b> Agent Dashboard
+    </div>
+    <div class="header-actions">
+      <div class="user-info">
+        Hola, <span class="user-email" id="userEmail"></span>
+      </div>
+      <button id="logoutBtn" class="btn-logout">Salir</button>
+    </div>
+  </div>
+
+  <!-- LOGIN FORM -->
+  <div id="loginContainer" class="login-container active">
+    <form id="loginForm" class="login-form">
+      <h1 class="login-title">Acceso Agentes</h1>
+      <p class="login-subtitle">Ingresa tus credenciales para acceder al dashboard de leads</p>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          id="emailInput"
+          class="form-input"
+          placeholder="tu@email.com"
+          required
+        >
+        <div id="emailError" class="form-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <input
+          type="password"
+          id="passwordInput"
+          class="form-input"
+          placeholder="Ingresa tu contraseña"
+          required
+        >
+        <div id="passwordError" class="form-error"></div>
+      </div>
+
+      <button type="submit" class="btn-login">Ingresar</button>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboardContainer" class="dashboard-container">
+    <!-- STATS SECTION -->
+    <section class="stats-section">
+      <h2 class="section-title">Estadísticas</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total de Leads</span>
+          <div class="stat-value" id="totalLeads">0</div>
+          <span class="stat-subtext">Todos los leads registrados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Leads Calientes</span>
+          <div class="stat-value" id="hotLeads">0</div>
+          <span class="stat-subtext">Score alto (90+)</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Contactados</span>
+          <div class="stat-value" id="contactedLeads">0</div>
+          <span class="stat-subtext">Ya se realizó contacto</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Citas Programadas</span>
+          <div class="stat-value" id="scheduledLeads">0</div>
+          <span class="stat-subtext">Visitas confirmadas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADS TABLE -->
+    <section class="leads-section">
+      <div class="dashboard-content">
+        <h2 class="section-title">Mis Leads</h2>
+        <div class="table-container">
+          <div id="leadsLoading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Cargando leads...</p>
+          </div>
+          <div id="leadsEmpty" class="empty-state" style="display: none;">
+            <span class="empty-state-icon">📋</span>
+            <p class="empty-state-text">No hay leads disponibles en este momento</p>
+          </div>
+          <table id="leadsTable" style="display: none;">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Presupuesto</th>
+                <th>Score</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
