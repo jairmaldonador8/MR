@@ -206,6 +206,28 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
 .toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);background:var(--white);color:var(--black);padding:13px 32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;z-index:9000;opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap}
 .toast.on{opacity:1}
 
+/* COMPARISON MODAL */
+#comp-badge{position:fixed;bottom:40px;right:40px;width:48px;height:48px;background:var(--red);color:var(--white);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:18px;font-weight:400;z-index:800;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(185,28,28,.4)}
+#comp-badge:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(185,28,28,.6)}
+.pi.selected{border:2px solid var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+#comp-overlay{position:fixed;inset:0;background:rgba(13,13,13,.95);display:none;align-items:center;justify-content:center;z-index:900;backdrop-filter:blur(4px)}
+#comp-overlay.open{display:flex}
+#comp-dialog{background:var(--black);border:1px solid rgba(255,255,255,.1);max-width:90%;max-height:90vh;overflow-y:auto;padding:56px;position:relative;width:100%;max-width:1000px}
+#comp-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--white);font-size:28px;cursor:pointer;opacity:.6;transition:opacity .2s}
+#comp-close:hover{opacity:1}
+.comp-title{font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:28px;letter-spacing:-.01em}
+.comp-tbl{width:100%;border-collapse:collapse;margin-bottom:40px}
+.comp-row-header{background:rgba(255,255,255,.04)}
+.comp-header-cell{padding:16px 12px;font-size:13px;font-weight:400;text-align:left;border:1px solid rgba(255,255,255,.08);color:var(--white);font-family:var(--serif)}
+.comp-label{padding:16px 12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);font-weight:300}
+.comp-value{padding:16px 12px;font-size:13px;color:var(--white);border:1px solid rgba(255,255,255,.05);font-weight:300}
+.comp-row:nth-child(even) .comp-value{background:rgba(255,255,255,.02)}
+.comp-cta{display:flex;gap:16px;margin-top:20px}
+.comp-cta button{flex:1;padding:16px;font-family:var(--sans);font-size:11px;letter-spacing:.25em;text-transform:uppercase;border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--white);transition:all .2s;font-weight:300}
+.comp-cta button:hover{border-color:var(--white);background:rgba(255,255,255,.05)}
+.comp-cta button:first-child{background:var(--red);border-color:var(--red);color:var(--white)}
+.comp-cta button:first-child:hover{background:rgba(185,28,28,.8);border-color:var(--red)}
+
 /* MOBILE */
 @media(max-width:900px){
   #nav{padding:0 20px}
@@ -230,6 +252,10 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
   .map-strip{background:#111}
   .ctl{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
   .big{font-size:clamp(40px,10vw,64px)}
+  #comp-badge{bottom:20px;right:20px;width:40px;height:40px;font-size:14px}
+  #comp-dialog{padding:40px 24px}
+  .comp-header-cell,.comp-label,.comp-value{padding:12px 8px;font-size:11px}
+  .comp-cta{flex-direction:column}
 }
 </style>
 </head>
@@ -325,12 +351,12 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
     <button class="fb" onclick="filt(this,'s5')">$5M+</button>
   </div>
   <div class="prop-grid r d2" id="pg" style="margin-top:2px">
-    <div class="pi" data-t="casa" data-p="s5"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa · Destacada</div><div class="pi-name">Casa Montaña<br>del Valle</div><div class="pi-loc">Valle Oriente</div><div class="pi-price">$12,500,000 MXN</div><div class="pi-meta">5 rec · 6 baños · 620 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,0)">→</a></div>
-    <div class="pi" data-t="pent" data-p="s5"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Penthouse · Nuevo</div><div class="pi-name">Penthouse<br>Vistas</div><div class="pi-loc">Del Valle</div><div class="pi-price">$8,900,000 MXN</div><div class="pi-meta">3 rec · 3 baños · 280 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,1)">→</a></div>
-    <div class="pi" data-t="casa" data-p="s5"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa · Exclusiva</div><div class="pi-name">Villa<br>Serena</div><div class="pi-loc">San Agustín</div><div class="pi-price">$18,200,000 MXN</div><div class="pi-meta">6 rec · 7 baños · 850 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,2)">→</a></div>
-    <div class="pi" data-t="casa" data-p="b5"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa</div><div class="pi-name">Residencia<br>Altos</div><div class="pi-loc">Colinas, San Pedro</div><div class="pi-price">$4,600,000 MXN</div><div class="pi-meta">4 rec · 4 baños · 380 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,3)">→</a></div>
-    <div class="pi" data-t="terr" data-p="b5"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Terreno · Inversión</div><div class="pi-name">Terreno<br>Sierra</div><div class="pi-loc">San Jerónimo</div><div class="pi-price">$3,200,000 MXN</div><div class="pi-meta">1,200 m² · Vista montaña</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,4)">→</a></div>
-    <div class="pi" data-t="pent" data-p="s5"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Penthouse · Sky</div><div class="pi-name">Sky<br>Residence</div><div class="pi-loc">Carretera Nacional</div><div class="pi-price">$6,800,000 MXN</div><div class="pi-meta">4 rec · 4 baños · 320 m²</div></div><a class="pi-arrow" href="#show" onclick="goDetail(event,5)">→</a></div>
+    <div class="pi" data-id="0" data-t="casa" data-p="s5" onclick="propertyComparator.addProperty(0)"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa · Destacada</div><div class="pi-name">Casa Montaña<br>del Valle</div><div class="pi-loc">Valle Oriente</div><div class="pi-price">$12,500,000 MXN</div><div class="pi-meta">5 rec · 6 baños · 620 m²</div></div><a class="pi-arrow" href="#show" onclick="event.stopPropagation();goDetail(event,0)">→</a></div>
+    <div class="pi" data-id="1" data-t="pent" data-p="s5" onclick="propertyComparator.addProperty(1)"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Penthouse · Nuevo</div><div class="pi-name">Penthouse<br>Vistas</div><div class="pi-loc">Del Valle</div><div class="pi-price">$8,900,000 MXN</div><div class="pi-meta">3 rec · 3 baños · 280 m²</div></div><a class="pi-arrow" href="#show" onclick="event.stopPropagation();goDetail(event,1)">→</a></div>
+    <div class="pi" data-id="2" data-t="casa" data-p="s5" onclick="propertyComparator.addProperty(2)"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa · Exclusiva</div><div class="pi-name">Villa<br>Serena</div><div class="pi-loc">San Agustín</div><div class="pi-price">$18,200,000 MXN</div><div class="pi-meta">6 rec · 7 baños · 850 m²</div></div><a class="pi-arrow" href="#show" onclick="event.stopPropagation();goDetail(event,2)">→</a></div>
+    <div class="pi" data-id="3" data-t="casa" data-p="b5" onclick="propertyComparator.addProperty(3)"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Casa</div><div class="pi-name">Residencia<br>Altos</div><div class="pi-loc">Colinas, San Pedro</div><div class="pi-price">$4,600,000 MXN</div><div class="pi-meta">4 rec · 4 baños · 380 m²</div></div><a class="pi-arrow" href="#show" onclick="event.stopPropagation();goDetail(event,3)">→</a></div>
+    <div class="pi" data-id="4" data-t="terr" data-p="b5" onclick="propertyComparator.addProperty(4)"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Terreno · Inversión</div><div class="pi-name">Terreno<br>Sierra</div><div class="pi-loc">San Jerónimo</div><div class="pi-price">$3,200,000 MXN</div><div class="pi-meta">1,200 m² · Vista montaña</div></div><a class="pi-arrow" href="#show" onclick="event.stopPropagation();goDetail(event,4)">→</a></div>
+    <div class="pi" data-id="5" data-t="pent" data-p="s5" onclick="propertyComparator.addProperty(5)"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=85" alt=""><div class="pi-info"><div class="pi-tag">Penthouse · Sky</div><div class="pi-name">Sky<br>Residence</div><div class="pi-loc">Carretera Nacional</div><div class="pi-price">$6,800,000 MXN</div><div class="pi-meta">4 rec · 4 baños · 320 m²</div></div><a class="pi-arrow" href="#show" onclick="event.stopPropagation();goDetail(event,5)">→</a></div>
   </div>
 </section>
 
@@ -562,6 +588,22 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
 
 <div class="toast" id="toast"></div>
 
+<!-- COMPARISON BADGE -->
+<div id="comp-badge" onclick="propertyComparator.open()"></div>
+
+<!-- COMPARISON MODAL -->
+<div id="comp-overlay">
+  <div id="comp-dialog">
+    <button id="comp-close" onclick="propertyComparator.close()">&times;</button>
+    <h2 class="comp-title">Análisis comparativo</h2>
+    <div id="comp-table"></div>
+    <div class="comp-cta">
+      <button id="comp-wa">Ver en WhatsApp</button>
+      <button id="comp-form">Análisis completo con agente</button>
+    </div>
+  </div>
+</div>
+
 <!-- FORM MODAL -->
 <div id="form-overlay" class="modal-overlay">
   <div id="form-dialog" class="modal-dialog">
@@ -665,7 +707,17 @@ function subCt(e){e.preventDefault();toast('Mensaje recibido — contacto en men
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3800)}
 </script>
 
+<!-- Property Comparator Script -->
+<script src="assets/js/comparator.js"></script>
+
 <!-- Progressive Form Script -->
 <script src="assets/js/form.js"></script>
+
+<script>
+// Initialize comparison modal buttons
+document.addEventListener('DOMContentLoaded',()=>{
+  propertyComparator.openContactOptions();
+});
+</script>
 </body>
 </html>
