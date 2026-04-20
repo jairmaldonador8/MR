@@ -624,11 +624,12 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
 // CURSOR
 const cur=document.getElementById('cur'),ring=document.getElementById('ring');
 let mx=0,my=0,rx=0,ry=0;
+window.isModalOpen=false;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
 (function t(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(t)})();
 document.querySelectorAll('a,button,.pi,.blk,.thumb,.mt').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.classList.add('big');cur.style.background='#b91c1c'});
-  el.addEventListener('mouseleave',()=>{ring.classList.remove('big');cur.style.background='#fff'});
+  el.addEventListener('mouseenter',()=>{if(!window.isModalOpen){ring.classList.add('big');cur.style.background='#b91c1c'}});
+  el.addEventListener('mouseleave',()=>{if(!window.isModalOpen){ring.classList.remove('big');cur.style.background='#fff'}});
 });
 
 // NAV

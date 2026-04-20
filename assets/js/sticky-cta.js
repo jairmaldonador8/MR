@@ -88,17 +88,22 @@ class StickyCTA {
     const closeBtn = overlay.querySelector('.cta-menu-close');
     const formTrigger = overlay.querySelector('.cta-form-trigger');
 
-    // Change cursor color to black
+    // Mark modal as open and change cursor color to black
+    window.isModalOpen = true;
     const cur = document.getElementById('cur');
+    const ring = document.getElementById('ring');
     if (cur) cur.style.background = '#0d0d0d';
+    if (ring) ring.classList.remove('big');
 
     // Close menu
     closeBtn.addEventListener('click', () => {
+      window.isModalOpen = false;
       if (cur) cur.style.background = '#fff';
       overlay.remove();
     });
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
+        window.isModalOpen = false;
         if (cur) cur.style.background = '#fff';
         overlay.remove();
       }

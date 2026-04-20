@@ -71,15 +71,19 @@ class ProgressiveForm {
     this.renderStep(1);
     this.overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-    // Change cursor color to black
+    // Mark modal as open and change cursor color to black
+    window.isModalOpen = true;
     const cur = document.getElementById('cur');
+    const ring = document.getElementById('ring');
     if (cur) cur.style.background = '#0d0d0d';
+    if (ring) ring.classList.remove('big');
   }
 
   close() {
     this.overlay.classList.remove('open');
     document.body.style.overflow = '';
-    // Change cursor color back to white
+    // Mark modal as closed and change cursor color back to white
+    window.isModalOpen = false;
     const cur = document.getElementById('cur');
     if (cur) cur.style.background = '#fff';
   }
