@@ -707,11 +707,22 @@ function subCt(e){e.preventDefault();toast('Mensaje recibido — contacto en men
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3800)}
 </script>
 
+<!-- Sticky CTA Button -->
+<div id="stickyCTA" class="sticky-cta">
+  <a href="#" id="stickyCtaBtn">
+    <span class="cta-icon">💬</span>
+    <span class="cta-text">Habla con un agente</span>
+  </a>
+</div>
+
 <!-- Property Comparator Script -->
 <script src="assets/js/comparator.js"></script>
 
 <!-- Progressive Form Script -->
 <script src="assets/js/form.js"></script>
+
+<!-- Sticky CTA Script -->
+<script src="assets/js/sticky-cta.js"></script>
 
 <script>
 // Initialize comparison modal buttons

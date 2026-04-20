@@ -518,3 +518,248 @@
     font-size: 18px;
   }
 }
+
+/* STICKY CTA BUTTON */
+
+/* Sticky CTA Container */
+.sticky-cta {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sticky-cta.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Sticky CTA Button */
+#stickyCtaBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  padding: 16px 24px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 300;
+  font-family: var(--sans);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-decoration: none;
+  display: inline-flex;
+  box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+#stickyCtaBtn:hover {
+  background: #a01a1a;
+  transform: scale(1.08);
+  box-shadow: 0 12px 32px rgba(185, 28, 28, 0.4);
+  animation: none;
+}
+
+.cta-icon {
+  font-size: 16px;
+  display: inline-block;
+}
+
+.cta-text {
+  display: flex;
+  align-items: center;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(185, 28, 28, 0.5);
+  }
+}
+
+/* CTA Menu Overlay */
+.cta-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 13, 13, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 10001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding-bottom: 32px;
+}
+
+.cta-menu-overlay.visible {
+  opacity: 1;
+}
+
+.cta-menu {
+  background: var(--white);
+  color: var(--black);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 420px;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cta-menu-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--black);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-menu-close:hover {
+  opacity: 1;
+}
+
+.cta-menu-title {
+  font-size: 18px;
+  font-weight: 300;
+  font-family: var(--serif);
+  margin-bottom: 24px;
+  letter-spacing: -0.01em;
+}
+
+.cta-menu-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: var(--black);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cta-menu-option:hover {
+  background: rgba(185, 28, 28, 0.08);
+  border-color: var(--red);
+  transform: translateX(4px);
+}
+
+.cta-menu-option:last-of-type {
+  margin-bottom: 0;
+}
+
+.cta-menu-icon {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cta-menu-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cta-menu-label {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.cta-menu-desc {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .sticky-cta {
+    bottom: 24px;
+    right: 24px;
+    left: 24px;
+  }
+
+  #stickyCtaBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sticky-cta {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+  }
+
+  #stickyCtaBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+
+  .cta-icon {
+    font-size: 14px;
+  }
+
+  .cta-menu {
+    width: 95%;
+    padding: 24px;
+  }
+
+  .cta-menu-title {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .cta-menu-option {
+    padding: 12px;
+    margin-bottom: 8px;
+    gap: 12px;
+  }
+
+  .cta-menu-icon {
+    font-size: 20px;
+  }
+
+  .cta-menu-label {
+    font-size: 12px;
+  }
+
+  .cta-menu-desc {
+    font-size: 11px;
+  }
+}
