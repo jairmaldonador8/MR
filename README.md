@@ -164,10 +164,9 @@ Comprehensive deployment instructions for local, staging, and production environ
 
 ### Quick Deployment Summary
 
-**Vercel (Recommended):**
+**AWS EC2 (Recommended):**
 ```bash
-npm install -g vercel
-vercel
+# Follow detailed guide in docs/DEPLOYMENT.md
 ```
 
 **Heroku:**
@@ -176,15 +175,21 @@ heroku create montana-realty
 git push heroku main
 ```
 
-**AWS EC2:**
-```bash
-# Follow detailed guide in docs/DEPLOYMENT.md
-```
-
 **Docker:**
 ```bash
 docker build -t montana-realty .
 docker run -p 3000:3000 --env-file .env montana-realty
+```
+
+**DigitalOcean App Platform:**
+```bash
+# Connect GitHub repo and deploy via dashboard
+```
+
+**Vercel (Requires PostgreSQL):**
+```bash
+# WARNING: SQLite is not persistent on Vercel.
+# Migrate to PostgreSQL first, then deploy via Vercel CLI
 ```
 
 ## Testing

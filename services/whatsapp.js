@@ -8,7 +8,7 @@ class WhatsAppService {
     this.businessAccountId = config.whatsapp.businessAccountId;
     this.accessToken = config.whatsapp.accessToken;
     this.apiVersion = config.whatsapp.apiVersion;
-    this.baseUrl = `https://graph.instagram.com/${this.apiVersion}`;
+    this.baseUrl = `https://graph.facebook.com/${this.apiVersion}`;
   }
 
   /**
