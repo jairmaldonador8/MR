@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { run, get, all } = require('../database');
 const AutomationService = require('../services/automation');
+const LeadScoringService = require('../services/leadScoring');
+const CRMService = require('../services/crm');
 
 // POST /api/leads - Submit lead form
 router.post('/', async (req, res) => {
@@ -22,17 +24,45 @@ router.post('/', async (req, res) => {
 
     console.log(`✅ Lead created: ${email} (ID: ${result.id})`);
 
+    // Calculate lead score
+    const scoreData = {
+      properties: properties || [],
+      budget_min: budget?.min || null,
+      budget_max: budget?.max || null,
+      contact_preference: contactPreference || 'whatsapp',
+      source: source || 'form',
+    };
+    const score = LeadScoringService.calculateScore(scoreData);
+
+    // Update database with score
+    await LeadScoringService.updateScore(result.id, score);
+
+    // Sync to CRM with score
+    const crmData = {
+      name,
+      email,
+      phone,
+      properties,
+      budget_min: budget?.min || null,
+      budget_max: budget?.max || null,
+      contact_preference: contactPreference || 'whatsapp',
+      source: source || 'form',
+      lead_score: score,
+    };
+    CRMService.syncLead(crmData).catch(err => {
+      console.error('Error syncing to CRM:', err);
+    });
+
     // Initialize WhatsApp automations
     AutomationService.initializeLeadAutomations(result.id).catch(err => {
       console.error('Error initializing automations:', err);
     });
 
-    // TODO: Queue CRM sync
-    // TODO: Calculate lead score
-
     res.status(201).json({
       success: true,
       leadId: result.id,
+      leadScore: score,
+      priority: LeadScoringService.getPriority(score),
       message: 'Un agente te contactará en menos de 5 minutos',
     });
   } catch (err) {
