@@ -1,5 +1,26 @@
 /* MODAL & FORM STYLES */
 
+/* Show cursor inside modal (override body cursor: none) */
+.modal-overlay,
+.modal-overlay * {
+  cursor: auto !important;
+}
+
+/* Specific cursor types for interactive elements */
+.modal-overlay input,
+.modal-overlay textarea,
+.modal-overlay button,
+.modal-overlay .modal-close {
+  cursor: pointer !important;
+}
+
+.modal-overlay input[type="text"],
+.modal-overlay input[type="email"],
+.modal-overlay input[type="tel"],
+.modal-overlay textarea {
+  cursor: text !important;
+}
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
