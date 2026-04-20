@@ -28,7 +28,7 @@ body *{cursor:none!important}
 /* NAV */
 #nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:56px;transition:background .4s}
 #nav.opaque{background:rgba(13,13,13,.97);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-logo{font-family:var(--sans);font-size:13px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--white);text-decoration:none}
+.nav-logo{font-family:var(--sans);font-size:13px;font-weight:200;letter-spacing:.35em;text-transform:uppercase;color:var(--white);text-decoration:none;display:flex;align-items:center}.nav-logo img{height:32px;width:auto}
 .nav-logo b{color:var(--red);font-weight:200}
 .nav-links{display:flex;gap:36px;list-style:none}
 .nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
@@ -57,9 +57,9 @@ body *{cursor:none!important}
 .cap-c{top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%}
 
 /* TYPE */
-.eye{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.5);display:block;margin-bottom:14px}
+.eye{font-size:8px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:20px;font-weight:200}
 .eye-r{color:var(--red)}
-.h1{font-family:var(--serif);font-size:clamp(72px,10vw,144px);font-weight:300;line-height:.92;letter-spacing:-.02em;display:block}
+.h1{font-family:var(--serif);font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.1;letter-spacing:-.01em;display:block}
 .h2{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:300;line-height:.94;letter-spacing:-.02em;display:block}
 .h3{font-family:var(--serif);font-size:clamp(36px,5vw,68px);font-weight:300;line-height:1.0;letter-spacing:-.01em;display:block}
 em{font-style:italic}
@@ -188,7 +188,8 @@ em{font-style:italic}
 
 /* FOOTER */
 footer{display:flex;align-items:center;justify-content:space-between;padding:28px 56px;border-top:1px solid rgba(255,255,255,.07)}
-.flogo{font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-weight:200}
+.flogo{font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-weight:200;display:flex;align-items:center}
+.flogo img{height:28px;width:auto;margin-right:8px}
 .flogo b{color:var(--red);font-weight:200}
 .fnav{display:flex;gap:28px}
 .fnav a{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s}
@@ -238,7 +239,7 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nav-logo">Montana<b>.</b></a>
+  <a href="#" class="nav-logo"><img src="assets/logo.png" alt="Montana Realty Logo"></a>
   <ul class="nav-links">
     <li><a href="#col">Propiedades</a></li>
     <li><a href="#show">Destacado</a></li>
@@ -254,8 +255,11 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
   <div class="veil-bot"></div>
   <div class="cap cap-bl">
     <span class="eye r v">San Pedro Garza García — 2025</span>
-    <span class="h1 r v">Curated<br><em>Living.</em></span>
+    <span class="h1 r v">Creando tus sueños<br><em>inmobiliarios</em></span>
     <a href="#col" class="cta r v d1">Explorar propiedades</a>
+  </div>
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3">
+    <img src="assets/logo.png" alt="Montana Realty" style="height:120px;width:auto;opacity:.85">
   </div>
   <div class="cap cap-tr">
     <span class="eye" style="margin-bottom:0">6 propiedades disponibles</span>
@@ -545,7 +549,7 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
 
 <!-- FOOTER -->
 <footer>
-  <div class="flogo">Montana<b>.</b></div>
+  <div class="flogo"><img src="assets/logo.png" alt="Montana Realty Logo"></div>
   <nav class="fnav">
     <a href="#col">Propiedades</a>
     <a href="#show">Destacado</a>
