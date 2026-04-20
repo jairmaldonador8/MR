@@ -1,0 +1,520 @@
+/* MODAL & FORM STYLES */
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 13, 13, 0.8);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+
+/* Modal Dialog */
+.modal-dialog {
+  background: var(--white);
+  color: var(--black);
+  border-radius: 0;
+  width: 90%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--black);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  z-index: 10001;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+/* Form Container */
+.form-container {
+  padding: 56px 40px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.progress-step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.progress-step.active {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--red);
+  box-shadow: 0 0 0 8px rgba(185, 28, 28, 0.1);
+  transform: scale(1.1);
+}
+
+.progress-step.completed {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--red);
+}
+
+/* Form Content */
+.form-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.form-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Form Title */
+.form-title {
+  font-size: 24px;
+  font-weight: 300;
+  font-family: var(--serif);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.form-subtitle {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Form Label */
+.form-label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+/* Form Input */
+.form-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  color: var(--black);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  padding: 12px 0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input::placeholder {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.form-input:focus {
+  border-bottom-color: var(--red);
+}
+
+.form-input.error {
+  border-bottom-color: var(--red);
+}
+
+.form-input.error::placeholder {
+  color: var(--red);
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: opacity 0.2s;
+}
+
+.radio-option:hover {
+  opacity: 0.8;
+}
+
+.radio-option input[type="radio"] {
+  accent-color: var(--red);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.radio-option label {
+  cursor: pointer;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.checkbox-option input[type="checkbox"] {
+  accent-color: var(--red);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checkbox-option label {
+  cursor: pointer;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Budget Range */
+.budget-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.budget-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-input .form-label {
+  font-size: 8px;
+}
+
+/* Form Error Message */
+.form-error {
+  font-size: 10px;
+  color: var(--red);
+  margin-top: 4px;
+  display: none;
+}
+
+.form-error.show {
+  display: block;
+}
+
+/* Form Buttons */
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  justify-content: space-between;
+}
+
+.btn-prev,
+.btn-next,
+.btn-submit {
+  flex: 1;
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 15px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-prev:hover,
+.btn-next:hover,
+.btn-submit:hover {
+  background: transparent;
+  color: var(--black);
+}
+
+.btn-prev:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-submit {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+
+.btn-submit:hover {
+  background: transparent;
+  color: var(--red);
+  border-color: var(--red);
+}
+
+/* Success Message */
+.form-success {
+  text-align: center;
+  display: none;
+  padding: 60px 40px;
+}
+
+.form-success.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.success-title {
+  font-size: 20px;
+  font-weight: 300;
+  font-family: var(--serif);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.success-message {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.success-details {
+  background: rgba(0, 0, 0, 0.04);
+  padding: 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.btn-close-success {
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 15px 40px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-close-success:hover {
+  background: transparent;
+  color: var(--black);
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+  .modal-dialog {
+    width: 95%;
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: 0;
+  }
+
+  .form-container {
+    padding: 40px 24px;
+  }
+
+  .progress-bar {
+    margin-bottom: 36px;
+  }
+
+  .progress-step {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+
+  .form-subtitle {
+    font-size: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-buttons {
+    margin-top: 32px;
+    gap: 10px;
+  }
+
+  .btn-prev,
+  .btn-next,
+  .btn-submit {
+    padding: 12px;
+    font-size: 9px;
+  }
+
+  .form-container {
+    padding: 40px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-dialog {
+    max-height: calc(100vh - 20px);
+  }
+
+  .form-container {
+    padding: 32px 16px;
+  }
+
+  .progress-bar {
+    margin-bottom: 28px;
+  }
+
+  .progress-step {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+
+  .form-title {
+    font-size: 18px;
+  }
+
+  .form-subtitle {
+    font-size: 11px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .budget-range {
+    gap: 12px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    margin-top: 28px;
+  }
+
+  .btn-prev,
+  .btn-next,
+  .btn-submit {
+    width: 100%;
+  }
+
+  .form-success {
+    padding: 40px 16px;
+  }
+
+  .success-icon {
+    font-size: 40px;
+  }
+
+  .success-title {
+    font-size: 18px;
+  }
+}

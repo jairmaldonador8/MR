@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Helvetica+Neue:wght@100;200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/components.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -561,6 +562,22 @@ footer{display:flex;align-items:center;justify-content:space-between;padding:28p
 
 <div class="toast" id="toast"></div>
 
+<!-- FORM MODAL -->
+<div id="form-overlay" class="modal-overlay">
+  <div id="form-dialog" class="modal-dialog">
+    <button id="form-close" class="modal-close">&times;</button>
+    <div id="form-container" class="form-container">
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-step active">1</div>
+        <div class="progress-step">2</div>
+        <div class="progress-step">3</div>
+      </div>
+      <!-- Form content will be rendered here by form.js -->
+    </div>
+  </div>
+</div>
+
 <script>
 // CURSOR
 const cur=document.getElementById('cur'),ring=document.getElementById('ring');
@@ -647,5 +664,8 @@ function subCt(e){e.preventDefault();toast('Mensaje recibido — contacto en men
 // TOAST
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3800)}
 </script>
+
+<!-- Progressive Form Script -->
+<script src="assets/js/form.js"></script>
 </body>
 </html>
