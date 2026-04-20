@@ -71,11 +71,17 @@ class ProgressiveForm {
     this.renderStep(1);
     this.overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    // Change cursor color to black
+    const cur = document.getElementById('cur');
+    if (cur) cur.style.background = '#0d0d0d';
   }
 
   close() {
     this.overlay.classList.remove('open');
     document.body.style.overflow = '';
+    // Change cursor color back to white
+    const cur = document.getElementById('cur');
+    if (cur) cur.style.background = '#fff';
   }
 
   renderStep(step) {

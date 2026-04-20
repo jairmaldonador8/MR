@@ -88,10 +88,20 @@ class StickyCTA {
     const closeBtn = overlay.querySelector('.cta-menu-close');
     const formTrigger = overlay.querySelector('.cta-form-trigger');
 
+    // Change cursor color to black
+    const cur = document.getElementById('cur');
+    if (cur) cur.style.background = '#0d0d0d';
+
     // Close menu
-    closeBtn.addEventListener('click', () => overlay.remove());
+    closeBtn.addEventListener('click', () => {
+      if (cur) cur.style.background = '#fff';
+      overlay.remove();
+    });
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) overlay.remove();
+      if (e.target === overlay) {
+        if (cur) cur.style.background = '#fff';
+        overlay.remove();
+      }
     });
 
     // Open form

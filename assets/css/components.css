@@ -2,7 +2,11 @@
 
 /* Show cursor inside modal (override body cursor: none) */
 .modal-overlay,
-.modal-overlay * {
+.modal-overlay *,
+.cta-menu-overlay,
+.cta-menu-overlay *,
+#comp-overlay,
+#comp-overlay * {
   cursor: auto !important;
 }
 
