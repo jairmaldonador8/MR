@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipo — Montana Realty Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Sans:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-h:68px;
+  --red:#b91c1c;
+  --gold:#c9a96e;
+  --black:#0d0d0d;
+  --sans:'DM Sans',Helvetica,Arial,sans-serif;
+  --serif:'Playfair Display',Georgia,serif;
+  --display:'Instrument Sans','DM Sans',sans-serif;
+}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:var(--nav-h);
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid #e8e8e8;
+  transition:height .3s;
+}
+.nav-logo{display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.nav-logo-img{height:32px;width:auto;display:block;filter:brightness(0)}
+.nav-logo-sub{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(0,0,0,.4)}
+.nav-center{display:flex;align-items:center}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.55);text-decoration:none;transition:color .2s;position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:currentColor;transition:width .3s ease;transform-origin:left}
+.nav-links a:hover,.nav-links a.active{color:#111}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.45);text-decoration:none;transition:color .2s}
+.nav-sub:hover{color:#111}
+.nav-action{font-size:11px;letter-spacing:.06em;color:#111;font-family:var(--sans);font-weight:500;padding:9px 22px;border:1.5px solid rgba(0,0,0,.3);border-radius:30px;transition:all .3s;text-decoration:none;display:inline-block}
+.nav-action:hover{background:#111;color:#fff;border-color:#111}
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer}
+.nav-ham span{display:block;width:22px;height:1.5px;background:#111;transition:all .3s}
+
+/* MOB MENU */
+.mob-menu{position:fixed;inset:0;background:#fff;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-menu.open{opacity:1;pointer-events:all}
+.mob-menu a{font-size:clamp(28px,7vw,44px);font-weight:400;color:#111;text-decoration:none;transition:color .2s}
+.mob-menu a:hover{color:var(--red)}
+.mob-close{position:absolute;top:20px;right:24px;background:none;border:none;font-size:28px;cursor:pointer;color:#444}
+
+/* ── HERO ── */
+.hero{
+  padding-top:calc(var(--nav-h) + 120px);
+  padding-bottom:80px;
+  text-align:center;
+  background:#fff;
+  padding-left:40px;
+  padding-right:40px;
+}
+.hero-title{
+  font-family:var(--display);
+  font-size:clamp(48px,8vw,100px);
+  font-weight:900;
+  color:#111;
+  line-height:.95;
+  letter-spacing:-.03em;
+}
+.hero-sub{
+  font-size:18px;
+  color:#666;
+  font-weight:400;
+  margin-top:20px;
+  letter-spacing:-.01em;
+}
+
+/* ── SEARCH ── */
+.search-sec{border-bottom:1px solid #e8e8e8;background:#fff}
+.search-wrap{
+  display:flex;align-items:center;gap:16px;
+  padding:0 48px;height:64px;
+  max-width:900px;margin:0 auto;
+}
+.search-wrap svg{opacity:.35;flex-shrink:0}
+.agent-search{
+  flex:1;border:none;outline:none;
+  font-family:var(--sans);font-size:16px;color:#111;
+  background:transparent;
+}
+.agent-search::placeholder{color:#bbb}
+
+/* ── TEAM PHOTO ── */
+.team-photo{padding:48px;padding-top:64px}
+.team-photo img{
+  width:100%;aspect-ratio:21/9;object-fit:cover;
+  border-radius:12px;display:block;
+}
+
+/* ── REVEAL TEXT ── */
+.reveal-sec{
+  padding:80px 48px;
+  max-width:calc(1100px + 96px);
+  margin:0 auto;
+}
+.reveal-text{
+  font-size:clamp(20px,2.5vw,28px);
+  line-height:1.6;
+  font-weight:500;
+  letter-spacing:-.01em;
+}
+.reveal-text .word{
+  color:#d0d0d0;
+  transition:color .25s ease;
+  display:inline;
+}
+.reveal-text .word.lit{color:#111}
+
+/* ── WHY SECTION ── */
+.why-sec{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;border-top:1px solid #eee;
+}
+.why-left{
+  padding:80px 56px;
+  border-right:1px solid #eee;
+  position:sticky;top:var(--nav-h);
+  height:fit-content;
+}
+.why-title-normal{
+  font-family:var(--serif);font-size:clamp(32px,4vw,48px);
+  font-weight:400;line-height:1.1;color:#111;display:block;
+}
+.why-title-gray{
+  font-family:var(--serif);font-size:clamp(32px,4vw,48px);
+  font-weight:400;line-height:1.1;display:block;
+}
+.why-title-gray .word{color:#d0d0d0;transition:color .25s ease}
+.why-title-gray .word.lit{color:#111}
+
+.why-right{padding:0 56px}
+
+/* Accordion */
+.acc-item{border-bottom:1px solid #eee;overflow:hidden}
+.acc-trigger{
+  display:flex;align-items:center;gap:20px;
+  padding:28px 0;cursor:pointer;background:none;border:none;
+  width:100%;text-align:left;font-family:var(--sans);
+  transition:opacity .2s;
+}
+.acc-trigger:hover{opacity:.75}
+.acc-num{font-size:11px;letter-spacing:.2em;color:#bbb;font-weight:400;min-width:28px}
+.acc-title{font-size:18px;font-weight:600;color:#111;flex:1}
+.acc-icon{
+  width:28px;height:28px;border:1px solid #ddd;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:#666;flex-shrink:0;
+  transition:transform .4s ease,border-color .2s;
+}
+.acc-item.open .acc-icon{transform:rotate(45deg);border-color:#111}
+.acc-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease,padding .4s ease;
+  padding:0 0 0 48px;
+}
+.acc-item.open .acc-body{
+  max-height:200px;
+  padding:0 0 28px 48px;
+}
+.acc-body p{font-size:14px;line-height:1.75;color:#666}
+
+/* ── AGENT GRID ── */
+.agents-sec{padding:100px 48px;border-top:1px solid #eee}
+.agents-header{margin-bottom:56px}
+.agents-title{font-family:var(--serif);font-size:clamp(36px,5vw,56px);font-weight:400;letter-spacing:-.02em}
+.agents-title .word{color:#d0d0d0;transition:color .25s ease}
+.agents-title .word.lit{color:#111}
+.agents-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.agent-card{display:flex;flex-direction:column;gap:0}
+.agent-photo{
+  position:relative;aspect-ratio:1/1;overflow:hidden;
+  border-radius:8px;background:#f0f0f0;margin-bottom:24px;
+}
+.agent-photo img{
+  width:100%;height:100%;object-fit:cover;object-position:top;
+  display:block;transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+.agent-card:hover .agent-photo img{transform:scale(1.04)}
+.agent-hover{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  background:rgba(0,0,0,.35);
+  opacity:0;transition:opacity .35s ease;
+  border-radius:8px;
+}
+.agent-card:hover .agent-hover{opacity:1}
+.agent-ico{
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;text-decoration:none;
+  transition:background .2s,transform .2s;
+}
+.agent-ico:hover{background:rgba(255,255,255,.32);transform:scale(1.1)}
+.agent-ico svg{width:20px;height:20px}
+.agent-name{font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+.agent-role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#999;margin-bottom:16px}
+.agent-contact{display:flex;flex-direction:column;gap:6px}
+.agent-contact a{font-size:13px;color:#555;text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s}
+.agent-contact a:hover{color:#111}
+.agent-contact a svg{opacity:.45;flex-shrink:0}
+
+/* ── FOOTER ── */
+.footer{
+  background:#111;color:rgba(255,255,255,.5);
+  text-align:center;padding:48px 24px;
+  font-size:12px;letter-spacing:.04em;
+  border-top:1px solid #eee;
+}
+.footer a{color:rgba(255,255,255,.55);text-decoration:none;margin:0 12px;transition:color .2s}
+.footer a:hover{color:#fff}
+.footer-logo{
+  filter:brightness(0) invert(1);opacity:.25;
+  height:28px;margin:0 auto 20px;display:block;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #nav{padding:0 20px}
+  .nav-links,.nav-right .nav-sub,.nav-right .nav-action{display:none}
+  .nav-ham{display:flex}
+  .team-photo{padding:24px}
+  .reveal-sec{padding:56px 24px}
+  .why-sec{grid-template-columns:1fr}
+  .why-left{position:static;padding:56px 24px 32px;border-right:none;border-bottom:1px solid #eee}
+  .why-right{padding:0 24px}
+  .agents-sec{padding:64px 24px}
+  .agents-grid{grid-template-columns:1fr}
+  .search-wrap{padding:0 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- MOB MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()">&times;</button>
+  <a href="propiedades.html">Propiedades</a>
+  <a href="index (2).html#svc">Servicios</a>
+  <a href="equipo.html" class="active">Equipo</a>
+  <a href="index (2).html#abt">Nosotros</a>
+  <a href="index (2).html#blog">Blog</a>
+  <a href="index (2).html#cta">Agendar visita</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index (2).html" class="nav-logo">
+    <img src="assets/logo-mr.png" class="nav-logo-img" alt="Montana Realty">
+    <span class="nav-logo-sub">Montana Realty</span>
+  </a>
+  <div class="nav-center">
+    <ul class="nav-links">
+      <li><a href="propiedades.html">Propiedades</a></li>
+      <li><a href="index (2).html#svc">Servicios</a></li>
+      <li><a href="equipo.html" class="active">Equipo</a></li>
+      <li><a href="index (2).html#abt">Nosotros</a></li>
+      <li><a href="index (2).html#blog">Blog</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="index (2).html#cta" class="nav-sub">Contacto</a>
+    <a href="index (2).html#cta" class="nav-action">Agendar visita</a>
+  </div>
+  <button class="nav-ham" id="navHam" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="hero-title">Conoce a Nuestro Equipo</h1>
+  <p class="hero-sub">2 Agentes dedicados a encontrar tu hogar ideal</p>
+</section>
+
+<!-- SEARCH -->
+<div class="search-sec">
+  <div class="search-wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="agent-search" type="text" id="agentSearch" placeholder="Buscar por agente...">
+  </div>
+</div>
+
+<!-- TEAM PHOTO -->
+<div class="team-photo">
+  <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=2400&q=85" alt="Oficina Montana Realty">
+</div>
+
+<!-- REVEAL TEXT -->
+<div class="reveal-sec" id="revealSec">
+  <p class="reveal-text" id="revealPara"></p>
+</div>
+
+<!-- WHY MONTANA -->
+<div class="why-sec" id="whySec">
+  <div class="why-left">
+    <span class="why-title-normal">Por qué elegir</span>
+    <span class="why-title-gray" id="whyTitle"><span class="word">Montana</span> <span class="word">Realty?</span></span>
+  </div>
+  <div class="why-right">
+
+    <div class="acc-item open" data-acc>
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        <span class="acc-num">01</span>
+        <span class="acc-title">Especialistas en San Pedro</span>
+        <span class="acc-icon">+</span>
+      </button>
+      <div class="acc-body">
+        <p>Conocemos cada colonia, cada calle y cada micro-mercado de San Pedro Garza García. Nuestra especialización geográfica nos permite darte datos reales, no estimaciones genéricas.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" data-acc>
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        <span class="acc-num">02</span>
+        <span class="acc-title">Atención Personalizada</span>
+        <span class="acc-icon">+</span>
+      </button>
+      <div class="acc-body">
+        <p>Cada cliente recibe un agente dedicado que entiende sus objetivos y lo acompaña en cada etapa del proceso. No somos un call center — somos tu asesor de confianza.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" data-acc>
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        <span class="acc-num">03</span>
+        <span class="acc-title">Red de Contactos Exclusiva</span>
+        <span class="acc-icon">+</span>
+      </button>
+      <div class="acc-body">
+        <p>Acceso a propiedades fuera de mercado a través de una red de desarrolladores, inversionistas y propietarios que confían en Montana Realty para sus transacciones más discretas.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" data-acc>
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        <span class="acc-num">04</span>
+        <span class="acc-title">Transparencia Total</span>
+        <span class="acc-icon">+</span>
+      </button>
+      <div class="acc-body">
+        <p>Precios basados en datos reales de mercado, sin inflaciones artificiales. Explicamos cada cifra, cada cláusula y cada decisión para que tomes el mejor paso con total seguridad.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" data-acc>
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        <span class="acc-num">05</span>
+        <span class="acc-title">Tecnología e Innovación</span>
+        <span class="acc-icon">+</span>
+      </button>
+      <div class="acc-body">
+        <p>Tours virtuales, análisis comparativo de mercado en tiempo real y herramientas digitales que hacen que el proceso de compra, venta o renta sea más rápido y efectivo.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AGENTS -->
+<section class="agents-sec">
+  <div class="agents-header">
+    <h2 class="agents-title" id="agentsTitle"><span class="word">Nuestro</span> <span class="word">Equipo</span></h2>
+  </div>
+
+  <div class="agents-grid" id="agentsGrid">
+
+    <div class="agent-card" data-name="Maricela Arcia" data-role="Directora">
+      <div class="agent-photo">
+        <img src="Maricela.jpg" alt="Maricela Arcia">
+        <div class="agent-hover">
+          <a href="https://wa.me/528110448818" class="agent-ico" title="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="mailto:contacto@montana-realty-co.com" class="agent-ico" title="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="agent-name">Maricela Arcia</div>
+      <div class="agent-role">Directora</div>
+      <div class="agent-contact">
+        <a href="https://wa.me/528110448818">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          +52 (81) 1044-8818
+        </a>
+        <a href="mailto:contacto@montana-realty-co.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+          contacto@montana-realty-co.com
+        </a>
+      </div>
+    </div>
+
+    <div class="agent-card" data-name="Federico Mecutchen" data-role="Director de Ventas y Marketing">
+      <div class="agent-photo">
+        <img src="Fede.jpg" alt="Federico Mecutchen">
+        <div class="agent-hover">
+          <a href="https://wa.me/528123532365" class="agent-ico" title="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="mailto:contacto@montana-realty-co.com" class="agent-ico" title="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="agent-name">Federico Mecutchen</div>
+      <div class="agent-role">Director de Ventas y Marketing</div>
+      <div class="agent-contact">
+        <a href="https://wa.me/528123532365">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          +52 (81) 2353-2365
+        </a>
+        <a href="mailto:contacto@montana-realty-co.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+          contacto@montana-realty-co.com
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <img src="assets/logo-mr.png" class="footer-logo" alt="Montana Realty">
+  <p>
+    <a href="index (2).html">Inicio</a>
+    <a href="propiedades.html">Propiedades</a>
+    <a href="equipo.html">Equipo</a>
+    <a href="index (2).html#cta">Contacto</a>
+  </p>
+  <p style="margin-top:20px">&copy; 2024 Montana Realty Co. — San Pedro Garza García, NL</p>
+</footer>
+
+<script>
+// ── NAV ──
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
+function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
+
+// ── GENERIC SCROLL REVEAL ──
+// Creates a reveal handler for a set of word spans relative to an anchor element.
+function makeReveal(spans, anchorEl, scrollRange){
+  const total=spans.length;
+  return function update(){
+    const rect=anchorEl.getBoundingClientRect();
+    const wh=window.innerHeight;
+    const progress=Math.max(0,Math.min(1,(wh-rect.top)/scrollRange));
+    const lit=Math.floor(progress*total);
+    spans.forEach((s,i)=>s.classList.toggle('lit',i<lit));
+  };
+}
+
+// ── REVEAL: PARAGRAPH ──
+(function(){
+  const text='Con un equipo selecto de agentes certificados en San Pedro Garza García, Montana Realty te ofrece una experiencia personalizada e inigualable en cada operación inmobiliaria. Cada agente de Montana está comprometido a ayudarte a dar el siguiente paso con confianza, respaldado por conocimiento local y un entendimiento profundo de tus objetivos.';
+  const para=document.getElementById('revealPara');
+  para.innerHTML=text.split(' ').map(w=>`<span class="word">${w}</span>`).join(' ');
+  const spans=[...para.querySelectorAll('.word')];
+  const update=makeReveal(spans,para,para.getBoundingClientRect().height+window.innerHeight*0.4);
+  window.addEventListener('scroll',()=>{
+    const rect=para.getBoundingClientRect();
+    const wh=window.innerHeight;
+    const progress=Math.max(0,Math.min(1,(wh-rect.top)/(rect.height+wh*0.4)));
+    const lit=Math.floor(progress*spans.length);
+    spans.forEach((s,i)=>s.classList.toggle('lit',i<lit));
+  },{passive:true});
+  // run once on load
+  window.dispatchEvent(new Event('scroll'));
+})();
+
+// ── REVEAL: WHY TITLE ──
+(function(){
+  const spans=[...document.querySelectorAll('#whyTitle .word')];
+  const anchor=document.getElementById('whySec');
+  const update=makeReveal(spans,anchor,280);
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
+
+// ── REVEAL: AGENTS TITLE ──
+(function(){
+  const spans=[...document.querySelectorAll('#agentsTitle .word')];
+  const anchor=document.getElementById('agentsTitle');
+  const update=makeReveal(spans,anchor,320);
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
+
+// ── ACCORDION ──
+function toggleAcc(btn){
+  const item=btn.closest('.acc-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+// ── AGENT SEARCH ──
+(function(){
+  const input=document.getElementById('agentSearch');
+  const grid=document.getElementById('agentsGrid');
+  let noResults=null;
+
+  input.addEventListener('input',function(){
+    const q=this.value.trim().toLowerCase();
+    const cards=[...grid.querySelectorAll('.agent-card')];
+    let visible=0;
+
+    cards.forEach(card=>{
+      const name=(card.dataset.name||'').toLowerCase();
+      const role=(card.dataset.role||'').toLowerCase();
+      const match=!q||name.includes(q)||role.includes(q);
+
+      if(match){
+        card.style.opacity='1';
+        card.style.display='flex';
+        visible++;
+      } else {
+        card.style.opacity='0';
+        // hide after fade-out transition (250ms)
+        setTimeout(()=>{ if(card.style.opacity==='0') card.style.display='none'; },250);
+      }
+    });
+
+    // show/hide "no results" message
+    if(!noResults){
+      noResults=document.createElement('p');
+      noResults.id='noResults';
+      noResults.style.cssText='grid-column:1/-1;text-align:center;color:#bbb;font-size:14px;padding:40px 0;display:none';
+      noResults.textContent='No se encontraron agentes';
+      grid.appendChild(noResults);
+    }
+    noResults.style.display=(visible===0&&q)?'block':'none';
+  });
+
+  // ensure cards have transition
+  grid.querySelectorAll('.agent-card').forEach(c=>{
+    c.style.transition='opacity .25s ease';
+  });
+})();
+</script>
+</body>
+</html>

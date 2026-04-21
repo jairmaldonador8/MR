@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propiedades — Montana Realty Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-h:68px;
+  --bar-h:60px;
+  --red:#b91c1c;
+  --gold:#c9a96e;
+  --black:#0d0d0d;
+  --sans:'DM Sans',Helvetica,Arial,sans-serif;
+}
+
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:var(--nav-h);
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid #e5e5e5;
+  transition:height .3s;
+}
+.nav-logo{display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.nav-logo-img{height:32px;width:auto;display:block;filter:brightness(0)}
+.nav-logo-sub{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(0,0,0,.4)}
+.nav-center{display:flex;align-items:center}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.55);text-decoration:none;transition:color .2s;position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:currentColor;transition:width .3s ease;transform-origin:left}
+.nav-links a:hover,.nav-links a.active{color:#111}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.45);text-decoration:none;transition:color .2s}
+.nav-sub:hover{color:#111}
+.nav-action{font-size:11px;letter-spacing:.06em;color:#111;font-family:var(--sans);font-weight:500;padding:9px 22px;border:1.5px solid rgba(0,0,0,.3);border-radius:30px;transition:all .3s;text-decoration:none;display:inline-block}
+.nav-action:hover{background:#111;color:#fff;border-color:#111}
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer}
+.nav-ham span{display:block;width:22px;height:1.5px;background:#111;transition:all .3s}
+
+/* ── SEARCH BAR ── */
+#searchbar{
+  position:sticky;top:var(--nav-h);z-index:800;
+  background:#fff;border-bottom:1px solid #e5e5e5;
+  padding:10px 24px;
+  display:flex;align-items:center;gap:8px;
+  flex-wrap:wrap;
+  min-height:var(--bar-h);
+}
+.search-input-wrap{
+  display:flex;align-items:center;gap:8px;
+  background:#f5f5f5;border:1px solid #e5e5e5;border-radius:8px;
+  padding:0 14px;height:38px;flex:1 1 220px;max-width:340px;
+}
+.search-input-wrap svg{opacity:.4;flex-shrink:0}
+.search-input{
+  border:none;background:transparent;outline:none;
+  font-family:var(--sans);font-size:13px;color:#111;width:100%;
+}
+.search-input::placeholder{color:#aaa}
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1}
+.pill{
+  display:flex;align-items:center;gap:6px;
+  height:38px;padding:0 14px;
+  border:1px solid #e5e5e5;border-radius:8px;
+  background:#fff;font-family:var(--sans);font-size:12px;
+  color:#333;cursor:pointer;white-space:nowrap;
+  transition:background .2s,border-color .2s;
+  position:relative;
+}
+.pill:hover{background:#f5f5f5;border-color:#ccc}
+.pill svg{opacity:.5}
+.pill select{
+  position:absolute;inset:0;opacity:0;cursor:pointer;
+  font-family:var(--sans);font-size:12px;
+}
+.bar-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.view-toggle{display:flex;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden}
+.view-btn{
+  height:38px;padding:0 16px;font-family:var(--sans);font-size:12px;
+  font-weight:500;letter-spacing:.04em;border:none;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.view-btn.active{background:#111;color:#fff}
+.view-btn:not(.active){background:#fff;color:#666}
+
+/* ── MAIN LAYOUT ── */
+#main{
+  display:flex;
+  height:calc(100vh - var(--nav-h) - var(--bar-h));
+  margin-top:calc(var(--nav-h) + var(--bar-h));
+}
+
+/* ── MAP SIDE ── */
+#map-side{
+  width:50%;flex-shrink:0;
+  position:sticky;top:calc(var(--nav-h) + var(--bar-h));
+  height:calc(100vh - var(--nav-h) - var(--bar-h));
+  background:#e8e4e0;
+}
+#map-side iframe{
+  width:100%;height:100%;border:none;display:block;
+}
+#map-side.hidden{display:none}
+
+/* ── LIST SIDE ── */
+#list-side{
+  flex:1;overflow-y:auto;
+  background:#fafafa;
+}
+#list-side::-webkit-scrollbar{width:4px}
+#list-side::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
+
+.list-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px 16px;
+  border-bottom:1px solid #eee;
+  background:#fff;
+  position:sticky;top:0;z-index:10;
+}
+.result-count{font-size:13px;color:#666;font-weight:400}
+.result-count strong{color:#111;font-weight:600}
+.sort-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:#888}
+.sort-wrap select{
+  font-family:var(--sans);font-size:12px;color:#333;
+  border:1px solid #e5e5e5;border-radius:6px;padding:5px 10px;
+  background:#fff;cursor:pointer;outline:none;
+}
+
+/* ── PROPERTY GRID ── */
+.prop-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  padding:20px 20px 40px;
+}
+.prop-card{
+  background:#fff;border:1px solid #eee;border-radius:12px;
+  overflow:hidden;cursor:pointer;
+  transition:box-shadow .3s,transform .3s;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+}
+.prop-card:hover{
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+  transform:translateY(-3px);
+}
+.prop-img{
+  position:relative;aspect-ratio:4/3;overflow:hidden;background:#f0f0f0;
+}
+.prop-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+.prop-card:hover .prop-img img{transform:scale(1.05)}
+.prop-badge{
+  position:absolute;top:12px;left:12px;
+  background:#111;color:#fff;font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;padding:4px 10px;border-radius:4px;font-weight:500;
+}
+.prop-badge.exclusive{background:var(--red)}
+.prop-body{padding:16px}
+.prop-price{font-size:18px;font-weight:700;color:#111;line-height:1;margin-bottom:6px}
+.prop-price-note{font-size:10px;color:#999;font-weight:400;margin-left:4px}
+.prop-specs{font-size:11px;color:#555;margin-bottom:6px;line-height:1.5}
+.prop-specs strong{color:#111;font-weight:500}
+.prop-addr{font-size:11px;color:#aaa;margin-bottom:12px}
+.prop-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid #f0f0f0;
+}
+.prop-actions{display:flex;gap:10px}
+.prop-btn{
+  width:30px;height:30px;border:1px solid #e5e5e5;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;cursor:pointer;transition:border-color .2s,background .2s;
+  color:#666;
+}
+.prop-btn:hover{border-color:#999;background:#f5f5f5;color:#111}
+.prop-tag{
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);font-weight:600;
+}
+
+/* ── FOOTER NOTE ── */
+.footer-note{
+  text-align:center;padding:40px 24px;
+  border-top:1px solid #eee;
+  font-size:12px;color:#bbb;
+}
+.footer-note a{color:#888;text-decoration:none}
+.footer-note a:hover{color:#333}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  #nav{padding:0 20px}
+  .nav-links,.nav-right .nav-sub,.nav-right .nav-action{display:none}
+  .nav-ham{display:flex}
+  #map-side{display:none!important}
+  #list-side{width:100%}
+  #main{height:auto;margin-top:calc(var(--nav-h) + var(--bar-h))}
+  .prop-grid{grid-template-columns:1fr;padding:16px}
+  #searchbar{gap:6px;padding:8px 16px}
+  .search-input-wrap{max-width:100%;flex:1 1 100%}
+  .filters{display:none}
+  .bar-right{margin-left:0}
+}
+
+/* MOB MENU */
+.mob-menu{position:fixed;inset:0;background:#fff;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-menu.open{opacity:1;pointer-events:all}
+.mob-menu a{font-size:clamp(28px,7vw,44px);font-weight:400;color:#111;text-decoration:none;letter-spacing:-.01em;transition:color .2s}
+.mob-menu a:hover{color:var(--red)}
+.mob-close{position:absolute;top:20px;right:24px;background:none;border:none;font-size:28px;cursor:pointer;color:#444}
+</style>
+</head>
+<body>
+
+<!-- MOB MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()">&times;</button>
+  <a href="propiedades.html" class="active">Propiedades</a>
+  <a href="index (2).html#svc">Servicios</a>
+  <a href="equipo.html">Equipo</a>
+  <a href="index (2).html#abt">Nosotros</a>
+  <a href="index (2).html#blog">Blog</a>
+  <a href="index (2).html#cta">Agendar visita</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index (2).html" class="nav-logo">
+    <img src="assets/logo-mr.png" class="nav-logo-img" alt="Montana Realty">
+    <span class="nav-logo-sub">Montana Realty</span>
+  </a>
+  <div class="nav-center">
+    <ul class="nav-links">
+      <li><a href="propiedades.html" class="active">Propiedades</a></li>
+      <li><a href="index (2).html#svc">Servicios</a></li>
+      <li><a href="equipo.html">Equipo</a></li>
+      <li><a href="index (2).html#abt">Nosotros</a></li>
+      <li><a href="index (2).html#blog">Blog</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="index (2).html#cta" class="nav-sub">Contacto</a>
+    <a href="index (2).html#cta" class="nav-action">Agendar visita</a>
+  </div>
+  <button class="nav-ham" id="navHam" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- SEARCH BAR -->
+<div id="searchbar">
+  <div class="search-input-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="search-input" type="text" id="searchInput" placeholder="Buscar por dirección o zona...">
+  </div>
+
+  <div class="filters">
+    <label class="pill">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span id="zonaLabel">Zona</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      <select id="zonaFilter" onchange="updateLabel('zonaLabel',this,'Zona')">
+        <option value="">Todas las zonas</option>
+        <option value="Valle">Valle</option>
+        <option value="Valle Oriente">Valle Oriente</option>
+        <option value="Carretera Nacional">Carretera Nacional</option>
+        <option value="San Agustín">San Agustín</option>
+        <option value="Cumbres">Cumbres</option>
+        <option value="Lomas del Valle">Lomas del Valle</option>
+        <option value="Centro">Centro</option>
+        <option value="Del Valle">Del Valle</option>
+      </select>
+    </label>
+
+    <label class="pill">
+      <span id="tipoLabel">Tipo</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      <select id="tipoFilter" onchange="updateLabel('tipoLabel',this,'Tipo')">
+        <option value="">En Venta / Renta</option>
+        <option value="En Venta">En Venta</option>
+        <option value="En Renta">En Renta</option>
+      </select>
+    </label>
+
+    <label class="pill">
+      <span id="precioLabel">Precio</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      <select id="precioFilter" onchange="updateLabel('precioLabel',this,'Precio')">
+        <option value="">Cualquier precio</option>
+        <option value="5">Hasta $5M</option>
+        <option value="10">$5M – $10M</option>
+        <option value="20">$10M – $20M</option>
+        <option value="20+">$20M+</option>
+      </select>
+    </label>
+
+    <label class="pill">
+      <span id="inmuebleLabel">Inmueble</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      <select id="inmuebleFilter" onchange="updateLabel('inmuebleLabel',this,'Inmueble')">
+        <option value="">Todo tipo</option>
+        <option value="Casa">Casa</option>
+        <option value="Penthouse">Penthouse</option>
+        <option value="Departamento">Departamento</option>
+        <option value="Terreno">Terreno</option>
+        <option value="Local">Local</option>
+      </select>
+    </label>
+
+    <label class="pill">
+      <span id="recLabel">Recámaras</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      <select id="recFilter" onchange="updateLabel('recLabel',this,'Recámaras')">
+        <option value="">Cualquiera</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="5">5+</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="bar-right">
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnMapa" onclick="setView('mapa')">Mapa</button>
+      <button class="view-btn" id="btnLista" onclick="setView('lista')">Lista</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- MAP -->
+  <div id="map-side">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28673.02!2d-100.4017!3d25.6514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.0!3m3!1m2!1s0x866295b4dff9b74b%3A0x93b55de5abe37131!2sSan%20Pedro%20Garza%20Garc%C3%ADa%2C%20N.L.!5e0!3m2!1ses!2smx!4v1700000000000"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <!-- LIST -->
+  <div id="list-side">
+    <div class="list-header">
+      <p class="result-count"><strong id="countNum">6</strong> resultados</p>
+      <div class="sort-wrap">
+        <span>Ordenar:</span>
+        <select id="sortSelect" onchange="sortCards()">
+          <option value="recent">Recientes</option>
+          <option value="price-asc">Menor precio</option>
+          <option value="price-desc">Mayor precio</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="prop-grid" id="propGrid">
+
+      <a class="prop-card" href="#"
+        data-zona="Valle Oriente" data-tipo="En Venta" data-precio="12500000"
+        data-inmueble="Casa" data-rec="5" data-fecha="2024-01-06">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80" alt="Casa Montaña del Valle" loading="lazy">
+          <span class="prop-badge">En Venta</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">$12,500,000 <span class="prop-price-note">MXN</span></div>
+          <div class="prop-specs"><strong>Casa</strong> · En Venta · 5 rec · 6 baños · 620 m²</div>
+          <div class="prop-addr">Valle Oriente, San Pedro Garza García</div>
+          <div class="prop-footer">
+            <span class="prop-tag">Destacada</span>
+            <div class="prop-actions">
+              <button class="prop-btn" title="Agendar visita">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <button class="prop-btn" title="Compartir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="prop-card" href="#"
+        data-zona="Del Valle" data-tipo="En Venta" data-precio="8900000"
+        data-inmueble="Penthouse" data-rec="3" data-fecha="2024-01-05">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80" alt="Penthouse Vistas" loading="lazy">
+          <span class="prop-badge">En Venta</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">$8,900,000 <span class="prop-price-note">MXN</span></div>
+          <div class="prop-specs"><strong>Penthouse</strong> · En Venta · 3 rec · 3 baños · 280 m²</div>
+          <div class="prop-addr">Del Valle, San Pedro Garza García</div>
+          <div class="prop-footer">
+            <span class="prop-tag">Nuevo</span>
+            <div class="prop-actions">
+              <button class="prop-btn" title="Agendar visita">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <button class="prop-btn" title="Compartir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="prop-card" href="#"
+        data-zona="San Agustín" data-tipo="En Venta" data-precio="18200000"
+        data-inmueble="Casa" data-rec="6" data-fecha="2024-01-04">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80" alt="Villa Serena" loading="lazy">
+          <span class="prop-badge exclusive">Exclusiva</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">$18,200,000 <span class="prop-price-note">MXN</span></div>
+          <div class="prop-specs"><strong>Casa</strong> · En Venta · 6 rec · 7 baños · 850 m²</div>
+          <div class="prop-addr">San Agustín, San Pedro Garza García</div>
+          <div class="prop-footer">
+            <span class="prop-tag">Exclusiva</span>
+            <div class="prop-actions">
+              <button class="prop-btn" title="Agendar visita">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <button class="prop-btn" title="Compartir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="prop-card" href="#"
+        data-zona="Valle Oriente" data-tipo="En Venta" data-precio="4500000"
+        data-inmueble="Departamento" data-rec="2" data-fecha="2024-01-03">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80" alt="Departamento Lux" loading="lazy">
+          <span class="prop-badge">En Venta</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">$4,500,000 <span class="prop-price-note">MXN</span></div>
+          <div class="prop-specs"><strong>Departamento</strong> · En Venta · 2 rec · 2 baños · 140 m²</div>
+          <div class="prop-addr">Valle Oriente, San Pedro Garza García</div>
+          <div class="prop-footer">
+            <span class="prop-tag">Disponible</span>
+            <div class="prop-actions">
+              <button class="prop-btn" title="Agendar visita">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <button class="prop-btn" title="Compartir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="prop-card" href="#"
+        data-zona="Carretera Nacional" data-tipo="En Venta" data-precio="15800000"
+        data-inmueble="Casa" data-rec="4" data-fecha="2024-01-02">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80" alt="Casa Bosque" loading="lazy">
+          <span class="prop-badge">En Venta</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">$15,800,000 <span class="prop-price-note">MXN</span></div>
+          <div class="prop-specs"><strong>Casa</strong> · En Venta · 4 rec · 5 baños · 720 m²</div>
+          <div class="prop-addr">Carretera Nacional, San Pedro Garza García</div>
+          <div class="prop-footer">
+            <span class="prop-tag">Destacada</span>
+            <div class="prop-actions">
+              <button class="prop-btn" title="Agendar visita">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <button class="prop-btn" title="Compartir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="prop-card" href="#"
+        data-zona="Lomas del Valle" data-tipo="En Venta" data-precio="6200000"
+        data-inmueble="Terreno" data-rec="0" data-fecha="2024-01-01">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=700&q=80" alt="Terreno Premium" loading="lazy">
+          <span class="prop-badge">En Venta</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">$6,200,000 <span class="prop-price-note">MXN</span></div>
+          <div class="prop-specs"><strong>Terreno</strong> · En Venta · 1,200 m²</div>
+          <div class="prop-addr">Lomas del Valle, San Pedro Garza García</div>
+          <div class="prop-footer">
+            <span class="prop-tag">Inversión</span>
+            <div class="prop-actions">
+              <button class="prop-btn" title="Agendar visita">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <button class="prop-btn" title="Compartir">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="footer-note">
+      &copy; 2024 Montana Realty Co. &mdash; San Pedro Garza García, NL &mdash;
+      <a href="index (2).html">Inicio</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MOBILE MENU ──
+function toggleMob(){
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+function closeMob(){
+  document.getElementById('mobMenu').classList.remove('open');
+}
+
+// ── MAP / LIST TOGGLE ──
+function setView(v){
+  const mapSide=document.getElementById('map-side');
+  const btnMapa=document.getElementById('btnMapa');
+  const btnLista=document.getElementById('btnLista');
+  if(v==='mapa'){
+    mapSide.classList.remove('hidden');
+    btnMapa.classList.add('active');
+    btnLista.classList.remove('active');
+  } else {
+    mapSide.classList.add('hidden');
+    btnLista.classList.add('active');
+    btnMapa.classList.remove('active');
+  }
+}
+
+// ── PILL LABEL UPDATE ──
+function updateLabel(labelId,sel,defaultLabel){
+  const label=document.getElementById(labelId);
+  const opt=sel.options[sel.selectedIndex];
+  label.textContent=opt.value?opt.text:defaultLabel;
+  applyFilters();
+}
+
+// ── FILTERING ──
+function applyFilters(){
+  const search=document.getElementById('searchInput').value.toLowerCase();
+  const zona=document.getElementById('zonaFilter').value;
+  const tipo=document.getElementById('tipoFilter').value;
+  const precio=document.getElementById('precioFilter').value;
+  const inmueble=document.getElementById('inmuebleFilter').value;
+  const rec=parseInt(document.getElementById('recFilter').value)||0;
+
+  const cards=[...document.querySelectorAll('.prop-card')];
+  let visible=0;
+
+  cards.forEach(card=>{
+    const cZona=card.dataset.zona||'';
+    const cTipo=card.dataset.tipo||'';
+    const cPrecio=parseInt(card.dataset.precio)||0;
+    const cInmueble=card.dataset.inmueble||'';
+    const cRec=parseInt(card.dataset.rec)||0;
+    const cText=(card.textContent||'').toLowerCase();
+
+    let show=true;
+    if(search && !cText.includes(search)) show=false;
+    if(zona && !cZona.includes(zona)) show=false;
+    if(tipo && cTipo!==tipo) show=false;
+    if(inmueble && cInmueble!==inmueble) show=false;
+    if(rec && cRec<rec) show=false;
+    if(precio){
+      const p=cPrecio/1e6;
+      if(precio==='5'  && p>5)  show=false;
+      if(precio==='10' && (p<=5||p>10)) show=false;
+      if(precio==='20' && (p<=10||p>20)) show=false;
+      if(precio==='20+' && p<=20) show=false;
+    }
+
+    card.style.display=show?'flex':'none';
+    if(show) visible++;
+  });
+
+  document.getElementById('countNum').textContent=visible;
+}
+
+// ── SORT ──
+function sortCards(){
+  const by=document.getElementById('sortSelect').value;
+  const grid=document.getElementById('propGrid');
+  const cards=[...grid.querySelectorAll('.prop-card')];
+
+  cards.sort((a,b)=>{
+    if(by==='price-asc')  return parseInt(a.dataset.precio)-parseInt(b.dataset.precio);
+    if(by==='price-desc') return parseInt(b.dataset.precio)-parseInt(a.dataset.precio);
+    return new Date(b.dataset.fecha)-new Date(a.dataset.fecha);
+  });
+
+  cards.forEach(c=>grid.appendChild(c));
+  applyFilters();
+}
+
+// Live search
+document.getElementById('searchInput').addEventListener('input',applyFilters);
+</script>
+</body>
+</html>

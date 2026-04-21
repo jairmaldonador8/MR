@@ -18,6 +18,10 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'admin')));
+app.use(express.static(path.join(__dirname, 'assets')));
+
+// Serve main landing page
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index (2).html')));
 
 // Routes
 app.use('/api/leads', leadsApi);
