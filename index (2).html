@@ -6,7 +6,7 @@
 <title>Montana Realty — San Pedro Garza García</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/components.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -19,9 +19,7 @@
   --red:#b91c1c;
   --gold:#c9a96e;
   --serif:'Cormorant',Georgia,serif;
-  --serif2:'Playfair Display',Georgia,serif;
-  --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
-  --sans2:'DM Sans',Helvetica,Arial,sans-serif;
+  --sans:'DM Sans',Helvetica,Arial,sans-serif;
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 body{background:var(--black);color:var(--white);font-family:var(--sans);font-weight:300;overflow-x:hidden}
@@ -31,7 +29,7 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 #nav.scrolled{height:60px;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 #nav.dark-hero{background:rgba(20,26,44,.68)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
 .nav-logo{display:flex;flex-direction:column;gap:3px;text-decoration:none}
-.nav-logo-img{height:36px;width:auto;display:block;filter:brightness(0);transition:filter .3s}
+.nav-logo-img{height:52px;width:auto;display:block;filter:brightness(0);transition:filter .3s}
 .nav-logo-sub{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(20,20,20,.45);transition:color .3s}
 .nav-center{display:flex;align-items:center}
 .nav-links{display:flex;gap:36px;list-style:none}
@@ -42,7 +40,7 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 .nav-right{display:flex;align-items:center;gap:24px}
 .nav-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(20,20,20,.45);text-decoration:none;transition:color .3s}
 .nav-sub:hover{color:#111}
-.nav-action{font-size:11px;letter-spacing:.06em;color:#111;font-family:var(--sans2);font-weight:500;padding:10px 24px;border:1.5px solid rgba(0,0,0,.32);border-radius:30px;transition:all .3s;text-decoration:none;display:inline-block}
+.nav-action{font-size:11px;letter-spacing:.06em;color:#111;font-family:var(--sans);font-weight:500;padding:10px 24px;border:1.5px solid rgba(0,0,0,.32);border-radius:30px;transition:all .3s;text-decoration:none;display:inline-block}
 .nav-action:hover{background:#111;color:#fff;border-color:#111}
 .nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
 .nav-ham span{display:block;width:22px;height:1.5px;background:#111;transition:all .3s}
@@ -65,7 +63,7 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 .mob-menu.open{opacity:1;pointer-events:all}
 .mob-menu a{font-family:var(--serif2);font-size:clamp(32px,7vw,56px);font-weight:400;color:#111;text-decoration:none;letter-spacing:-.01em;transition:color .2s}
 .mob-menu a:hover{color:var(--gold)}
-.mob-action{font-size:12px!important;letter-spacing:.2em!important;text-transform:uppercase;font-family:var(--sans2)!important;border:1px solid rgba(0,0,0,.2)!important;padding:14px 40px;color:#111!important}
+.mob-action{font-size:12px!important;letter-spacing:.2em!important;text-transform:uppercase;font-family:var(--sans)!important;border:1px solid rgba(0,0,0,.2)!important;padding:14px 40px;color:#111!important}
 
 /* HERO */
 .hero{position:relative;height:200vh}
@@ -99,21 +97,21 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 .fog-lat-r{right:0;background:radial-gradient(ellipse 100% 80% at 100% 88%,rgba(240,213,200,.82) 0%,rgba(245,224,208,.42) 44%,transparent 74%)}
 /* Texto principal */
 .hero-cnt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:6;padding:0 24px;padding-top:72px;will-change:opacity,transform}
-.hero-eyebrow{font-family:var(--sans2);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(80,50,30,.48);margin-bottom:14px}
-.hero-title{font-family:'Instrument Sans',Montserrat,var(--sans2);font-size:clamp(52px,8vw,100px);font-weight:700;line-height:.97;letter-spacing:-.03em;margin:0 0 18px;color:#111}
+.hero-eyebrow{font-family:var(--sans);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(80,50,30,.48);margin-bottom:14px}
+.hero-title{font-family:'Cormorant',var(--serif);font-size:clamp(52px,8vw,100px);font-weight:400;line-height:.97;letter-spacing:-.03em;margin:0 0 18px;color:#111}
 .hero-title em{font-style:italic;font-weight:600}
-.hero-sub{font-family:var(--sans2);font-size:15px;max-width:480px;line-height:1.8;font-weight:400}
+.hero-sub{font-family:var(--sans);font-size:15px;max-width:480px;line-height:1.8;font-weight:400}
 .hero-sub-dark{color:#111;font-weight:600}
 .hero-sub-light{color:#999}
-.btn-hero{display:inline-flex;align-items:center;gap:12px;margin-top:36px;font-family:var(--sans2);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#111;text-decoration:none;border:1.5px solid rgba(0,0,0,.32);padding:14px 38px;border-radius:100px;transition:all .3s;font-weight:500}
+.btn-hero{display:inline-flex;align-items:center;gap:12px;margin-top:36px;font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#111;text-decoration:none;border:1.5px solid rgba(0,0,0,.32);padding:14px 38px;border-radius:100px;transition:all .3s;font-weight:500}
 .btn-hero:hover{background:#111;color:#fff;border-color:#111}
 /* Overlay y typewriter reveal */
 .hero-overlay{position:absolute;inset:0;z-index:9;background:#111;opacity:0;pointer-events:none}
 .hero-reveal{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;pointer-events:none}
 .reveal-icon{opacity:0;transform:scale(.8);will-change:opacity,transform}
-.tw-city{font-family:var(--sans2);font-size:9px;letter-spacing:.38em;text-transform:uppercase;color:rgba(160,160,160,.88);min-height:1.5em}
-.tw-name{font-family:var(--serif2);font-size:clamp(44px,5.5vw,82px);font-weight:400;color:#fff;letter-spacing:.02em;line-height:1.04;min-height:1.2em}
-.tw-slogan{font-family:var(--serif2);font-size:clamp(15px,1.8vw,22px);font-style:italic;color:var(--gold);min-height:1.5em}
+.tw-city{font-family:var(--sans);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(160,160,160,.88);min-height:1.5em}
+.tw-name{font-family:var(--serif);font-size:clamp(44px,5.5vw,82px);font-weight:400;color:#fff;letter-spacing:.02em;line-height:1.04;min-height:1.2em}
+.tw-slogan{font-family:var(--serif);font-size:clamp(15px,1.8vw,22px);font-style:italic;color:var(--gold);min-height:1.5em}
 
 /* TICKER */
 .ticker{overflow:hidden;background:var(--black);padding:18px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
@@ -138,23 +136,45 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 .why-count{position:absolute;top:28px;right:28px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);z-index:2}
 
 /* SERVICES */
-.svc-header{padding:80px 56px 48px;display:flex;align-items:flex-end;justify-content:space-between}
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);height:80vh}
-.svc-card{position:relative;overflow:hidden}
-.svc-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.25,.46,.45,.94);filter:brightness(.45)}
-.svc-card:hover img{transform:scale(1.06);filter:brightness(.28)}
-.svc-over{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.9) 0%,rgba(13,13,13,.2) 60%,transparent 100%);transition:all .4s}
-.svc-card:hover .svc-over{background:linear-gradient(to top,rgba(13,13,13,.96) 0%,rgba(13,13,13,.4) 60%,rgba(13,13,13,.1) 100%)}
-.svc-cnt{position:absolute;bottom:0;left:0;right:0;padding:48px 40px}
-.svc-num{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
-.svc-title{font-family:var(--serif);font-size:clamp(36px,4vw,52px);font-weight:300;line-height:1;letter-spacing:-.01em;margin-bottom:0;transition:margin .4s}
-.svc-card:hover .svc-title{margin-bottom:20px}
-.svc-desc{font-size:13px;line-height:1.85;color:rgba(255,255,255,.6);max-width:300px;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s;margin-bottom:24px}
-.svc-card:hover .svc-desc{opacity:1;transform:none}
-.svc-link{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--white);text-decoration:none;display:inline-flex;align-items:center;gap:10px;opacity:0;transform:translateY(8px);transition:opacity .4s .05s,transform .4s .05s}
-.svc-card:hover .svc-link{opacity:1;transform:none}
-.svc-link::after{content:'→';font-size:14px}
-.svc-sep{width:1px;background:rgba(255,255,255,.08)}
+.svc-header{padding:120px 56px 80px;display:flex;align-items:flex-end;justify-content:space-between;gap:60px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr;height:85vh;gap:1px;margin:0;padding:0;background:rgba(255,255,255,.03)}
+.svc-card{position:relative;overflow:hidden;margin:0;padding:0;background:rgba(13,13,13,.5)}
+.svc-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.25,.46,.45,.94),filter .8s ease;filter:brightness(.5)}
+.svc-card:hover img{transform:scale(1.08);filter:brightness(.32)}
+.svc-over{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.92) 0%,rgba(13,13,13,.3) 50%,rgba(13,13,13,.05) 100%);transition:all .5s cubic-bezier(.25,.46,.45,.94)}
+.svc-card:hover .svc-over{background:linear-gradient(to top,rgba(13,13,13,.96) 0%,rgba(13,13,13,.5) 45%,rgba(13,13,13,.15) 100%)}
+.svc-cnt{position:absolute;bottom:0;left:0;right:0;padding:56px 48px 48px}
+.svc-num{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;font-weight:400;opacity:.7;transition:opacity .5s}
+.svc-title{font-family:var(--serif);font-size:clamp(48px,5vw,66px);font-weight:400;line-height:.98;letter-spacing:-.015em;margin-bottom:20px;transition:all .6s cubic-bezier(.25,.46,.45,.94)}
+.svc-card:hover .svc-title{margin-bottom:28px;letter-spacing:.005em}
+.svc-desc{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,.48);max-width:340px;opacity:.7;transform:translateY(0);transition:opacity .6s,color .6s;margin-bottom:32px;font-weight:300}
+.svc-card:hover .svc-desc{opacity:.95;color:rgba(255,255,255,.82)}
+.svc-link{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:14px;opacity:.6;transform:translateX(0);transition:opacity .5s,color .5s,transform .6s cubic-bezier(.25,.46,.45,.94);font-weight:400}
+.svc-card:hover .svc-link{opacity:1;color:var(--white);transform:translateX(6px)}
+.svc-link::after{content:'→';font-size:13px;transition:transform .5s}
+.svc-card:hover .svc-link::after{transform:translateX(2px)}
+.svc-sep{display:none}
+
+/* ANIMATIONS */
+@keyframes textReveal{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInTitle{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes borderFlow{from{background-position:0% 50%}to{background-position:100% 50%}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{transform:translateX(-100%)},100%{transform:translateX(100%)}}
+@keyframes floatIn{from{opacity:0;transform:translateY(20px);filter:blur(2px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.svc-card{perspective:1000px;position:relative;cursor:pointer;transition:box-shadow .5s}
+.svc-card:hover{box-shadow:0 40px 80px rgba(201,169,110,.15)}
+.svc-card::before{content:'';position:absolute;inset:0;padding:1.5px;background:linear-gradient(135deg,rgba(201,169,110,.6) 0%,transparent 50%,rgba(201,169,110,.3) 100%);background-size:200% 200%;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .5s;z-index:-1}
+.svc-card::after{content:'Ver opciones';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,13,13,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-family:var(--serif);font-size:clamp(18px,3vw,26px);color:var(--gold);font-weight:400;letter-spacing:.015em;opacity:0;transition:opacity .5s;pointer-events:none;border-radius:inherit}
+.svc-card:hover::before{opacity:1;animation:borderFlow 2.4s ease-in-out infinite}
+.svc-card:hover::after{opacity:1}
+.svc-card:hover{transform:perspective(1200px) rotateY(1.5deg) translateY(-4px)}
+.svc-card.v .svc-title{animation:slideInTitle .8s cubic-bezier(.25,.46,.45,.94) forwards}
+.svc-card.v .svc-desc{animation:textReveal .8s cubic-bezier(.25,.46,.45,.94) .15s forwards}
+.svc-card.v .svc-link{animation:textReveal .8s cubic-bezier(.25,.46,.45,.94) .3s forwards}
+.svc-card.v .svc-num{animation:textReveal .6s cubic-bezier(.25,.46,.45,.94) forwards}
+.svc-card.v img{animation:scaleIn .9s cubic-bezier(.25,.46,.45,.94) forwards}
 
 /* PROP GRID */
 .blk{position:relative;width:100%;overflow:hidden}
@@ -175,9 +195,9 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 .cap-c{top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%}
 .eye{font-size:8px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:20px;font-weight:200}
 .eye-r{color:var(--red)}
-.h1{font-family:var(--serif);font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.1;letter-spacing:-.01em;display:block}
-.h2{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:300;line-height:.94;letter-spacing:-.02em;display:block}
-.h3{font-family:var(--serif);font-size:clamp(36px,5vw,68px);font-weight:300;line-height:1.0;letter-spacing:-.01em;display:block}
+.h1{font-family:var(--serif);font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.15;letter-spacing:-.008em;display:block}
+.h2{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:300;line-height:.96;letter-spacing:-.018em;display:block}
+.h3{font-family:var(--serif);font-size:clamp(36px,5vw,68px);font-weight:300;line-height:1.05;letter-spacing:-.012em;display:block}
 em{font-style:italic}
 .cta{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--white);text-decoration:none;margin-top:28px;transition:opacity .2s}
 .cta:hover{opacity:.6}
@@ -194,18 +214,18 @@ em{font-style:italic}
 /* FILTER BAR */
 
 /* TESTIMONIALS */
-.testi-sec{background:var(--dark);padding:100px 0;border-top:1px solid rgba(255,255,255,.06)}
-.testi-header{padding:0 56px 64px;display:flex;align-items:flex-end;justify-content:space-between}
-.testi-wrapper{overflow:hidden;padding:0;mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)}
-.testi-track{display:flex;gap:24px;width:max-content;animation:testi-scroll 36s linear infinite}
+.testi-sec{background:var(--dark);padding:120px 0 100px;border-top:1px solid rgba(255,255,255,.08)}
+.testi-header{padding:0 56px 80px;display:flex;align-items:flex-end;justify-content:space-between}
+.testi-wrapper{overflow:hidden;padding:0;mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%)}
+.testi-track{display:flex;gap:28px;width:max-content;animation:testi-scroll 40s linear infinite}
 .testi-track:hover{animation-play-state:paused}
 @keyframes testi-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.testi-card{flex:0 0 380px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:44px 36px;transition:border-color .3s}
-.testi-card:hover{border-color:rgba(255,255,255,.18)}
-.testi-stars{color:var(--red);font-size:13px;letter-spacing:3px;margin-bottom:24px}
-.testi-text{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:32px;font-style:italic;font-family:var(--serif)}
-.testi-author{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.38)}
-.testi-name{font-size:13px;color:var(--white);font-weight:300;margin-bottom:4px}
+.testi-card{flex:0 0 400px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:48px 40px;transition:all .4s cubic-bezier(.25,.46,.45,.94);border-radius:12px}
+.testi-card:hover{border-color:rgba(201,169,110,.35);background:rgba(255,255,255,.07);transform:translateY(-8px);box-shadow:0 24px 48px rgba(201,169,110,.1)}
+.testi-stars{color:var(--gold);font-size:13px;letter-spacing:4px;margin-bottom:28px}
+.testi-text{font-size:14.5px;line-height:1.95;color:rgba(255,255,255,.68);margin-bottom:36px;font-style:italic;font-family:var(--serif);font-weight:300}
+.testi-author{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.testi-name{font-size:13px;color:var(--white);font-weight:300;margin-bottom:5px}
 .testi-nav{display:none}
 
 /* SHOWCASE */
@@ -226,19 +246,19 @@ em{font-style:italic}
 .sk{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.38);margin-bottom:3px}
 .sv{font-size:13px;font-weight:300}
 .di-body{font-size:14px;line-height:1.9;color:rgba(0,0,0,.52);margin-bottom:28px;font-weight:300}
-.btn-blk{display:block;background:var(--black);color:var(--white);text-align:center;padding:15px;font-family:var(--sans);font-size:10px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;transition:background .2s,color .2s;border:1px solid var(--black);font-weight:300}
-.btn-blk:hover{background:transparent;color:var(--black)}
-.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:var(--black);text-align:center;padding:13px;font-family:var(--sans);font-size:10px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(0,0,0,.18);margin-top:8px;transition:border-color .2s;font-weight:300}
-.btn-wa:hover{border-color:var(--black)}
-.wa-s{width:16px;height:16px;fill:var(--black);flex-shrink:0}
+.btn-blk{display:block;background:var(--black);color:var(--white);text-align:center;padding:16px;font-family:var(--sans);font-size:10px;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;transition:all .4s cubic-bezier(.25,.46,.45,.94);border:1.5px solid var(--black);font-weight:400;border-radius:4px;cursor:pointer}
+.btn-blk:hover{background:transparent;color:var(--black);border-color:var(--black)}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;color:var(--black);text-align:center;padding:14px;font-family:var(--sans);font-size:10px;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;border:1.5px solid rgba(0,0,0,.22);margin-top:10px;transition:all .4s;font-weight:400;border-radius:4px}
+.btn-wa:hover{border-color:var(--black);background:rgba(0,0,0,.02)}
+.wa-s{width:16px;height:16px;fill:var(--black);flex-shrink:0;transition:transform .4s}
 
 /* JOIN BANNER */
-.join-banner{position:relative;height:70vh;overflow:hidden}
-.join-banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 8s cubic-bezier(.25,.46,.45,.94)}
-.join-banner:hover img{transform:scale(1.04)}
-.join-cnt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;z-index:2}
-.join-title{font-family:var(--serif);font-size:clamp(36px,6vw,80px);font-weight:300;line-height:.95;letter-spacing:-.02em;margin:18px 0 24px}
-.join-sub{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);max-width:440px;line-height:1.8}
+.join-banner{position:relative;height:75vh;overflow:hidden}
+.join-banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 9s cubic-bezier(.25,.46,.45,.94),filter .6s ease;filter:brightness(.5)}
+.join-banner:hover img{transform:scale(1.05);filter:brightness(.4)}
+.join-cnt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;z-index:2;background:radial-gradient(ellipse at center,rgba(13,13,13,.3) 0%,rgba(13,13,13,.6) 100%)}
+.join-title{font-family:var(--serif);font-size:clamp(36px,6vw,80px);font-weight:300;line-height:.98;letter-spacing:-.018em;margin:20px 0 28px}
+.join-sub{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55);max-width:480px;line-height:1.9;font-weight:300}
 
 /* TEAM */
 
@@ -253,49 +273,55 @@ em{font-style:italic}
 .mt-p{font-family:var(--serif);font-size:17px}
 
 /* SUPPORT SERVICES */
-.sup-sec{background:var(--dark);border-top:1px solid rgba(255,255,255,.06)}
-.sup-header{padding:80px 56px 48px}
-.sup-grid{display:grid;grid-template-columns:repeat(3,1fr)}
-.sup-card{padding:56px;border:1px solid rgba(255,255,255,.05);transition:background .4s,border-color .4s,transform .4s,box-shadow .4s}
-.sup-card:hover{background:rgba(255,255,255,.05);border-color:rgba(185,28,28,.45);border-left:3px solid var(--red);transform:translateY(-8px);box-shadow:0 20px 48px rgba(0,0,0,.35)}
-.sup-ic{font-size:28px;margin-bottom:28px;opacity:.5;display:block;letter-spacing:0}
-.sup-title{font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:16px;letter-spacing:-.01em}
-.sup-desc{font-size:13px;line-height:1.9;color:rgba(255,255,255,.42);margin-bottom:24px}
-.sup-link{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:color .2s}
-.sup-link:hover{color:var(--white)}
-.sup-link::after{content:'→';font-size:13px}
+.sup-sec{background:var(--dark);border-top:1px solid rgba(255,255,255,.08)}
+.sup-header{padding:100px 56px 60px}
+.sup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.sup-card{padding:60px;border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:all .5s cubic-bezier(.25,.46,.45,.94);border-radius:8px;position:relative;overflow:hidden}
+.sup-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,169,110,.1) 0%,transparent 100%);opacity:0;transition:opacity .5s;pointer-events:none}
+.sup-card:hover::before{opacity:1}
+.sup-card:hover{background:rgba(255,255,255,.06);border-color:rgba(201,169,110,.4);transform:translateY(-12px);box-shadow:0 32px 64px rgba(201,169,110,.12)}
+.sup-ic{font-size:32px;margin-bottom:32px;opacity:.6;display:block;letter-spacing:0;transition:transform .5s,opacity .5s}
+.sup-card:hover .sup-ic{transform:translateY(-4px);opacity:.8}
+.sup-title{font-family:var(--serif);font-size:26px;font-weight:300;margin-bottom:20px;letter-spacing:-.01em;transition:color .4s}
+.sup-desc{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,.45);margin-bottom:28px;font-weight:300}
+.sup-link{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .4s;font-weight:400}
+.sup-link:hover{color:var(--gold)}
+.sup-link::after{content:'→';font-size:12px;transition:transform .4s}
+.sup-card:hover .sup-link::after{transform:translateX(3px)}
 
 /* BLOG */
-.blog-sec{padding:100px 56px;background:var(--black)}
-.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px}
-.blog-card{overflow:hidden;transition:all .3s}
-.blog-img{aspect-ratio:16/9;overflow:hidden}
-.blog-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.25,.46,.45,.94);filter:brightness(.8)}
-.blog-card:hover .blog-img img{transform:scale(1.05)}
-.blog-body{padding:28px 0 0}
-.blog-cat{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:block}
-.blog-title{font-family:var(--serif);font-size:22px;font-weight:300;line-height:1.25;letter-spacing:-.01em;margin-bottom:14px;color:var(--white);transition:opacity .2s}
-.blog-card:hover .blog-title{opacity:.7}
-.blog-excerpt{font-size:12px;line-height:1.85;color:rgba(255,255,255,.38);margin-bottom:20px}
+.blog-sec{padding:120px 56px;background:var(--black)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:60px}
+.blog-card{overflow:hidden;transition:all .5s cubic-bezier(.25,.46,.45,.94);border-radius:8px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.blog-img{aspect-ratio:16/9;overflow:hidden;position:relative}
+.blog-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.25,.46,.45,.94),filter .6s ease;filter:brightness(.85)}
+.blog-card:hover .blog-img img{transform:scale(1.08);filter:brightness(.65)}
+.blog-body{padding:36px}
+.blog-cat{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;font-weight:500;opacity:.8}
+.blog-title{font-family:var(--serif);font-size:24px;font-weight:300;line-height:1.3;letter-spacing:-.01em;margin-bottom:16px;color:var(--white);transition:color .4s;font-style:italic}
+.blog-card:hover .blog-title{color:var(--gold)}
+.blog-excerpt{font-size:13px;line-height:1.8;color:rgba(255,255,255,.48);margin-bottom:24px;font-weight:300}
 .blog-meta{display:flex;align-items:center;justify-content:space-between}
-.blog-date{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28)}
-.blog-read{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--white);text-decoration:none;transition:opacity .2s}
-.blog-read:hover{opacity:.6}
-.blog-read::after{content:' →'}
+.blog-date{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:400}
+.blog-read{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:all .4s;font-weight:400;display:inline-flex;align-items:center;gap:8px}
+.blog-read:hover{color:var(--white)}
+.blog-read::after{content:'→';transition:transform .4s}
+.blog-card:hover .blog-read::after{transform:translateX(3px)}
 
 /* LEAD */
 .lead{display:grid;grid-template-columns:1fr 1fr}
 .ll{position:relative;overflow:hidden;min-height:640px}
-.ll img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.5)}
+.ll img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.55);transition:filter .6s}
+.ll:hover img{filter:brightness(.45)}
 .ll-text{position:absolute;bottom:56px;left:56px;right:56px}
-.lr{background:var(--black);padding:80px 56px;display:flex;flex-direction:column;justify-content:center}
-.fi{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);color:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;padding:13px 0;outline:none;transition:border-color .2s;display:block;margin-bottom:24px}
-.fi::placeholder{color:rgba(255,255,255,.24);font-size:13px}
-.fi:focus{border-bottom-color:var(--white)}
-.fl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:7px}
-.bsub{width:100%;background:var(--white);color:var(--black);border:none;font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:17px;font-weight:400;transition:background .2s,color .2s;margin-top:8px}
-.bsub:hover{background:var(--red);color:var(--white)}
-.fnote{font-size:10px;color:rgba(255,255,255,.2);margin-top:12px;letter-spacing:.04em}
+.lr{background:linear-gradient(135deg,var(--black) 0%,rgba(13,13,13,.95) 100%);padding:100px 56px;display:flex;flex-direction:column;justify-content:center}
+.fi{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.12);color:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;padding:15px 0;outline:none;transition:border-color .3s;display:block;margin-bottom:32px}
+.fi::placeholder{color:rgba(255,255,255,.28);font-size:13px;font-weight:300}
+.fi:focus{border-bottom-color:var(--gold);background:rgba(201,169,110,.02)}
+.fl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:10px;font-weight:500}
+.bsub{width:100%;background:linear-gradient(135deg,var(--gold) 0%,rgba(201,169,110,.85) 100%);color:var(--black);border:none;font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:18px;font-weight:500;transition:all .4s cubic-bezier(.25,.46,.45,.94);margin-top:16px;cursor:pointer;border-radius:4px}
+.bsub:hover{background:linear-gradient(135deg,var(--white) 0%,rgba(245,244,240,.9) 100%);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,169,110,.2)}
+.fnote{font-size:10px;color:rgba(255,255,255,.25);margin-top:16px;letter-spacing:.04em;font-weight:300}
 
 /* ABOUT */
 .about{display:grid;grid-template-columns:1fr 1fr}
@@ -326,37 +352,39 @@ em{font-style:italic}
 .iprevs img{width:68px;height:52px;object-fit:cover;opacity:.65}
 
 /* CONTACT */
-.ct{display:grid;grid-template-columns:1fr 1fr;min-height:80vh}
-.ctl{padding:100px 56px;border-right:1px solid rgba(255,255,255,.06)}
-.ctr{padding:100px 56px}
-.big{font-family:var(--serif);font-size:clamp(50px,7vw,96px);font-weight:300;line-height:.9;letter-spacing:-.02em;margin:24px 0 44px}
-.cr{margin-bottom:26px}
-.cl{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
-.cv{font-size:14px;font-weight:300}
+.ct{display:grid;grid-template-columns:1fr 1fr;min-height:90vh}
+.ctl{padding:120px 56px;border-right:1px solid rgba(255,255,255,.08)}
+.ctr{padding:120px 56px}
+.big{font-family:var(--serif);font-size:clamp(50px,7vw,96px);font-weight:300;line-height:.94;letter-spacing:-.018em;margin:28px 0 52px}
+.cr{margin-bottom:32px}
+.cl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:7px;font-weight:500}
+.cv{font-size:15px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.7)}
 
 /* FOOTER */
-.footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;padding:72px 56px;border-top:1px solid rgba(255,255,255,.07)}
-.footer-brand p{font-size:13px;line-height:1.85;color:rgba(255,255,255,.38);margin-top:20px;max-width:260px}
-.footer-logo{height:28px;width:auto;display:block}
-.footer-social{display:flex;gap:12px;margin-top:28px}
-.fs-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--white);text-decoration:none;font-size:12px;transition:all .2s}
-.fs-icon:hover{border-color:var(--white);background:rgba(255,255,255,.06)}
-.footer-col-title{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;display:block}
-.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:12px;transition:color .2s;font-weight:300}
-.footer-col a:hover{color:var(--white)}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:24px 56px;border-top:1px solid rgba(255,255,255,.06)}
-.footer-copy{font-size:9px;letter-spacing:.12em;color:rgba(255,255,255,.22);text-transform:uppercase}
-.footer-legal{display:flex;gap:20px}
-.footer-legal a{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);text-decoration:none;transition:color .2s}
-.footer-legal a:hover{color:var(--white)}
+.footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;padding:100px 56px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-brand p{font-family:var(--sans);font-size:13px;line-height:1.9;color:rgba(255,255,255,.42);margin-top:24px;max-width:280px;font-weight:300}
+.footer-logo{height:32px;width:auto;display:block;margin-bottom:8px}
+.footer-social{display:flex;gap:14px;margin-top:32px}
+.fs-icon{width:40px;height:40px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--white);text-decoration:none;font-size:13px;transition:all .4s cubic-bezier(.25,.46,.45,.94);border-radius:4px}
+.fs-icon:hover{border-color:var(--gold);background:rgba(201,169,110,.1);transform:translateY(-4px)}
+.footer-col-title{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:24px;display:block;font-weight:500}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.52);text-decoration:none;margin-bottom:14px;transition:all .3s;font-weight:300;position:relative}
+.footer-col a::before{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.footer-col a:hover{color:var(--gold)}
+.footer-col a:hover::before{width:100%}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:32px 56px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-copy{font-size:9px;letter-spacing:.12em;color:rgba(255,255,255,.28);text-transform:uppercase;font-weight:400}
+.footer-legal{display:flex;gap:28px}
+.footer-legal a{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .3s;font-weight:400}
+.footer-legal a:hover{color:var(--gold)}
 
 /* TOAST */
-.toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);background:var(--white);color:var(--black);padding:13px 32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;z-index:9000;opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap}
-.toast.on{opacity:1}
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,var(--white) 0%,rgba(245,244,240,.95) 100%);color:var(--black);padding:15px 36px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;z-index:9000;opacity:0;pointer-events:none;transition:all .5s cubic-bezier(.25,.46,.45,.94);white-space:nowrap;border-radius:6px;box-shadow:0 16px 48px rgba(0,0,0,.3);font-weight:500}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* REVEAL */
-.r{opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.25,.46,.45,.94),transform .85s cubic-bezier(.25,.46,.45,.94)}
-.r.d1{transition-delay:.1s}.r.d2{transition-delay:.22s}.r.d3{transition-delay:.34s}
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
+.r.d1{transition-delay:.08s}.r.d2{transition-delay:.18s}.r.d3{transition-delay:.28s}.r.d4{transition-delay:.38s}
 .r.v{opacity:1;transform:none}
 
 /* COMPARISON MODAL */
@@ -464,8 +492,7 @@ em{font-style:italic}
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">
-    <img src="assets/logo-mr.png" class="nav-logo-img" alt="Montana Realty">
-    <span class="nav-logo-sub">Montana Realty</span>
+    <img src="assets/logo.png" class="nav-logo-img" alt="Montana Realty">
   </a>
   <div class="nav-center">
     <ul class="nav-links">
@@ -522,7 +549,7 @@ em{font-style:italic}
   <!-- Capa 5: Texto principal -->
   <div class="hero-cnt" id="heroCnt">
     <p class="hero-eyebrow r v">Montana Realty Co · San Pedro Garza García</p>
-    <h1 class="hero-title r v d1">Creando Tu<br><em>Sueño Inmobiliario</em></h1>
+    <h1 class="hero-title r v d1">Creando Tu<br>Sueño<br>Inmobiliario</h1>
     <p class="hero-sub r v d2"><span class="hero-sub-dark">Agentes expertos. Asesoría real.</span> <span class="hero-sub-light">El camino hacia tu próximo hogar.</span></p>
     <a href="#col" class="btn-hero r v d3">Explorar Propiedades</a>
   </div>
@@ -538,8 +565,7 @@ em{font-style:italic}
       <line x1="0" y1="40" x2="60" y2="40" stroke="#c9a96e" stroke-width="1" opacity="0.3"/>
     </svg>
     <div class="tw-city" id="twCity"></div>
-    <div class="tw-name" id="twName"></div>
-    <div class="tw-slogan" id="twSlogan"></div>
+    <img src="assets/logo.png" alt="Montana Realty" id="twName" style="height:160px;width:auto;opacity:0;transition:opacity 0.3s;margin-top:16px">
   </div>
 
 
@@ -595,8 +621,34 @@ em{font-style:italic}
   </div>
 </section>
 
-<!-- HERO → DARK TRANSITION -->
-<div style="height:120px;background:linear-gradient(to bottom,#e8d5c0,#0d0d0d);margin-top:-2px"></div>
+<!-- SEARCH BAR ANIMADO -->
+<div id="searchBar" style="position:fixed;top:60px;left:0;right:0;height:0;background:#fff;overflow:visible !important;transition:height 0.4s ease;z-index:99;box-shadow:0 2px 10px rgba(0,0,0,.08)">
+  <div style="padding:20px 40px;display:flex;gap:20px;align-items:center;max-width:1400px;margin:0 auto;height:80px;position:relative">
+    <div style="flex:1;display:flex;gap:12px">
+      <input type="text" placeholder="Ubicación" style="flex:1;padding:12px 16px;border:1px solid #e0e0e0;border-radius:6px;font-family:var(--sans);font-size:13px;transition:all 0.3s ease">
+      <input type="text" placeholder="Precio mín - máx" style="width:150px;padding:12px 16px;border:1px solid #e0e0e0;border-radius:6px;font-family:var(--sans);font-size:13px;transition:all 0.3s ease">
+
+      <!-- CUSTOM DROPDOWN -->
+      <div style="position:relative;width:160px" id="dropdownContainer">
+        <button id="dropdownBtn" style="width:100%;padding:12px 16px;border:1px solid #e0e0e0;border-radius:6px;font-family:var(--sans);font-size:13px;background:#fff;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s ease">
+          <span id="dropdownText">Tipo de propiedad</span>
+          <span style="font-size:10px">▼</span>
+        </button>
+        <div id="dropdownMenu" style="position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 6px 6px;max-height:0;overflow:hidden;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);z-index:1001;box-shadow:0 8px 16px rgba(0,0,0,.1);margin-top:-1px">
+          <div style="padding:8px 0">
+            <div class="dropdown-item" data-value="Casa" style="padding:10px 16px;cursor:pointer;font-family:var(--sans);font-size:13px;transition:all 0.2s ease;border-left:3px solid transparent;color:#111">Casa</div>
+            <div class="dropdown-item" data-value="Departamento" style="padding:10px 16px;cursor:pointer;font-family:var(--sans);font-size:13px;transition:all 0.2s ease;border-left:3px solid transparent;color:#111">Departamento</div>
+            <div class="dropdown-item" data-value="Penthouse" style="padding:10px 16px;cursor:pointer;font-family:var(--sans);font-size:13px;transition:all 0.2s ease;border-left:3px solid transparent;color:#111">Penthouse</div>
+            <div class="dropdown-item" data-value="Terreno" style="padding:10px 16px;cursor:pointer;font-family:var(--sans);font-size:13px;transition:all 0.2s ease;border-left:3px solid transparent;color:#111">Terreno</div>
+          </div>
+        </div>
+      </div>
+
+      <button style="padding:12px 28px;background:#111;color:#fff;border:none;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all 0.3s ease">Buscar</button>
+    </div>
+    <button style="padding:12px 24px;border:1.5px solid #111;background:transparent;color:#111;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all 0.2s">Hablar con Agente</button>
+  </div>
+</div>
 
 <!-- ③ SERVICES -->
 <section id="svc">
@@ -1056,7 +1108,7 @@ em{font-style:italic}
   <div class="footer-main">
     <div class="footer-brand">
       <img src="assets/logo.png" alt="Montana Realty" class="footer-logo">
-      <p>Creando tu sueño inmobiliario. La agencia boutique de propiedades de lujo en San Pedro Garza García.</p>
+      <p>Creando tu<br>sueño<br><br>inmobiliario<br><br>La agencia boutique de propiedades de lujo en San Pedro Garza García.</p>
       <div class="footer-social">
         <a href="https://www.instagram.com/montanarealtyco/" class="fs-icon" title="Instagram">ig</a>
         <a href="https://www.facebook.com/MRdesarrollos/" class="fs-icon" title="Facebook">fb</a>
@@ -1162,13 +1214,11 @@ function closeMob(){
   const revealIcon   =document.getElementById('revealIcon');
   const twCity       =document.getElementById('twCity');
   const twName       =document.getElementById('twName');
-  const twSlogan     =document.getElementById('twSlogan');
   const nav          =document.getElementById('nav');
   let ticking=false;
 
   const cityStr   ='SAN PEDRO GARZA GARCIA';
   const nameStr   ='MONTANA REALTY CO.';
-  const sloganStr ='“CREANDO TU SUEÑO INMOBILIARIO”';
 
   function remap(v,a,b){return Math.max(0,Math.min((v-a)/(b-a),1))}
 
@@ -1217,13 +1267,10 @@ function closeMob(){
     const cityN=Math.floor(remap(progress,.66,.76)*cityStr.length);
     if(twCity) twCity.textContent=cityStr.substring(0,cityN);
 
-    // Nombre (0.74→0.86)
-    const nameN=Math.floor(remap(progress,.74,.86)*nameStr.length);
-    if(twName) twName.textContent=nameStr.substring(0,nameN);
+    // Logo en lugar del nombre (0.74→0.86)
+    const nameProgress=remap(progress,.74,.86);
+    if(twName) twName.style.opacity=nameProgress;
 
-    // Slogan (0.84→0.97)
-    const sloganN=Math.floor(remap(progress,.84,.97)*sloganStr.length);
-    if(twSlogan) twSlogan.textContent=sloganStr.substring(0,sloganN);
 
     ticking=false;
   }
@@ -1234,6 +1281,28 @@ function closeMob(){
 
   updateParallax();
 })();
+
+// ── SVC PARALLAX & TILT ──
+document.querySelectorAll('.svc-card').forEach((card,idx)=>{
+  card.addEventListener('mouseenter',()=>{
+    card.style.transition='transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)';
+  });
+  card.addEventListener('mousemove',e=>{
+    const rect=card.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width;
+    const y=(e.clientY-rect.top)/rect.height;
+    const rotX=(y-.5)*12;
+    const rotY=(x-.5)*-12;
+    card.style.transition='none';
+    card.style.transform=`perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.05)`;
+    card.querySelector('img').style.transform=`scale(1.15) translate(${(x-.5)*15}px,${(y-.5)*15}px)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transition='transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+    card.style.transform='perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)';
+    card.querySelector('img').style.transform='scale(1.06)';
+  });
+});
 
 // ── REVEAL ──
 const obs=new IntersectionObserver(es=>es.forEach(e=>{
@@ -1320,6 +1389,422 @@ function goDetail(e,i){
   document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.thumb')[0].classList.add('on');
   document.getElementById('show').scrollIntoView({behavior:'smooth'});
+}
+
+// ── SEARCH MODAL ──
+const searchModal=document.createElement('div');
+searchModal.id='searchModal';
+searchModal.style.cssText='position:fixed;inset:0;background:rgba(13,13,13,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:2001;opacity:0;pointer-events:none;transition:opacity .7s cubic-bezier(.25,.46,.45,.94)';
+searchModal.innerHTML=`
+<div style="background:linear-gradient(145deg,rgba(20,20,20,.95) 0%,rgba(13,13,13,.99) 100%);border:1.5px solid rgba(201,169,110,.3);border-radius:24px;padding:100px;max-width:1000px;width:90%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.5),inset 0 1px 1px rgba(255,255,255,.05)">
+  <button onclick="closeSearchModal()" style="position:absolute;top:32px;right:32px;background:none;border:none;color:rgba(255,255,255,.3);font-size:32px;cursor:pointer;transition:color .3s;width:50px;height:50px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">×</button>
+
+  <div style="margin-bottom:60px">
+    <span class="eye eye-r" style="display:block;margin-bottom:16px">Encuentra tu propiedad ideal</span>
+    <h2 style="font-family:var(--serif);font-size:56px;color:var(--gold);margin:0;font-weight:400;line-height:1" id="searchTitle">¿Qué estás buscando?</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:48px">
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) forwards">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Tipo de propiedad</label>
+      <select id="propertyType" style="width:100%;padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:#fff;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .3s" onchange="this.style.borderColor='rgba(201,169,110,.4)'">
+        <option value="" style="background:#1a1a1a">Todas</option>
+        <option value="Casa" style="background:#1a1a1a">Casa</option>
+        <option value="Departamento" style="background:#1a1a1a">Departamento</option>
+        <option value="Penthouse" style="background:#1a1a1a">Penthouse</option>
+        <option value="Terreno" style="background:#1a1a1a">Terreno</option>
+      </select>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .1s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Zona</label>
+      <select id="propertyZone" style="width:100%;padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:#fff;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .3s" onchange="this.style.borderColor='rgba(201,169,110,.4)'">
+        <option value="" style="background:#1a1a1a">Todas</option>
+        <option value="Valle Oriente" style="background:#1a1a1a">Valle Oriente</option>
+        <option value="Del Valle" style="background:#1a1a1a">Del Valle</option>
+        <option value="San Agustín" style="background:#1a1a1a">San Agustín</option>
+        <option value="San Jerónimo" style="background:#1a1a1a">San Jerónimo</option>
+      </select>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .2s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Presupuesto</label>
+      <div style="padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px">
+        <span id="budgetDisplay" style="color:var(--gold);font-weight:600;font-size:16px">$3M</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:48px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .3s forwards;opacity:0">
+    <input type="range" id="budgetSlider" min="1000000" max="20000000" step="500000" value="3000000" style="width:100%;height:6px;cursor:pointer;appearance:none;background:linear-gradient(to right,rgba(201,169,110,.2),rgba(201,169,110,.5));border-radius:3px;outline:none">
+    <style>
+      #budgetSlider::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.8));cursor:pointer;box-shadow:0 4px 12px rgba(201,169,110,.3)}
+      #budgetSlider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.8));cursor:pointer;border:none;box-shadow:0 4px 12px rgba(201,169,110,.3)}
+    </style>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.4);margin-top:12px;letter-spacing:.1em">
+      <span>$1M</span>
+      <span>$20M</span>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:16px;margin-bottom:40px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .4s forwards;opacity:0">
+    <button onclick="filterProperties()" style="flex:1;padding:18px;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.7));border:none;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase" onmouseover="this.style.cssText='flex:1;padding:18px;background:linear-gradient(135deg,rgba(201,169,110,.9),var(--gold))!important;box-shadow:0 12px 28px rgba(201,169,110,.25)!important;transform:translateY(-2px)!important;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase'" onmouseout="this.style.cssText='flex:1;padding:18px;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.7));border:none;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase'">
+      Ver propiedades
+    </button>
+    <button onclick="contactAdvisor()" style="padding:18px 32px;background:transparent;border:1.5px solid rgba(201,169,110,.3);border-radius:10px;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase" onmouseover="this.style.cssText='padding:18px 32px;background:rgba(201,169,110,.1)!important;border:1.5px solid rgba(201,169,110,.6)!important;box-shadow:0 8px 20px rgba(201,169,110,.15)!important;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase'" onmouseout="this.style.cssText='padding:18px 32px;background:transparent;border:1.5px solid rgba(201,169,110,.3);border-radius:10px;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase'">
+      Contactar asesor
+    </button>
+  </div>
+
+  <div id="searchResults" style="display:none;animation:slideUp .6s cubic-bezier(.25,.46,.45,.94) forwards">
+    <h3 style="font-family:var(--serif);font-size:36px;color:var(--gold);margin:0 0 32px;font-weight:400">Propiedades disponibles</h3>
+    <div id="resultsList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px"></div>
+  </div>
+</div>
+`;
+document.body.appendChild(searchModal);
+
+// ── SELL MODAL ──
+const sellModal=document.createElement('div');
+sellModal.id='sellModal';
+sellModal.style.cssText='position:fixed;inset:0;background:rgba(13,13,13,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:2001;opacity:0;pointer-events:none;transition:opacity .7s cubic-bezier(.25,.46,.45,.94)';
+sellModal.innerHTML=`
+<div style="background:linear-gradient(145deg,rgba(20,20,20,.95) 0%,rgba(13,13,13,.99) 100%);border:1.5px solid rgba(201,169,110,.3);border-radius:24px;padding:100px;max-width:1000px;width:90%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.5),inset 0 1px 1px rgba(255,255,255,.05)">
+  <button onclick="closeSellModal()" style="position:absolute;top:32px;right:32px;background:none;border:none;color:rgba(255,255,255,.3);font-size:32px;cursor:pointer;transition:color .3s;width:50px;height:50px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">×</button>
+
+  <div style="margin-bottom:60px">
+    <span class="eye eye-r" style="display:block;margin-bottom:16px">Valúa tu propiedad</span>
+    <h2 style="font-family:var(--serif);font-size:56px;color:var(--gold);margin:0;font-weight:400;line-height:1">¿Qué propiedad quieres vender?</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:48px">
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) forwards">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Tipo de propiedad</label>
+      <select id="sellPropertyType" style="width:100%;padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:#fff;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .3s">
+        <option value="">Selecciona tipo</option>
+        <option value="Casa">Casa</option>
+        <option value="Departamento">Departamento</option>
+        <option value="Penthouse">Penthouse</option>
+        <option value="Terreno">Terreno</option>
+      </select>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .1s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Ubicación</label>
+      <select id="sellPropertyZone" style="width:100%;padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:#fff;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .3s">
+        <option value="">Selecciona zona</option>
+        <option value="Valle Oriente">Valle Oriente</option>
+        <option value="Del Valle">Del Valle</option>
+        <option value="San Agustín">San Agustín</option>
+        <option value="San Jerónimo">San Jerónimo</option>
+      </select>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .2s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Valor estimado</label>
+      <div style="padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px">
+        <span id="sellBudgetDisplay" style="color:var(--gold);font-weight:600;font-size:16px">$5M</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:48px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .3s forwards;opacity:0">
+    <input type="range" id="sellBudgetSlider" min="1000000" max="20000000" step="500000" value="5000000" style="width:100%;height:6px;cursor:pointer;appearance:none;background:linear-gradient(to right,rgba(201,169,110,.2),rgba(201,169,110,.5));border-radius:3px;outline:none">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.4);margin-top:12px;letter-spacing:.1em">
+      <span>$1M</span>
+      <span>$20M</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:48px">
+    <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .4s forwards;opacity:0">Condición de la propiedad</label>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .45s forwards;opacity:0">
+      <button onclick="setCondition('Excelente',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">Excelente</button>
+      <button onclick="setCondition('Muy Buena',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">Muy Buena</button>
+      <button onclick="setCondition('Buena',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">Buena</button>
+      <button onclick="setCondition('Oportunidad',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">Oportunidad</button>
+    </div>
+  </div>
+
+  <div style="margin-bottom:48px">
+    <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .5s forwards;opacity:0">Amenidades</label>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .55s forwards;opacity:0">
+      <label style="display:flex;align-items:center;gap:8px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.1);border-radius:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7)"><input type="checkbox" id="amenity1" onchange="updateAmenities()"> 🏊 Piscina</label>
+      <label style="display:flex;align-items:center;gap:8px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.1);border-radius:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7)"><input type="checkbox" id="amenity2" onchange="updateAmenities()"> 🏋️ Gym/Spa</label>
+      <label style="display:flex;align-items:center;gap:8px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.1);border-radius:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7)"><input type="checkbox" id="amenity3" onchange="updateAmenities()"> 🏢 Home Office</label>
+      <label style="display:flex;align-items:center;gap:8px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.1);border-radius:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7)"><input type="checkbox" id="amenity4" onchange="updateAmenities()"> 🎬 Cine</label>
+      <label style="display:flex;align-items:center;gap:8px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.1);border-radius:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7)"><input type="checkbox" id="amenity5" onchange="updateAmenities()"> 🌳 Terraza/Jardín</label>
+      <label style="display:flex;align-items:center;gap:8px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.1);border-radius:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.7)"><input type="checkbox" id="amenity6" onchange="updateAmenities()"> 🚗 Estacionamientos</label>
+    </div>
+  </div>
+
+  <div style="margin-bottom:48px">
+    <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .6s forwards;opacity:0">Urgencia de venta</label>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .65s forwards;opacity:0">
+      <button onclick="setUrgency('Inmediata',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">30-60 días</button>
+      <button onclick="setUrgency('Pronto',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">2-3 meses</button>
+      <button onclick="setUrgency('Flexible',this)" style="padding:14px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:rgba(255,255,255,.7);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .3s;text-align:center">6+ meses</button>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:16px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .7s forwards;opacity:0">
+    <button onclick="calculateSellValuation()" style="flex:1;padding:18px;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.7));border:none;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase">
+      Calcular valuación
+    </button>
+    <button onclick="contactAdvisor()" style="padding:18px 32px;background:transparent;border:1.5px solid rgba(201,169,110,.3);border-radius:10px;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase">
+      Contactar asesor
+    </button>
+  </div>
+
+  <div id="sellResults" style="display:none;margin-top:48px;animation:slideUp .6s cubic-bezier(.25,.46,.45,.94) forwards">
+    <div style="background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.2);border-radius:12px;padding:32px;text-align:center">
+      <p style="font-size:12px;color:rgba(255,255,255,.5);margin:0 0 16px;text-transform:uppercase;letter-spacing:.1em">Valuación estimada</p>
+      <h3 id="valuationPrice" style="font-family:var(--serif);font-size:48px;color:var(--gold);margin:0 0 24px;font-weight:400">$5.5M - $6M</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.6);margin:0;line-height:1.6">Timeline: <span id="valuationTimeline" style="color:var(--gold)">2-3 meses</span><br>Basado en zona, condición y amenidades</p>
+    </div>
+  </div>
+</div>
+`;
+document.body.appendChild(sellModal);
+
+// ── RENT MODAL ──
+const rentModal=document.createElement('div');
+rentModal.id='rentModal';
+rentModal.style.cssText='position:fixed;inset:0;background:rgba(13,13,13,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:2001;opacity:0;pointer-events:none;transition:opacity .7s cubic-bezier(.25,.46,.45,.94)';
+rentModal.innerHTML=`
+<div style="background:linear-gradient(145deg,rgba(20,20,20,.95) 0%,rgba(13,13,13,.99) 100%);border:1.5px solid rgba(201,169,110,.3);border-radius:24px;padding:100px;max-width:1000px;width:90%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.5),inset 0 1px 1px rgba(255,255,255,.05)">
+  <button onclick="closeRentModal()" style="position:absolute;top:32px;right:32px;background:none;border:none;color:rgba(255,255,255,.3);font-size:32px;cursor:pointer;transition:color .3s;width:50px;height:50px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">×</button>
+
+  <div style="margin-bottom:60px">
+    <span class="eye eye-r" style="display:block;margin-bottom:16px">Encuentra tu hogar perfecto</span>
+    <h2 style="font-family:var(--serif);font-size:56px;color:var(--gold);margin:0;font-weight:400;line-height:1">¿Qué propiedad quieres rentar?</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:48px">
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) forwards">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Tipo de propiedad</label>
+      <select id="rentPropertyType" style="width:100%;padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:#fff;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .3s">
+        <option value="">Selecciona tipo</option>
+        <option value="Casa">Casa</option>
+        <option value="Departamento">Departamento</option>
+        <option value="Penthouse">Penthouse</option>
+      </select>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .1s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Zona</label>
+      <select id="rentZone" style="width:100%;padding:14px 16px;background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(201,169,110,.02) 100%);border:1.5px solid rgba(201,169,110,.2);border-radius:10px;color:#fff;font-family:var(--sans);font-size:14px;cursor:pointer;transition:all .3s">
+        <option value="">Todas</option>
+        <option value="Valle Oriente">Valle Oriente</option>
+        <option value="Del Valle">Del Valle</option>
+        <option value="San Agustín">San Agustín</option>
+        <option value="San Jerónimo">San Jerónimo</option>
+      </select>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .2s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Recámaras</label>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+        <button onclick="setRentBedrooms('1',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:13px;font-weight:500">1</button>
+        <button onclick="setRentBedrooms('2',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:13px;font-weight:500">2</button>
+        <button onclick="setRentBedrooms('3',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:13px;font-weight:500">3</button>
+        <button onclick="setRentBedrooms('4+',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:13px;font-weight:500">4+</button>
+      </div>
+    </div>
+
+    <div style="animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .3s forwards;opacity:0">
+      <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Plazo</label>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <button onclick="setRentTerm('Corto',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:11px;font-weight:500">0-6 meses</button>
+        <button onclick="setRentTerm('Mediano',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:11px;font-weight:500">6-12 meses</button>
+        <button onclick="setRentTerm('Largo',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-size:11px;font-weight:500">12+ meses</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:48px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .4s forwards;opacity:0">
+    <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Renta mensual: <span id="rentPriceDisplay" style="color:var(--gold);font-weight:700">$5M</span></label>
+    <input type="range" id="rentBudgetSlider" min="5000000" max="25000000" step="500000" value="5000000" style="width:100%;height:6px;cursor:pointer;appearance:none;background:linear-gradient(to right,rgba(201,169,110,.2),rgba(201,169,110,.5));border-radius:3px;outline:none">
+    <style>
+      #rentBudgetSlider::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.8));cursor:pointer;box-shadow:0 4px 12px rgba(201,169,110,.3)}
+      #rentBudgetSlider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.8));cursor:pointer;border:none;box-shadow:0 4px 12px rgba(201,169,110,.3)}
+    </style>
+  </div>
+
+  <div style="margin-bottom:48px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .5s forwards;opacity:0">
+    <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">Amenidades</label>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;cursor:pointer;transition:all .3s"><input type="checkbox" id="amenPiscina" style="width:16px;height:16px;cursor:pointer"><span style="font-size:13px;color:#fff">Piscina</span></label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;cursor:pointer;transition:all .3s"><input type="checkbox" id="amenGym" style="width:16px;height:16px;cursor:pointer"><span style="font-size:13px;color:#fff">Gym/Spa</span></label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;cursor:pointer;transition:all .3s"><input type="checkbox" id="amenHomeOffice" style="width:16px;height:16px;cursor:pointer"><span style="font-size:13px;color:#fff">Home Office</span></label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;cursor:pointer;transition:all .3s"><input type="checkbox" id="amenSeguridad" style="width:16px;height:16px;cursor:pointer"><span style="font-size:13px;color:#fff">Seguridad 24/7</span></label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;cursor:pointer;transition:all .3s"><input type="checkbox" id="amenTerraza" style="width:16px;height:16px;cursor:pointer"><span style="font-size:13px;color:#fff">Terraza/Jardín</span></label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;cursor:pointer;transition:all .3s"><input type="checkbox" id="amenParking" style="width:16px;height:16px;cursor:pointer"><span style="font-size:13px;color:#fff">Est. Múltiples</span></label>
+    </div>
+  </div>
+
+  <div style="margin-bottom:40px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .6s forwards;opacity:0">
+    <label style="display:block;font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:16px;font-weight:600">¿Mascotas permitidas?</label>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+      <button onclick="setRentPets('Sí',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-weight:500">Sí</button>
+      <button onclick="setRentPets('No',this)" style="padding:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);color:#fff;border-radius:8px;cursor:pointer;transition:all .3s;font-weight:500">No</button>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:16px;margin-bottom:40px;animation:slideUp .8s cubic-bezier(.25,.46,.45,.94) .7s forwards;opacity:0">
+    <button onclick="calculateRentOptions()" style="flex:1;padding:18px;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.7));border:none;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase" onmouseover="this.style.cssText='flex:1;padding:18px;background:linear-gradient(135deg,rgba(201,169,110,.9),var(--gold))!important;box-shadow:0 12px 28px rgba(201,169,110,.25)!important;transform:translateY(-2px)!important;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase'" onmouseout="this.style.cssText='flex:1;padding:18px;background:linear-gradient(135deg,var(--gold),rgba(201,169,110,.7));border:none;border-radius:10px;color:#000;font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase'">
+      Ver opciones
+    </button>
+    <button onclick="contactAdvisor()" style="padding:18px 32px;background:transparent;border:1.5px solid rgba(201,169,110,.3);border-radius:10px;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase" onmouseover="this.style.cssText='padding:18px 32px;background:rgba(201,169,110,.1)!important;border:1.5px solid rgba(201,169,110,.6)!important;box-shadow:0 8px 20px rgba(201,169,110,.15)!important;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase'" onmouseout="this.style.cssText='padding:18px 32px;background:transparent;border:1.5px solid rgba(201,169,110,.3);border-radius:10px;color:var(--gold);font-family:var(--serif);font-size:16px;font-weight:600;cursor:pointer;transition:all .4s;letter-spacing:.05em;text-transform:uppercase'">
+      Contactar asesor
+    </button>
+  </div>
+
+  <div id="rentResults" style="display:none;animation:slideUp .6s cubic-bezier(.25,.46,.45,.94) forwards">
+    <h3 style="font-family:var(--serif);font-size:36px;color:var(--gold);margin:0 0 32px;font-weight:400">Opciones disponibles</h3>
+    <div style="background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.2);border-radius:12px;padding:32px;margin-bottom:24px">
+      <p style="font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.15em;text-transform:uppercase;margin:0 0 8px">Renta mensual estimada</p>
+      <p id="rentPrice" style="font-family:var(--serif);font-size:32px;color:var(--gold);margin:0;font-weight:400">$8M - $12M</p>
+      <p style="font-size:12px;color:rgba(255,255,255,.4);margin:12px 0 0">Plazo: <span id="rentTermDisplay" style="color:rgba(255,255,255,.7)">12+ meses</span></p>
+    </div>
+  </div>
+</div>
+`;
+document.body.appendChild(rentModal);
+
+let currentCondition='';
+let currentUrgency='';
+let currentRentBedrooms='';
+let currentRentTerm='';
+let currentRentPets='';
+
+function setCondition(val,btn){
+  currentCondition=val;
+  document.querySelectorAll('#sellModal button').forEach(b=>{if(b.textContent.includes('Excelente')||b.textContent.includes('Muy Buena')||b.textContent.includes('Buena')||b.textContent.includes('Oportunidad'))b.style.borderColor='rgba(201,169,110,.2)'});
+  btn.style.borderColor='rgba(201,169,110,.6)';
+  btn.style.background='rgba(201,169,110,.15)';
+}
+
+function setUrgency(val,btn){
+  currentUrgency=val;
+  document.querySelectorAll('#sellModal button').forEach(b=>{if(b.textContent.includes('30-60')||b.textContent.includes('2-3')||b.textContent.includes('6+'))b.style.borderColor='rgba(201,169,110,.2)'});
+  btn.style.borderColor='rgba(201,169,110,.6)';
+  btn.style.background='rgba(201,169,110,.15)';
+}
+
+function updateAmenities(){}
+
+function setRentBedrooms(val,btn){
+  currentRentBedrooms=val;
+  document.querySelectorAll('#rentModal button').forEach(b=>{if(b.textContent.match(/^[1234+]/))b.style.borderColor='rgba(201,169,110,.2)';b.style.background='rgba(201,169,110,.08)'});
+  btn.style.borderColor='rgba(201,169,110,.6)';
+  btn.style.background='rgba(201,169,110,.15)';
+}
+
+function setRentTerm(val,btn){
+  currentRentTerm=val;
+  document.querySelectorAll('#rentModal button').forEach(b=>{if(b.textContent.includes('meses'))b.style.borderColor='rgba(201,169,110,.2)';if(b.textContent.includes('meses'))b.style.background='rgba(201,169,110,.08)'});
+  btn.style.borderColor='rgba(201,169,110,.6)';
+  btn.style.background='rgba(201,169,110,.15)';
+}
+
+function setRentPets(val,btn){
+  currentRentPets=val;
+  document.querySelectorAll('#rentModal button').forEach(b=>{if(b.textContent==='Sí'||b.textContent==='No'){b.style.borderColor='rgba(201,169,110,.2)';b.style.background='rgba(201,169,110,.08)'}});
+  btn.style.borderColor='rgba(201,169,110,.6)';
+  btn.style.background='rgba(201,169,110,.15)';
+}
+
+function calculateRentOptions(){
+  const basePrice=parseInt(document.getElementById('rentBudgetSlider').value);
+  const term=currentRentTerm;
+
+  let minPrice=basePrice*0.85;
+  let maxPrice=basePrice*1.15;
+
+  if(term==='Corto'){minPrice*=1.1;maxPrice*=1.1}
+  else if(term==='Largo'){minPrice*=0.95;maxPrice*=0.95}
+
+  document.getElementById('rentPrice').textContent=`$${Math.round(minPrice/1000000)}M - $${Math.round(maxPrice/1000000)}M`;
+  document.getElementById('rentTermDisplay').textContent=term==='Corto'?'0-6 meses':term==='Mediano'?'6-12 meses':'12+ meses';
+  document.getElementById('rentResults').style.display='block';
+}
+
+function calculateSellValuation(){
+  const basePrice=parseInt(document.getElementById('sellBudgetSlider').value);
+  const condition=currentCondition;
+  const urgency=currentUrgency;
+
+  let multiplier=1;
+  if(condition==='Excelente')multiplier=1.15;
+  else if(condition==='Muy Buena')multiplier=1.08;
+  else if(condition==='Buena')multiplier=1;
+  else if(condition==='Oportunidad')multiplier=0.9;
+
+  const valuedPrice=Math.round(basePrice*multiplier);
+  const minPrice=Math.round(valuedPrice*0.95);
+  const maxPrice=Math.round(valuedPrice*1.05);
+
+  document.getElementById('valuationPrice').textContent=`$${Math.round(minPrice/1000000)}M - $${Math.round(maxPrice/1000000)}M`;
+  document.getElementById('valuationTimeline').textContent=urgency==='Inmediata'?'30-60 días':urgency==='Pronto'?'2-3 meses':'6+ meses';
+  document.getElementById('sellResults').style.display='block';
+}
+
+function openSearchModal(type='Compra'){
+  if(type==='Vender'){openSellModal();return}
+  if(type==='Renta'){openRentModal();return}
+  document.getElementById('searchTitle').textContent=type==='Compra'?'¿Qué propiedad estás buscando?':'¿Qué propiedad quieres rentar?';
+  searchModal.style.opacity='1';
+  searchModal.style.pointerEvents='all';
+}
+
+function openSellModal(){
+  sellModal.style.opacity='1';
+  sellModal.style.pointerEvents='all';
+}
+
+function closeSellModal(){
+  sellModal.style.opacity='0';
+  sellModal.style.pointerEvents='none';
+}
+
+function openRentModal(){
+  rentModal.style.opacity='1';
+  rentModal.style.pointerEvents='all';
+}
+
+function closeRentModal(){
+  rentModal.style.opacity='0';
+  rentModal.style.pointerEvents='none';
+}
+function closeSearchModal(){searchModal.style.opacity='0';searchModal.style.pointerEvents='none'}
+function contactAdvisor(){window.location.href='https://wa.me/528123532365?text=Hola, quiero hablar con un asesor de Montana Realty'}
+
+document.getElementById('budgetSlider').addEventListener('input',e=>{
+  const val=parseInt(e.target.value);
+  document.getElementById('budgetDisplay').textContent='$'+Math.round(val/1000000)+'M';
+});
+
+document.getElementById('rentBudgetSlider').addEventListener('input',e=>{
+  const val=parseInt(e.target.value);
+  document.getElementById('rentPriceDisplay').textContent='$'+Math.round(val/1000000)+'M';
+});
+
+function filterProperties(){
+  const type=document.getElementById('propertyType').value;
+  const zone=document.getElementById('propertyZone').value;
+  const budget=parseInt(document.getElementById('budgetSlider').value);
+
+  const results=props.filter(p=>{
+    const pPrice=parseInt(p.p.replace(/[^0-9]/g,''));
+    return (!type||p.t===type)&&(!zone||p.l.includes(zone))&&pPrice<=budget;
+  });
+
+  const resultsList=document.getElementById('resultsList');
+  resultsList.innerHTML=results.map((p,i)=>`<div style="opacity:0;animation:slideUp .6s cubic-bezier(.25,.46,.45,.94) ${i*.1}s forwards;padding:20px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.15);border-radius:12px;cursor:pointer;transition:all .3s" onmouseover="this.style.cssText='background:rgba(201,169,110,.12)!important;border-color:rgba(201,169,110,.3)!important;transform:translateY(-4px)!important'" onmouseout="this.style.cssText='background:rgba(201,169,110,.05)!important;border-color:rgba(201,169,110,.15)!important;transform:translateY(0)!important'"><img src="${p.img}" style="width:100%;height:200px;object-fit:cover;border-radius:8px;margin-bottom:12px"><h4 style="font-family:var(--serif);font-size:18px;color:var(--gold);margin:0 0 8px;font-weight:400">${p.n}</h4><p style="font-size:12px;color:rgba(255,255,255,.6);margin:0 0 8px">${p.l}</p><p style="font-size:16px;color:#fff;font-weight:600;margin:0">${p.p}</p></div>`).join('');
+
+  document.getElementById('searchResults').style.display='block';
+  searchModal.querySelector('button').scrollIntoView({behavior:'smooth'});
 }
 
 // ── ADMIN ──
@@ -1458,8 +1943,106 @@ window.addEventListener('load',()=>{
 <script src="assets/js/form.js"></script>
 <script src="assets/js/sticky-cta.js"></script>
 <script>
+// ── SEARCH BAR ANIMATION ──
+const searchBar = document.getElementById('searchBar');
+let searchVisible = false;
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  // Mostrar buscador cuando scroll llegue a la animación del reveal (transición con logo)
+  if (scrollY > 300 && !searchVisible) {
+    searchBar.style.height = '80px';
+    searchVisible = true;
+  } else if (scrollY <= 300 && searchVisible) {
+    searchBar.style.height = '0';
+    searchVisible = false;
+  }
+}, { passive: true });
+
 document.addEventListener('DOMContentLoaded',()=>{
   if(typeof propertyComparator!=='undefined')propertyComparator.openContactOptions?.();
+
+  // ── DROPDOWN PERSONALIZADO ──
+  const dropdownBtn = document.getElementById('dropdownBtn');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  const dropdownText = document.getElementById('dropdownText');
+  const dropdownItems = document.querySelectorAll('.dropdown-item');
+  let isOpen = false;
+
+  dropdownBtn.addEventListener('click', () => {
+    isOpen = !isOpen;
+    if (isOpen) {
+      dropdownMenu.style.maxHeight = '250px';
+      dropdownBtn.style.borderRadius = '6px 6px 0 0';
+    } else {
+      dropdownMenu.style.maxHeight = '0';
+      dropdownBtn.style.borderRadius = '6px';
+    }
+  });
+
+  dropdownItems.forEach(item => {
+    item.addEventListener('hover', function() {
+      this.style.backgroundColor = '#f5f5f5';
+      this.style.borderLeftColor = '#c9a96e';
+    });
+    item.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdownText.textContent = this.dataset.value;
+      dropdownMenu.style.maxHeight = '0';
+      dropdownBtn.style.borderRadius = '6px';
+      isOpen = false;
+    });
+  });
+
+  // Cerrar dropdown cuando clickeas fuera
+  document.addEventListener('click', (e) => {
+    if (!document.getElementById('dropdownContainer').contains(e.target)) {
+      dropdownMenu.style.maxHeight = '0';
+      dropdownBtn.style.borderRadius = '6px';
+      isOpen = false;
+    }
+  });
+
+  // Eventos del buscador
+  const contactBtn = searchBar.querySelector('button:last-child');
+  if(contactBtn) {
+    contactBtn.addEventListener('click', () => {
+      // Abrir modal de contacto o WhatsApp
+      window.location.href = 'https://wa.me/528123532365?text=Hola, quiero hablar con un agente de Montana Realty';
+    });
+  }
+});
+
+// ── SVC MODAL ──
+const svcModal=document.createElement('div');
+svcModal.id='svcModal';
+svcModal.style.cssText='position:fixed;inset:0;background:rgba(13,13,13,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:2000;opacity:0;pointer-events:none;transition:opacity .5s cubic-bezier(.25,.46,.45,.94)';
+svcModal.innerHTML=`
+<div style="background:linear-gradient(135deg,rgba(20,20,20,.8) 0%,rgba(13,13,13,.95) 100%);border:1px solid rgba(201,169,110,.2);border-radius:16px;padding:80px 60px;max-width:700px;width:90%;position:relative;box-shadow:0 20px 60px rgba(201,169,110,.1)">
+  <button onclick="document.getElementById('svcModal').style.opacity='0';setTimeout(()=>document.getElementById('svcModal').style.pointerEvents='none',500)" style="position:absolute;top:30px;right:30px;background:none;border:none;color:rgba(255,255,255,.4);font-size:28px;cursor:pointer;transition:all .3s;width:40px;height:40px;display:flex;align-items:center;justify-content:center">×</button>
+  <span class="eye eye-r" id="svcModalEye" style="display:block;margin-bottom:12px">Nuestros servicios</span>
+  <h2 id="svcModalTitle" style="font-family:var(--serif);font-size:52px;color:var(--gold);margin:0 0 48px;line-height:.95;font-weight:400;letter-spacing:-.02em">Compra</h2>
+  <div id="svcModalContent" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20">
+  </div>
+</div>
+`;
+document.body.appendChild(svcModal);
+
+const svcMenus={
+  '01':{title:'Compra',eye:'Servicio de compra',items:[{icon:'🏠',text:'Buscar propiedad',desc:'Acceso a las mejores propiedades del mercado'},{icon:'💰',text:'Asesoría hipotecaria',desc:'Gestión integral de financiamiento'},{icon:'📊',text:'Valuación profesional',desc:'Tasación exacta y análisis de mercado'}]},
+  '02':{title:'Vender',eye:'Servicio de venta',items:[{icon:'🎨',text:'Home staging',desc:'Presentación premium de tu propiedad'},{icon:'📸',text:'Fotografía de lujo',desc:'Imágenes cinéticas y videos profesionales'},{icon:'📈',text:'Estrategia de precio',desc:'Posicionamiento óptimo en el mercado'}]},
+  '03':{title:'Rentar',eye:'Servicio de renta',items:[{icon:'✨',text:'Propiedades exclusivas',desc:'Acceso a las mejores opciones disponibles'},{icon:'👤',text:'Contacto con agentes',desc:'Asesoramiento personalizado 24/7'},{icon:'🔑',text:'Opciones disponibles',desc:'Amplio catálogo de las mejores ubicaciones'}]}
+};
+
+document.querySelectorAll('.svc-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const num=card.querySelector('.svc-num').textContent.trim();
+    // Abre directamente el modal de búsqueda según el servicio
+    if(num==='01')openSearchModal('Compra');
+    else if(num==='02')openSearchModal('Vender');
+    else if(num==='03')openSearchModal('Rentar');
+  });
 });
 </script>
 </body>

@@ -6,7 +6,7 @@
 <title>Equipo — Montana Realty Co.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Sans:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -15,8 +15,7 @@
   --gold:#c9a96e;
   --black:#0d0d0d;
   --sans:'DM Sans',Helvetica,Arial,sans-serif;
-  --serif:'Playfair Display',Georgia,serif;
-  --display:'Instrument Sans','DM Sans',sans-serif;
+  --serif:'Cormorant',Georgia,serif;
 }
 html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
 body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
@@ -65,12 +64,12 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
   padding-right:40px;
 }
 .hero-title{
-  font-family:var(--display);
+  font-family:var(--serif);
   font-size:clamp(48px,8vw,100px);
-  font-weight:900;
+  font-weight:400;
   color:#111;
-  line-height:.95;
-  letter-spacing:-.03em;
+  line-height:1.0;
+  letter-spacing:-.01em;
 }
 .hero-sub{
   font-size:18px;
@@ -209,7 +208,7 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 }
 .agent-ico:hover{background:rgba(255,255,255,.32);transform:scale(1.1)}
 .agent-ico svg{width:20px;height:20px}
-.agent-name{font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+.agent-name{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:-.01em;margin-bottom:4px}
 .agent-role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#999;margin-bottom:16px}
 .agent-contact{display:flex;flex-direction:column;gap:6px}
 .agent-contact a{font-size:13px;color:#555;text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s}
