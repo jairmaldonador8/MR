@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Montana Realty Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-h:72px;
+  --bg:#1a1f2e;
+  --bg-alt:#151a27;
+  --white:#ffffff;
+  --mid:#9aa1b4;
+  --gold:#c9a96e;
+  --red:#ffffff;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --serif2:'Cormorant Garamond',Georgia,serif;
+  --sans:'Poppins',Helvetica,Arial,sans-serif;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;overflow-x:hidden;min-height:100vh}
+
+/* ── NAV (alineado con index) ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:var(--nav-h);background:rgba(20,26,44,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);transition:height .3s,background .3s}
+#nav.scrolled{height:60px;background:rgba(20,26,44,.95)}
+.nav-logo{display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.nav-logo-img{height:48px;width:auto;display:block;filter:brightness(0) invert(1);transition:filter .3s}
+.nav-center{display:flex;align-items:center}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.62);text-decoration:none;transition:color .3s;position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:currentColor;transition:width .3s ease;transform-origin:left}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:24px}
+.nav-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;transition:color .3s}
+.nav-sub:hover{color:#fff}
+.nav-action{font-size:11px;letter-spacing:.06em;color:#fff;font-family:var(--sans);font-weight:500;padding:10px 24px;border:1.5px solid rgba(255,255,255,.35);border-radius:30px;transition:all .3s;text-decoration:none;display:inline-block}
+.nav-action:hover{background:#fff;color:#111;border-color:#fff}
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer}
+.nav-ham span{display:block;width:22px;height:1.5px;background:#fff;transition:all .3s}
+.nav-ham.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.nav-ham.open span:nth-child(2){opacity:0}
+.nav-ham.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+/* MOB MENU */
+.mob-menu{position:fixed;inset:0;background:var(--bg);z-index:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-menu.open{opacity:1;pointer-events:all}
+.mob-menu a{font-family:var(--serif);font-size:clamp(32px,7vw,56px);font-weight:400;color:#fff;text-decoration:none}
+.mob-menu a:hover{color:var(--gold)}
+.mob-action{font-size:12px!important;letter-spacing:.2em!important;text-transform:uppercase;font-family:var(--sans)!important;border:1px solid rgba(255,255,255,.25)!important;padding:14px 40px;color:#fff!important}
+
+/* ── HERO ── */
+.blog-hero{padding:calc(var(--nav-h) + 110px) 56px 90px;text-align:center;position:relative;overflow:hidden}
+.blog-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(closest-side,rgba(201,169,110,.12),transparent 70%);pointer-events:none;z-index:0}
+.blog-hero > *{position:relative;z-index:1}
+.blog-eye{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:20px;display:inline-block;font-weight:500}
+.blog-title{font-family:var(--serif);font-size:clamp(56px,9vw,128px);font-weight:400;line-height:.96;letter-spacing:-.022em;color:#fff}
+.blog-title em{font-style:italic;color:var(--gold);font-weight:500}
+.blog-sub{font-family:var(--sans);font-size:17px;line-height:1.7;color:rgba(255,255,255,.55);font-weight:300;max-width:620px;margin:32px auto 0}
+
+/* ── FILTERS ── */
+.filters-wrap{padding:0 56px;display:flex;justify-content:center;margin-bottom:56px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:1100px}
+.pill{display:inline-flex;align-items:center;padding:10px 22px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.55);font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;border-radius:100px;cursor:pointer;transition:all .3s cubic-bezier(.25,.46,.45,.94);white-space:nowrap}
+.pill:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.pill.active{background:var(--gold);color:#111;border-color:var(--gold);font-weight:600}
+
+/* ── BLOG GRID ── */
+.blog-grid-wrap{padding:0 56px 120px;max-width:1400px;margin:0 auto}
+.blog-featured-row{display:grid;grid-template-columns:2fr 1fr;gap:28px;margin-bottom:28px}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+
+.art{position:relative;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.25,.46,.45,.94),box-shadow .5s,border-color .5s;will-change:transform}
+.art:hover{transform:translateY(-6px);border-color:rgba(201,169,110,.35);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(201,169,110,.15)}
+
+.art-img{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:8px 8px 0 0}
+.art-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.25,.46,.45,.94),filter .5s;filter:brightness(.88)}
+.art:hover .art-img img{transform:scale(1.05);filter:brightness(.72)}
+.art-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,0) 50%,rgba(13,13,13,.35) 100%);opacity:0;transition:opacity .5s;pointer-events:none}
+.art:hover .art-img::after{opacity:1}
+
+.art-body{padding:28px;display:flex;flex-direction:column;flex:1;gap:14px}
+.art-badge{align-self:flex-start;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);padding:6px 14px;border:1px solid rgba(201,169,110,.3);border-radius:100px;font-weight:600;background:rgba(201,169,110,.06)}
+.art-title{font-family:var(--serif2);font-size:20px;font-weight:500;line-height:1.35;letter-spacing:-.005em;color:#fff;transition:color .3s}
+.art:hover .art-title{color:var(--gold)}
+.art-desc{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.52);font-weight:300;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.art-meta{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)}
+.art-date,.art-read{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:400}
+.art-read{color:var(--gold);opacity:.7}
+.art-sep{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.25)}
+
+/* FEATURED */
+.art-featured .art-img{aspect-ratio:16/9}
+.art-featured .art-title{font-size:34px;line-height:1.18}
+.art-featured .art-desc{font-size:15px;-webkit-line-clamp:3}
+.art-featured .art-body{padding:40px 44px}
+
+/* HIDE */
+.art[data-hidden="true"]{display:none}
+
+/* ── FOOTER ── */
+.site-footer{background:#0d0d0d;color:#fff;font-family:var(--sans)}
+.footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;padding:100px 56px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-brand p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.42);margin-top:24px;max-width:280px;font-weight:300}
+.footer-logo{height:32px;width:auto;display:block;margin-bottom:8px;filter:brightness(0) invert(1);opacity:.9}
+.footer-social{display:flex;gap:14px;margin-top:32px}
+.fs-icon{width:40px;height:40px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);text-decoration:none;transition:all .4s cubic-bezier(.25,.46,.45,.94);border-radius:8px}
+.fs-icon svg{width:18px;height:18px;display:block;transition:transform .4s}
+.fs-icon:hover{border-color:var(--gold);background:rgba(201,169,110,.1);transform:translateY(-4px);color:var(--gold)}
+.fs-icon:hover svg{transform:scale(1.08)}
+.footer-col-title{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:24px;display:block;font-weight:500}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.52);text-decoration:none;margin-bottom:14px;transition:all .3s;font-weight:300;position:relative}
+.footer-col a::before{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.footer-col a:hover{color:var(--gold)}
+.footer-col a:hover::before{width:100%}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:32px 56px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-copy{font-size:9px;letter-spacing:.12em;color:rgba(255,255,255,.28);text-transform:uppercase;font-weight:400}
+.footer-legal{display:flex;gap:28px}
+.footer-legal a{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .3s;font-weight:400}
+.footer-legal a:hover{color:var(--gold)}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
+.r.d1{transition-delay:.08s}.r.d2{transition-delay:.16s}.r.d3{transition-delay:.24s}.r.d4{transition-delay:.32s}
+.r.v{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .blog-featured-row{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:repeat(2,1fr)}
+  .art-featured .art-img{aspect-ratio:16/10}
+  .art-featured .art-title{font-size:26px}
+  .art-featured .art-body{padding:28px}
+}
+@media(max-width:720px){
+  #nav{padding:0 20px}
+  .nav-center,.nav-right{display:none}
+  .nav-ham{display:flex}
+  .blog-hero{padding:calc(var(--nav-h) + 72px) 22px 56px}
+  .filters-wrap{padding:0 22px;margin-bottom:36px}
+  .blog-grid-wrap{padding:0 22px 72px}
+  .blog-grid{grid-template-columns:1fr;gap:20px}
+  .blog-featured-row{gap:20px}
+  .footer-main{grid-template-columns:1fr;gap:32px;padding:72px 24px}
+  .footer-bottom{flex-direction:column;gap:14px;padding:24px;text-align:center}
+  .art-body{padding:22px}
+  .art-featured .art-body{padding:22px}
+  .art-featured .art-title{font-size:24px}
+}
+</style>
+<meta name="autofill" content="off">
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="propiedades.html" onclick="closeMob()">Propiedades</a>
+  <a href="index (2).html#svc" onclick="closeMob()">Servicios</a>
+  <a href="equipo.html" onclick="closeMob()">Equipo</a>
+  <a href="nosotros.html" onclick="closeMob()">Nosotros</a>
+  <a href="blog.html" onclick="closeMob()">Blog</a>
+  <a href="index (2).html#cta" class="mob-action" onclick="closeMob()">Agendar visita</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index (2).html" class="nav-logo">
+    <img src="assets/logo.png" class="nav-logo-img" alt="Montana Realty">
+  </a>
+  <div class="nav-center">
+    <ul class="nav-links">
+      <li><a href="propiedades.html">Propiedades</a></li>
+      <li><a href="index (2).html#svc">Servicios</a></li>
+      <li><a href="equipo.html">Equipo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="index (2).html#cta" class="nav-sub">Contacto</a>
+    <a href="index (2).html#cta" class="nav-action">Agendar visita</a>
+  </div>
+  <button class="nav-ham" id="navHam" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <span class="blog-eye r v">Mercado & tendencias</span>
+  <h1 class="blog-title r v d1">Insights del <em>mercado</em></h1>
+  <p class="blog-sub r v d2">Análisis, guías y tendencias del mercado inmobiliario en San Pedro Garza García.</p>
+</section>
+
+<!-- FILTERS -->
+<div class="filters-wrap">
+  <div class="filters" id="filters">
+    <button class="pill active" data-filter="all">Todos</button>
+    <button class="pill" data-filter="reporte">Reporte de Mercado</button>
+    <button class="pill" data-filter="guia">Guía de Compra</button>
+    <button class="pill" data-filter="inversion">Inversión</button>
+    <button class="pill" data-filter="lifestyle">Lifestyle</button>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="blog-grid-wrap">
+  <!-- FEATURED ROW -->
+  <div class="blog-featured-row">
+    <a href="#" class="art art-featured r" data-cat="reporte">
+      <div class="art-img"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600&q=85" alt="Reporte Q1 2026"></div>
+      <div class="art-body">
+        <span class="art-badge">Reporte de mercado</span>
+        <h2 class="art-title">Reporte Q1 2026: San Pedro Garza García</h2>
+        <p class="art-desc">El mercado inmobiliario mantiene su dinamismo con un incremento del 12% en valores respecto al mismo período del año anterior. Análisis por zona y segmento.</p>
+        <div class="art-meta">
+          <span class="art-date">Abr 2026</span>
+          <span class="art-sep"></span>
+          <span class="art-read">5 min de lectura</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="art r d1" data-cat="guia">
+      <div class="art-img"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1000&q=85" alt="Negociar precio"></div>
+      <div class="art-body">
+        <span class="art-badge">Guía de compra</span>
+        <h2 class="art-title">Cómo negociar el precio de una propiedad de lujo</h2>
+        <p class="art-desc">Estrategias probadas para obtener el mejor precio en el segmento premium sin perder la oportunidad de cierre.</p>
+        <div class="art-meta">
+          <span class="art-date">Mar 2026</span>
+          <span class="art-sep"></span>
+          <span class="art-read">5 min de lectura</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- NORMAL GRID -->
+  <div class="blog-grid" id="blogGrid">
+    <a href="#" class="art r" data-cat="inversion">
+      <div class="art-img"><img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1000&q=85" alt="ROI colonias"></div>
+      <div class="art-body">
+        <span class="art-badge">Inversión</span>
+        <h2 class="art-title">Las 3 colonias con mayor ROI en San Pedro en 2026</h2>
+        <p class="art-desc">Análisis de las zonas con mayor apreciación histórica y proyección de crecimiento para los próximos 5 años.</p>
+        <div class="art-meta">
+          <span class="art-date">Feb 2026</span>
+          <span class="art-sep"></span>
+          <span class="art-read">5 min de lectura</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="art r d1" data-cat="guia">
+      <div class="art-img"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1000&q=85" alt="Primera propiedad"></div>
+      <div class="art-body">
+        <span class="art-badge">Guía de compra</span>
+        <h2 class="art-title">Guía completa para comprar tu primera propiedad de lujo</h2>
+        <p class="art-desc">Todo lo que necesitas saber antes de invertir: financiamiento, due diligence, escrituración y los errores más comunes.</p>
+        <div class="art-meta">
+          <span class="art-date">Feb 2026</span>
+          <span class="art-sep"></span>
+          <span class="art-read">5 min de lectura</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="art r d2" data-cat="lifestyle">
+      <div class="art-img"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=85" alt="Arquitectura residencial"></div>
+      <div class="art-body">
+        <span class="art-badge">Lifestyle</span>
+        <h2 class="art-title">Tendencias de arquitectura residencial 2026</h2>
+        <p class="art-desc">Los estilos que están definiendo las nuevas construcciones: materiales, volúmenes y la conexión con el paisaje.</p>
+        <div class="art-meta">
+          <span class="art-date">Ene 2026</span>
+          <span class="art-sep"></span>
+          <span class="art-read">5 min de lectura</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="art r" data-cat="inversion">
+      <div class="art-img"><img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1000&q=85" alt="Departamentos vs casas"></div>
+      <div class="art-body">
+        <span class="art-badge">Inversión</span>
+        <h2 class="art-title">Inversión en departamentos vs casas: qué conviene más</h2>
+        <p class="art-desc">Comparativa de rendimiento por tipo de inmueble, con datos de apreciación, renta y liquidez en el mercado sampetrino.</p>
+        <div class="art-meta">
+          <span class="art-date">Ene 2026</span>
+          <span class="art-sep"></span>
+          <span class="art-read">5 min de lectura</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER (unificado con index) -->
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Montana Realty" class="footer-logo">
+      <p>Creando tu sueño inmobiliario. La agencia boutique de propiedades de lujo en San Pedro Garza García.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/montanarealtyco/" class="fs-icon" title="Instagram" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.facebook.com/MRdesarrollos/" class="fs-icon" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+        </a>
+        <a href="https://wa.me/528123532365" class="fs-icon" title="WhatsApp" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-title">Propiedades</span>
+      <a href="propiedades.html">Casas</a>
+      <a href="propiedades.html">Penthouses</a>
+      <a href="propiedades.html">Terrenos</a>
+      <a href="propiedades.html">Departamentos</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-title">Servicios</span>
+      <a href="index (2).html#svc">Comprar</a>
+      <a href="index (2).html#svc">Vender</a>
+      <a href="index (2).html#svc">Rentar</a>
+      <a href="index (2).html#cta">Hipoteca</a>
+      <a href="index (2).html#cta">Valuación</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-title">Empresa</span>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="equipo.html">Equipo</a>
+      <a href="blog.html">Blog</a>
+      <a href="index (2).html#cta">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Montana Realty Co · San Pedro Garza García, Nuevo León</span>
+    <div class="footer-legal">
+      <a href="#">Aviso de privacidad</a>
+      <a href="#">Términos de uso</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50),{passive:true});
+
+// ── MOB MENU ──
+function toggleMob(){
+  const m=document.getElementById('mobMenu'),h=document.getElementById('navHam');
+  m.classList.toggle('open');h.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMob(){
+  document.getElementById('mobMenu').classList.remove('open');
+  document.getElementById('navHam').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── FILTERS ──
+(function(){
+  const pills=document.querySelectorAll('.pill');
+  const arts=document.querySelectorAll('.art');
+  pills.forEach(p=>{
+    p.addEventListener('click',()=>{
+      pills.forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+      const f=p.dataset.filter;
+      arts.forEach(a=>{
+        const show=(f==='all'||a.dataset.cat===f);
+        a.dataset.hidden=show?'false':'true';
+      });
+    });
+  });
+})();
+
+// ── REVEAL ──
+const obs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}
+}),{threshold:.08});
+document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.observe(el)});
+</script>
+
+<script>
+// Anti-autofill: strip autofill hints from all inputs to prevent iCloud/Safari/LastPass password popup
+document.querySelectorAll('input').forEach(input => {
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('data-lpignore', 'true');
+  input.setAttribute('data-form-type', 'other');
+});
+</script>
+
+<!-- Admin localStorage hydration: usa los blogs del panel admin si existen -->
+<script>
+(function(){
+  try{
+    const raw = localStorage.getItem('mr_data_v1');
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    const blogs = (data.blogs||[]).filter(b=>b.status==='published');
+    if(!blogs.length) return;
+    blogs.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+
+    const CAT={reporte:'Reporte de mercado',guia:'Guía de compra',inversion:'Inversión',tendencias:'Tendencias',mercado:'Mercado',lifestyle:'Lifestyle'};
+    const FILTER_KEY={reporte:'reporte',guia:'guia',inversion:'inversion',tendencias:'reporte',mercado:'reporte',lifestyle:'lifestyle'};
+    const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const fmtMonth = d=>{ try{ const dt=new Date(d); if(isNaN(dt))return d; return dt.toLocaleDateString('es-MX',{month:'short',year:'numeric'}); }catch(e){ return d; } };
+
+    const featuredRow = document.querySelector('.blog-featured-row');
+    const grid = document.getElementById('blogGrid');
+    if(!grid) return;
+
+    function card(b, extraClass=''){
+      return `
+        <a href="#" class="art ${extraClass} r" data-cat="${esc(FILTER_KEY[b.cat]||b.cat)}" data-ls-blog="${esc(b.id)}">
+          <div class="art-img"><img src="${esc(b.img)}" alt="${esc(b.title)}"></div>
+          <div class="art-body">
+            <span class="art-badge">${esc(CAT[b.cat]||b.cat)}</span>
+            <h2 class="art-title">${esc(b.title)}</h2>
+            <p class="art-desc">${esc(b.excerpt||'')}</p>
+            <div class="art-meta">
+              <span class="art-date">${esc(fmtMonth(b.date))}</span>
+              <span class="art-sep"></span>
+              <span class="art-read">5 min de lectura</span>
+            </div>
+          </div>
+        </a>`;
+    }
+
+    if(featuredRow){
+      const featured = blogs.slice(0,2);
+      featuredRow.innerHTML = featured.map((b,i)=>card(b, i===0?'art-featured':'')).join('');
+    }
+    const rest = blogs.slice(2);
+    grid.innerHTML = rest.length
+      ? rest.map(b=>card(b)).join('')
+      : '<p style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,.45);font-size:13px;padding:40px 0">Sin artículos adicionales por ahora.</p>';
+
+    // Re-engancha filtros (reemplaza referencias antiguas)
+    const pills = document.querySelectorAll('.pill');
+    const arts = document.querySelectorAll('.art');
+    pills.forEach(p=>{
+      const clone = p.cloneNode(true);
+      p.parentNode.replaceChild(clone, p);
+    });
+    document.querySelectorAll('.pill').forEach(p=>{
+      p.addEventListener('click', ()=>{
+        document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+        p.classList.add('active');
+        const f = p.dataset.filter;
+        document.querySelectorAll('.art').forEach(a=>{
+          a.dataset.hidden = (f==='all' || a.dataset.cat===f) ? 'false' : 'true';
+        });
+      });
+    });
+
+    // Reveal observer para los nuevos
+    const obs = new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('v'); obs.unobserve(e.target); }
+    }),{threshold:.08});
+    document.querySelectorAll('.r').forEach(el=>{ if(!el.classList.contains('v')) obs.observe(el); });
+  }catch(e){ /* noop */ }
+})();
+</script>
+</body>
+</html>

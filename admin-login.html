@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceso Administración — Montana Realty Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="autofill" content="off">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#1a1f2e;
+  --bg-alt:#151a27;
+  --card:#222838;
+  --white:#fff;
+  --mid:#9aa1b4;
+  --gold:#c9a96e;
+  --gold-d:#b8975c;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Poppins',Helvetica,Arial,sans-serif;
+}
+html,body{height:100%}
+body{
+  background:radial-gradient(ellipse at top,#222a3d 0%,var(--bg) 55%,var(--bg-alt) 100%);
+  color:var(--white);
+  font-family:var(--sans);
+  font-weight:300;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 20px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at 50% 30%,rgba(201,169,110,.10),transparent 55%);
+  pointer-events:none;
+  z-index:0;
+}
+.login-wrap{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:420px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.login-logo{
+  margin-bottom:36px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+.login-logo img{
+  height:56px;
+  width:auto;
+  filter:brightness(0) invert(1);
+  opacity:.95;
+}
+.login-logo .tag{
+  font-family:var(--serif);
+  font-size:14px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:500;
+  font-style:italic;
+}
+.login-card{
+  width:100%;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:42px 38px 36px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+}
+.login-title{
+  font-family:var(--serif);
+  font-size:32px;
+  font-weight:500;
+  letter-spacing:-.01em;
+  margin-bottom:6px;
+  text-align:center;
+}
+.login-title em{font-style:italic;color:var(--gold)}
+.login-sub{
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+  text-align:center;
+  margin-bottom:32px;
+  font-weight:400;
+}
+.field{margin-bottom:18px}
+.field label{
+  display:block;
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  margin-bottom:8px;
+  font-weight:500;
+}
+.field input{
+  width:100%;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+  padding:14px 16px;
+  color:#fff;
+  font-family:var(--sans);
+  font-size:14px;
+  font-weight:400;
+  transition:all .3s;
+  outline:none;
+}
+.field input:focus{
+  border-color:var(--gold);
+  background:rgba(255,255,255,.06);
+  box-shadow:0 0 0 3px rgba(201,169,110,.12);
+}
+.field input.is-pwd{-webkit-text-security:disc;text-security:disc;letter-spacing:.08em}
+.btn-submit{
+  width:100%;
+  background:var(--gold);
+  color:#111;
+  border:none;
+  border-radius:10px;
+  padding:15px 22px;
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .3s cubic-bezier(.25,.46,.45,.94);
+  margin-top:10px;
+}
+.btn-submit:hover{
+  background:var(--gold-d);
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(201,169,110,.25);
+}
+.btn-submit:active{transform:translateY(0)}
+.error-msg{
+  display:none;
+  margin-top:18px;
+  background:rgba(220,53,69,.12);
+  border:1px solid rgba(220,53,69,.35);
+  color:#ff8c95;
+  padding:11px 14px;
+  border-radius:8px;
+  font-size:12px;
+  letter-spacing:.04em;
+  text-align:center;
+  font-weight:400;
+}
+.error-msg.show{display:block}
+.shake{animation:shake .55s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shake{
+  10%,90%{transform:translateX(-2px)}
+  20%,80%{transform:translateX(4px)}
+  30%,50%,70%{transform:translateX(-7px)}
+  40%,60%{transform:translateX(7px)}
+}
+.back-link{
+  margin-top:24px;
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  text-decoration:none;
+  font-weight:500;
+  transition:color .3s;
+}
+.back-link:hover{color:var(--gold)}
+.hint{
+  margin-top:18px;
+  text-align:center;
+  font-size:11px;
+  color:rgba(255,255,255,.35);
+  font-weight:300;
+}
+.hint code{
+  font-family:'Courier New',monospace;
+  background:rgba(255,255,255,.05);
+  padding:2px 7px;
+  border-radius:4px;
+  color:var(--gold);
+}
+
+@media(max-width:480px){
+  .login-card{padding:32px 24px 28px}
+  .login-title{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-logo">
+    <img src="assets/logo.png" alt="Montana Realty Co">
+    <span class="tag">Administración</span>
+  </div>
+
+  <form class="login-card" id="loginForm" autocomplete="off" novalidate>
+    <h1 class="login-title">Acceso <em>privado</em></h1>
+    <p class="login-sub">Ingresa tus credenciales</p>
+
+    <div class="field">
+      <label for="user">Usuario</label>
+      <input type="text" id="user" name="user" autocomplete="off" data-lpignore="true" data-form-type="other" spellcheck="false" autocapitalize="off">
+    </div>
+
+    <div class="field">
+      <label for="pwd">Contraseña</label>
+      <input type="text" id="pwd" name="pwd" class="is-pwd" autocomplete="off" data-lpignore="true" data-form-type="other" spellcheck="false" autocapitalize="off">
+    </div>
+
+    <button type="submit" class="btn-submit">Iniciar sesión</button>
+
+    <div class="error-msg" id="errMsg">Usuario o contraseña incorrectos</div>
+  </form>
+
+  <a href="index (2).html" class="back-link">← Volver al sitio</a>
+</div>
+
+<script>
+(function(){
+  const ADMIN_USER = 'admin';
+  const ADMIN_PWD  = 'montana2026';
+
+  if (sessionStorage.getItem('mr_admin_token')) {
+    window.location.replace('admin.html');
+    return;
+  }
+
+  const form = document.getElementById('loginForm');
+  const card = form;
+  const err  = document.getElementById('errMsg');
+  const u    = document.getElementById('user');
+  const p    = document.getElementById('pwd');
+
+  document.querySelectorAll('input').forEach(i=>{
+    i.setAttribute('autocomplete','off');
+    i.setAttribute('data-lpignore','true');
+    i.setAttribute('data-form-type','other');
+  });
+
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    const user = u.value.trim();
+    const pwd  = p.value;
+
+    if (user === ADMIN_USER && pwd === ADMIN_PWD) {
+      const token = btoa('mr_admin_'+Date.now()+'_'+Math.random().toString(36).slice(2));
+      sessionStorage.setItem('mr_admin_token', token);
+      sessionStorage.setItem('mr_admin_user', user);
+      window.location.href = 'admin.html';
+    } else {
+      err.classList.add('show');
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+      p.value='';
+      setTimeout(()=>err.classList.remove('show'), 4000);
+    }
+  });
+
+  u.focus();
+})();
+</script>
+</body>
+</html>
