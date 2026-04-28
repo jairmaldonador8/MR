@@ -135,7 +135,7 @@
   background: var(--red);
   color: var(--white);
   border-color: var(--red);
-  box-shadow: 0 0 0 8px rgba(185, 28, 28, 0.1);
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
 
@@ -581,14 +581,14 @@
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-decoration: none;
   display: inline-flex;
-  box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
   animation: pulse 2s ease-in-out infinite;
 }
 
 #stickyCtaBtn:hover {
-  background: #a01a1a;
+  background: #ffffff;
   transform: scale(1.08);
-  box-shadow: 0 12px 32px rgba(185, 28, 28, 0.4);
+  box-shadow: 0 12px 32px rgba(255, 255, 255, 0.4);
   animation: none;
 }
 
@@ -606,10 +606,10 @@
 @keyframes pulse {
   0%,
   100% {
-    box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
   }
   50% {
-    box-shadow: 0 8px 32px rgba(185, 28, 28, 0.5);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.5);
   }
 }
 
@@ -691,7 +691,7 @@
 }
 
 .cta-menu-option:hover {
-  background: rgba(185, 28, 28, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   border-color: var(--red);
   transform: translateX(4px);
 }

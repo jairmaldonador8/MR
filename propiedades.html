@@ -6,17 +6,17 @@
 <title>Propiedades — Montana Realty Co.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --nav-h:68px;
   --bar-h:60px;
-  --red:#b91c1c;
+  --red:#ffffff;
   --gold:#c9a96e;
   --black:#0d0d0d;
-  --sans:'DM Sans',Helvetica,Arial,sans-serif;
-  --serif:'Cormorant',Georgia,serif;
+  --sans:'Poppins',Helvetica,Arial,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;
 }
 
 html{-webkit-font-smoothing:antialiased}
@@ -222,6 +222,7 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 .mob-menu a:hover{color:var(--red)}
 .mob-close{position:absolute;top:20px;right:24px;background:none;border:none;font-size:28px;cursor:pointer;color:#444}
 </style>
+<meta name="autofill" content="off">
 </head>
 <body>
 
@@ -231,8 +232,8 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
   <a href="propiedades.html" class="active">Propiedades</a>
   <a href="index (2).html#svc">Servicios</a>
   <a href="equipo.html">Equipo</a>
-  <a href="index (2).html#abt">Nosotros</a>
-  <a href="index (2).html#blog">Blog</a>
+  <a href="nosotros.html">Nosotros</a>
+  <a href="blog.html">Blog</a>
   <a href="index (2).html#cta">Agendar visita</a>
 </div>
 
@@ -247,8 +248,8 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
       <li><a href="propiedades.html" class="active">Propiedades</a></li>
       <li><a href="index (2).html#svc">Servicios</a></li>
       <li><a href="equipo.html">Equipo</a></li>
-      <li><a href="index (2).html#abt">Nosotros</a></li>
-      <li><a href="index (2).html#blog">Blog</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="blog.html">Blog</a></li>
     </ul>
   </div>
   <div class="nav-right">
@@ -264,7 +265,7 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 <div id="searchbar">
   <div class="search-input-wrap">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" type="text" id="searchInput" placeholder="Buscar por dirección o zona...">
+    <input class="search-input" type="text" id="searchInput" placeholder="Buscar por dirección o zona..." autocomplete="off" data-lpignore="true" data-form-type="other">
   </div>
 
   <div class="filters">
@@ -619,6 +620,28 @@ function sortCards(){
 
 // Live search
 document.getElementById('searchInput').addEventListener('input',applyFilters);
+
+// ── PRE-APPLY FILTER FROM URL PARAM (?operacion=venta|renta) ──
+(function(){
+  const op=new URLSearchParams(window.location.search).get('operacion');
+  if(!op) return;
+  const map={venta:'En Venta',renta:'En Renta'};
+  const value=map[op.toLowerCase()];
+  if(!value) return;
+  const tipoFilter=document.getElementById('tipoFilter');
+  if(!tipoFilter) return;
+  tipoFilter.value=value;
+  updateLabel('tipoLabel',tipoFilter,'Tipo');
+})();
+</script>
+
+<script>
+// Anti-autofill: strip autofill hints from all inputs to prevent iCloud/Safari/LastPass password popup
+document.querySelectorAll('input').forEach(input => {
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('data-lpignore', 'true');
+  input.setAttribute('data-form-type', 'other');
+});
 </script>
 </body>
 </html>

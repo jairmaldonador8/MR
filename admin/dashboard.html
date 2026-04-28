@@ -19,7 +19,7 @@
       --off: #f5f4f0;
       --black: #0d0d0d;
       --mid: #888;
-      --red: #b91c1c;
+      --red: #ffffff;
       --serif: 'Cormorant', Georgia, serif;
       --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       --light-gray: #f9f9f9;
@@ -332,7 +332,7 @@
     }
 
     tbody tr:hover {
-      background: rgba(185, 28, 28, 0.02);
+      background: rgba(255, 255, 255, 0.02);
     }
 
     /* LEAD DATA */
@@ -358,14 +358,14 @@
     .lead-score {
       display: inline-block;
       padding: 4px 8px;
-      background: rgba(185, 28, 28, 0.1);
+      background: rgba(255, 255, 255, 0.1);
       color: var(--red);
       border-radius: 2px;
       font-weight: 500;
     }
 
     .lead-score.hot {
-      background: rgba(185, 28, 28, 0.2);
+      background: rgba(255, 255, 255, 0.2);
       color: var(--red);
       font-weight: 600;
     }
@@ -558,6 +558,7 @@
       }
     }
   </style>
+  <meta name="autofill" content="off">
 </head>
 <body>
   <!-- HEADER (hidden during login) -->
@@ -575,7 +576,7 @@
 
   <!-- LOGIN FORM -->
   <div id="loginContainer" class="login-container active">
-    <form id="loginForm" class="login-form">
+    <form id="loginForm" class="login-form" autocomplete="off" data-form-type="other" data-lpignore="true">
       <h1 class="login-title">Acceso Agentes</h1>
       <p class="login-subtitle">Ingresa tus credenciales para acceder al dashboard de leads</p>
 
@@ -586,6 +587,9 @@
           id="emailInput"
           class="form-input"
           placeholder="tu@email.com"
+          autocomplete="off"
+          data-lpignore="true"
+          data-form-type="other"
           required
         >
         <div id="emailError" class="form-error"></div>
@@ -594,10 +598,17 @@
       <div class="form-group">
         <label class="form-label">Contraseña</label>
         <input
-          type="password"
+          type="text"
+          inputmode="text"
           id="passwordInput"
           class="form-input"
           placeholder="Ingresa tu contraseña"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-lpignore="true"
+          data-form-type="other"
           required
         >
         <div id="passwordError" class="form-error"></div>
@@ -671,5 +682,13 @@
 
   <script src="auth.js"></script>
   <script src="dashboard.js"></script>
+  <script>
+  // Anti-autofill: strip autofill hints from all inputs to prevent iCloud/Safari/LastPass password popup
+  document.querySelectorAll('input').forEach(input => {
+    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('data-lpignore', 'true');
+    input.setAttribute('data-form-type', 'other');
+  });
+  </script>
 </body>
 </html>
