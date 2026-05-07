@@ -451,6 +451,49 @@ em{font-style:italic}
   .sell-modal-header{margin-bottom:24px}
 }
 
+/* MODAL: aplicación agente (lead form → WhatsApp Federico) */
+.apply-modal{display:none;position:fixed;inset:0;z-index:9500;justify-content:center;align-items:center;padding:20px}
+.apply-modal.active{display:flex}
+.apply-modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer}
+.apply-modal-content{position:relative;background:#1a1f2e;border:1px solid rgba(201,169,110,.2);border-radius:8px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:48px 40px;z-index:1;animation:applyModalSlideUp .4s ease;scrollbar-width:thin;scrollbar-color:rgba(201,169,110,.4) transparent}
+.apply-modal-content::-webkit-scrollbar{width:6px}
+.apply-modal-content::-webkit-scrollbar-track{background:transparent}
+.apply-modal-content::-webkit-scrollbar-thumb{background:rgba(201,169,110,.4);border-radius:100px}
+@keyframes applyModalSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.apply-modal-close{position:absolute;top:16px;right:20px;background:transparent;border:none;color:var(--gold);font-size:30px;cursor:pointer;transition:transform .3s ease;line-height:1;font-family:var(--sans);padding:6px 10px;z-index:2}
+.apply-modal-close:hover{transform:rotate(90deg)}
+.apply-modal-header{margin-bottom:32px;text-align:center}
+.apply-modal-eyebrow{display:block;color:var(--gold);font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:16px;font-weight:600}
+.apply-modal-title{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:400;line-height:1.1;color:#e8e6e1;margin:0 0 12px;letter-spacing:-.012em}
+.apply-modal-title em{color:var(--gold);font-style:italic;font-weight:500}
+.apply-modal-subtitle{font-family:var(--sans);color:#a8a8a8;font-size:14px;line-height:1.55;margin:0;font-weight:300}
+.apply-modal-form{display:flex;flex-direction:column;gap:20px}
+.apply-modal .form-group{display:flex;flex-direction:column}
+.apply-modal .form-group label{font-family:var(--sans);color:#a8a8a8;font-size:10px;letter-spacing:.2em;margin-bottom:8px;text-transform:uppercase;font-weight:500}
+.apply-modal .form-group input,
+.apply-modal .form-group select,
+.apply-modal .form-group textarea{background:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;padding:14px 16px;color:#e8e6e1;font-family:var(--sans);font-size:14px;font-weight:400;outline:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;width:100%;appearance:none;-webkit-appearance:none;-moz-appearance:none}
+.apply-modal .form-group select{cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
+.apply-modal .form-group textarea{resize:vertical;min-height:90px;line-height:1.5;font-family:var(--sans)}
+.apply-modal .form-group input::placeholder,
+.apply-modal .form-group textarea::placeholder{color:rgba(232,230,225,.4)}
+.apply-modal .form-group input:hover,
+.apply-modal .form-group select:hover,
+.apply-modal .form-group textarea:hover{border-color:rgba(201,169,110,.4)}
+.apply-modal .form-group input:focus,
+.apply-modal .form-group select:focus,
+.apply-modal .form-group textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+.apply-modal .form-group select option{background-color:#2a2f3e;color:#e8e6e1;padding:10px 14px}
+.apply-modal-submit{background:var(--gold);color:#1a1f2e;border:none;border-radius:50px;padding:16px 32px;font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;margin-top:16px;transition:all .3s ease}
+.apply-modal-submit:hover{background:#d4b67e;transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,169,110,.3)}
+.apply-modal-disclaimer{text-align:center;color:#6b7280;font-family:var(--sans);font-size:11px;margin:8px 0 0;line-height:1.5;font-weight:400}
+@media(max-width:640px){
+  .apply-modal{padding:16px}
+  .apply-modal-content{padding:32px 22px;border-radius:8px}
+  .apply-modal-title{font-size:26px}
+  .apply-modal-header{margin-bottom:24px}
+}
+
 /* MODAL: búsqueda de renta */
 .rent-m{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;padding:16px}
 .rent-m.open{opacity:1;pointer-events:auto}
@@ -754,7 +797,7 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
 .rct-title{font-family:var(--serif);font-size:48px;font-weight:300;line-height:1.05;letter-spacing:-.022em;margin:12px 0 12px;color:#fff}
 .rct-title em{font-style:italic;color:var(--gold);font-weight:400}
 .rct-sub{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.58);max-width:540px;margin:0 auto 20px;line-height:1.7;font-weight:300}
-.rct-cta-primary{display:inline-flex;align-items:center;gap:14px;font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:#0d0d0d;background:var(--gold);padding:14px 36px;border-radius:4px;text-decoration:none;transition:transform .35s cubic-bezier(.25,.46,.45,.94),background .35s,box-shadow .35s;box-shadow:0 12px 40px rgba(201,169,110,.22)}
+.rct-cta-primary{display:inline-flex;align-items:center;gap:14px;font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:#0d0d0d;background:var(--gold);padding:14px 36px;border:none;border-radius:4px;text-decoration:none;cursor:pointer;transition:transform .35s cubic-bezier(.25,.46,.45,.94),background .35s,box-shadow .35s;box-shadow:0 12px 40px rgba(201,169,110,.22)}
 .rct-cta-primary:hover{transform:translateY(-2px);background:#d4b57a;box-shadow:0 20px 50px rgba(201,169,110,.38)}
 .rct-cta-primary span{font-size:14px;letter-spacing:0;transition:transform .35s}
 .rct-cta-primary:hover span{transform:translateX(5px)}
@@ -1182,10 +1225,10 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
     <img class="rct-hero-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=2000&q=90" alt="Únete al equipo Montana Realty">
     <div class="rct-hero-overlay"></div>
     <div class="rct-hero-cnt">
-      <span class="rct-eye r">¿Eres agente?</span>
-      <h2 class="rct-title r d1">No Rentes Tu Carrera.<br><em>Sé Dueño de Ella.</em></h2>
-      <p class="rct-sub r d2">Únete al equipo que redefine el estándar del mercado inmobiliario en San Pedro Garza García.</p>
-      <a href="https://wa.me/528123532365?text=Hola,%20soy%20agente%20inmobiliario%20y%20me%20interesa%20unirme%20al%20equipo%20de%20Montana%20Realty." class="rct-cta-primary r d3" target="_blank" rel="noopener">Aplica ahora <span aria-hidden="true">→</span></a>
+      <span class="rct-eye r">Únete al equipo</span>
+      <h2 class="rct-title r d1">Sé parte de <em>Montana Realty Co.</em></h2>
+      <p class="rct-sub r d2">Buscamos asesores apasionados que quieran formar parte del equipo que está redefiniendo el estándar inmobiliario en San Pedro Garza García. Si tienes experiencia, ambición y compromiso, queremos conocerte.</p>
+      <button type="button" onclick="openApplyModal()" class="rct-cta-primary r d3">Aplica ahora <span aria-hidden="true">→</span></button>
     </div>
   </div>
 
@@ -1329,6 +1372,98 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
       </div>
       <button type="submit" class="sell-modal-submit">Enviar a asesor →</button>
       <p class="sell-modal-disclaimer">Al enviar, se abrirá WhatsApp con tu mensaje listo para enviar a Federico Mecutchen, Director de Ventas.</p>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: aplicación agente (lead form → WhatsApp Federico) -->
+<div class="apply-modal" id="applyModal" aria-hidden="true" role="dialog" aria-labelledby="applyModalTitle">
+  <div class="apply-modal-overlay" onclick="closeApplyModal()"></div>
+  <div class="apply-modal-content" role="document">
+    <button type="button" class="apply-modal-close" onclick="closeApplyModal()" aria-label="Cerrar">×</button>
+    <div class="apply-modal-header">
+      <span class="apply-modal-eyebrow">Aplicación agente</span>
+      <h2 class="apply-modal-title" id="applyModalTitle">Únete al <em>equipo.</em></h2>
+      <p class="apply-modal-subtitle">Completa la información y nuestro Director de Ventas Federico Mecutchen revisará tu aplicación personalmente.</p>
+    </div>
+    <form class="apply-modal-form" id="applyForm" onsubmit="sendApplyToWhatsApp(event)" autocomplete="off" data-form-type="other" data-lpignore="true">
+      <div class="form-group">
+        <label for="applyName">Nombre completo *</label>
+        <input type="text" id="applyName" name="name" required placeholder="Tu nombre completo">
+      </div>
+      <div class="form-group">
+        <label for="applyPhone">Teléfono (WhatsApp) *</label>
+        <input type="tel" id="applyPhone" name="phone" required placeholder="+52 81 1234 5678">
+      </div>
+      <div class="form-group">
+        <label for="applyEmail">Correo electrónico *</label>
+        <input type="email" id="applyEmail" name="email" required placeholder="tucorreo@ejemplo.com">
+      </div>
+      <div class="form-group">
+        <label for="applyAge">Edad</label>
+        <select id="applyAge" name="age">
+          <option value="">Selecciona</option>
+          <option value="18-25">18 - 25 años</option>
+          <option value="26-35">26 - 35 años</option>
+          <option value="36-45">36 - 45 años</option>
+          <option value="46-55">46 - 55 años</option>
+          <option value="56+">56 años o más</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="applyCity">Ciudad de residencia *</label>
+        <input type="text" id="applyCity" name="city" required placeholder="Ej: San Pedro Garza García, Monterrey">
+      </div>
+      <div class="form-group">
+        <label for="applyExperience">Experiencia en bienes raíces *</label>
+        <select id="applyExperience" name="experience" required>
+          <option value="">Selecciona</option>
+          <option value="Sin experiencia, pero ganas de aprender">Sin experiencia, pero ganas de aprender</option>
+          <option value="Menos de 1 año">Menos de 1 año</option>
+          <option value="1-3 años">1-3 años</option>
+          <option value="3-5 años">3-5 años</option>
+          <option value="5-10 años">5-10 años</option>
+          <option value="Más de 10 años">Más de 10 años</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="applyPortfolio">¿Tienes cartera de clientes propia?</label>
+        <select id="applyPortfolio" name="portfolio">
+          <option value="">Selecciona</option>
+          <option value="Sí, tengo cartera consolidada">Sí, tengo cartera consolidada</option>
+          <option value="Sí, en construcción">Sí, en construcción</option>
+          <option value="No, pero tengo red de contactos">No, pero tengo red de contactos</option>
+          <option value="No, empezando desde cero">No, empezando desde cero</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="applyCertification">¿Tienes certificación AMPI o similar?</label>
+        <select id="applyCertification" name="certification">
+          <option value="">Selecciona</option>
+          <option value="Sí, AMPI">Sí, AMPI</option>
+          <option value="Sí, otra certificación">Sí, otra certificación</option>
+          <option value="En proceso">En proceso</option>
+          <option value="No, pero estoy interesado">No, pero estoy interesado</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="applyWhy">¿Por qué quieres unirte a Montana Realty? *</label>
+        <textarea id="applyWhy" name="why" required rows="3" placeholder="Cuéntanos qué te motiva a formar parte del equipo..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="applyAvailability">¿Cuándo podrías empezar?</label>
+        <select id="applyAvailability" name="availability">
+          <option value="">Selecciona</option>
+          <option value="Inmediato">Inmediato</option>
+          <option value="1-2 semanas">1-2 semanas</option>
+          <option value="1 mes">1 mes</option>
+          <option value="2-3 meses">2-3 meses</option>
+          <option value="Solo explorando opciones">Solo explorando opciones</option>
+        </select>
+      </div>
+      <button type="submit" class="apply-modal-submit">Enviar aplicación →</button>
+      <p class="apply-modal-disclaimer">Al enviar, se abrirá WhatsApp con tu aplicación lista para enviar a Federico Mecutchen, Director de Ventas y Marketing.</p>
     </form>
   </div>
 </div>
@@ -2015,6 +2150,66 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){
     const m=document.getElementById('sellModal');
     if(m&&m.classList.contains('active'))closeSellModal();
+  }
+});
+
+// ── APPLY MODAL: aplicación agente (lead form → WhatsApp Federico) ──
+function openApplyModal(){
+  const m=document.getElementById('applyModal');
+  if(!m) return;
+  m.classList.add('active');
+  m.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeApplyModal(){
+  const m=document.getElementById('applyModal');
+  if(!m) return;
+  m.classList.remove('active');
+  m.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+function sendApplyToWhatsApp(event){
+  event.preventDefault();
+  const name=document.getElementById('applyName').value.trim();
+  const phone=document.getElementById('applyPhone').value.trim();
+  const email=document.getElementById('applyEmail').value.trim();
+  const age=document.getElementById('applyAge').value;
+  const city=document.getElementById('applyCity').value.trim();
+  const experience=document.getElementById('applyExperience').value;
+  const portfolio=document.getElementById('applyPortfolio').value;
+  const certification=document.getElementById('applyCertification').value;
+  const why=document.getElementById('applyWhy').value.trim();
+  const availability=document.getElementById('applyAvailability').value;
+
+  let message='Hola Federico, vi en el sitio web de Montana Realty Co. y quiero APLICAR COMO AGENTE INMOBILIARIO. Aquí están mis datos:\n\n';
+  message+='👤 INFORMACIÓN PERSONAL:\n';
+  message+='• Nombre: '+name+'\n';
+  message+='• Teléfono: '+phone+'\n';
+  message+='• Email: '+email+'\n';
+  if(age) message+='• Edad: '+age+'\n';
+  message+='• Ciudad: '+city+'\n\n';
+  message+='💼 EXPERIENCIA PROFESIONAL:\n';
+  message+='• Experiencia: '+experience+'\n';
+  if(portfolio) message+='• Cartera de clientes: '+portfolio+'\n';
+  if(certification) message+='• Certificación: '+certification+'\n';
+  message+='\n💭 MOTIVACIÓN:\n'+why+'\n\n';
+  if(availability){
+    message+='📅 DISPONIBILIDAD:\n';
+    message+='• Puedo empezar: '+availability+'\n\n';
+  }
+  message+='Quedo atento a tu respuesta para continuar el proceso.';
+
+  const url='https://wa.me/528123532365?text='+encodeURIComponent(message);
+  window.open(url,'_blank');
+  setTimeout(function(){
+    closeApplyModal();
+    document.getElementById('applyForm').reset();
+  },500);
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    const m=document.getElementById('applyModal');
+    if(m&&m.classList.contains('active'))closeApplyModal();
   }
 });
 // ── TESTIMONIALS v2: TITLE REVEAL + CAROUSEL ──
