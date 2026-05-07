@@ -681,7 +681,10 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
 
 /* FOOTER */
 .footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;padding:100px 56px;border-top:1px solid rgba(255,255,255,.08)}
-.footer-brand p{font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.6;letter-spacing:.01em;color:#a8a8a8;margin-top:24px;max-width:300px;font-weight:400}
+.footer-brand .footer-text-block{display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:380px}
+.footer-brand .footer-tagline{font-family:var(--serif);font-style:italic;font-size:1.25rem;font-weight:400;color:#e8e6e1;line-height:1.4;margin:0}
+.footer-brand .footer-description{font-family:var(--sans);font-size:.9rem;font-weight:300;color:#a8a8a8;line-height:1.6;margin:0}
+@media (max-width:768px){.footer-brand .footer-tagline{font-size:1.1rem}.footer-brand .footer-description{font-size:.85rem}}
 .footer-logo{height:32px;width:auto;display:block;margin-bottom:8px}
 .footer-social{display:flex;gap:14px;margin-top:32px}
 .fs-icon{width:40px;height:40px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;transition:all .4s cubic-bezier(.25,.46,.45,.94);border-radius:8px}
@@ -1622,7 +1625,10 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
   <div class="footer-main">
     <div class="footer-brand">
       <img src="assets/logo.png" alt="Montana Realty" class="footer-logo">
-      <p>Creando tu sueño inmobiliario. La agencia boutique de propiedades de lujo en San Pedro Garza García.</p>
+      <div class="footer-text-block">
+        <p class="footer-tagline">Creando tu sueño inmobiliario.</p>
+        <p class="footer-description">La agencia boutique de propiedades de lujo en San Pedro Garza García.</p>
+      </div>
       <div class="footer-social">
         <a href="https://www.instagram.com/montanarealtyco/" class="fs-icon" title="Instagram" target="_blank" rel="noopener" aria-label="Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>

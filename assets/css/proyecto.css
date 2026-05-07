@@ -110,7 +110,10 @@ img{max-width:100%;display:block}
 /* FOOTER */
 .site-footer{background:#0d0d0d;color:#fff;font-family:var(--sans)}
 .footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;padding:100px 56px;border-top:1px solid rgba(255,255,255,.08)}
-.footer-brand p{font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.6;letter-spacing:.01em;color:#a8a8a8;margin-top:24px;max-width:300px;font-weight:400}
+.footer-brand .footer-text-block{display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:380px}
+.footer-brand .footer-tagline{font-family:var(--serif);font-style:italic;font-size:1.25rem;font-weight:400;color:#e8e6e1;line-height:1.4;margin:0}
+.footer-brand .footer-description{font-family:var(--sans);font-size:.9rem;font-weight:300;color:#a8a8a8;line-height:1.6;margin:0}
+@media (max-width:768px){.footer-brand .footer-tagline{font-size:1.1rem}.footer-brand .footer-description{font-size:.85rem}}
 .footer-logo{height:32px;width:auto;display:block;margin-bottom:8px;filter:brightness(0) invert(1);opacity:.9}
 .footer-social{display:flex;gap:14px;margin-top:32px}
 .fs-icon{width:40px;height:40px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);text-decoration:none;transition:all .4s cubic-bezier(.25,.46,.45,.94);border-radius:8px}
