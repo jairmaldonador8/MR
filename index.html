@@ -654,30 +654,33 @@ em{font-style:italic}
 }
 
 /* FORMS (contact) */
-.fi{width:100%;background:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;color:#e8e6e1;font-family:var(--sans);font-size:14px;font-weight:300;padding:14px 16px;outline:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;display:block;margin-bottom:24px}
+.fi{width:100%;background:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;color:#e8e6e1;font-family:var(--sans);font-size:13.5px;font-weight:300;padding:12px 14px;outline:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;display:block}
 .fi::placeholder{color:rgba(232,230,225,.4);font-size:13px;font-weight:300}
 .fi:hover{border-color:rgba(201,169,110,.4)}
 .fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
-textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
+textarea.fi{min-height:70px;max-height:110px;resize:vertical;line-height:1.5}
 /* Custom dark dropdown for contact form */
-.fi-select{width:100%;background-color:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;color:#e8e6e1;font-family:var(--sans);font-size:14px;font-weight:300;padding:14px 44px 14px 16px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;margin-bottom:24px}
+.fi-select{width:100%;background-color:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;color:#e8e6e1;font-family:var(--sans);font-size:13.5px;font-weight:300;padding:12px 40px 12px 14px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .fi-select:hover{border-color:rgba(201,169,110,.4);background-color:#262d40}
 .fi-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
 .fi-select option{background-color:#2a2f3e;color:#e8e6e1;padding:10px 14px;font-weight:300}
 .fi-select option:hover,.fi-select option:focus{background-color:rgba(201,169,110,.2)!important;color:#fff}
 .fi-select option:checked{background:var(--gold) linear-gradient(0deg,var(--gold),var(--gold));color:#000;font-weight:500}
-.fl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#a8a8a8;display:block;margin-bottom:8px;font-weight:500}
-.bsub{width:100%;background:linear-gradient(135deg,var(--gold) 0%,rgba(201,169,110,.85) 100%);color:var(--black);border:none;font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:18px;font-weight:500;transition:all .4s cubic-bezier(.25,.46,.45,.94);margin-top:16px;cursor:pointer;border-radius:4px}
+.fl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#a8a8a8;display:block;margin-bottom:6px;font-weight:500}
+.bsub{width:100%;background:linear-gradient(135deg,var(--gold) 0%,rgba(201,169,110,.85) 100%);color:var(--black);border:none;font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:14px;font-weight:500;transition:all .4s cubic-bezier(.25,.46,.45,.94);margin-top:4px;cursor:pointer;border-radius:4px}
 .bsub:hover{background:linear-gradient(135deg,var(--white) 0%,rgba(245,244,240,.9) 100%);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,169,110,.2)}
 
 /* CONTACT */
-.ct{display:grid;grid-template-columns:1fr 1fr;min-height:90vh}
-.ctl{padding:40px 56px 40px;border-right:1px solid rgba(255,255,255,.08)}
-.ctr{padding:40px 56px 40px}
-.big{font-family:var(--serif);font-size:clamp(50px,7vw,96px);font-weight:300;line-height:.94;letter-spacing:-.018em;margin:28px 0 52px}
-.cr{margin-bottom:32px}
-.cl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:7px;font-weight:500}
-.cv{font-size:15px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.7)}
+.ct{display:grid;grid-template-columns:1fr 1.2fr;min-height:100vh;align-items:center;gap:64px;padding:60px 56px;max-width:1500px;margin:0 auto;box-sizing:border-box}
+.ctl{padding:0}
+.ctr{padding:32px;background:rgba(255,255,255,.02);border:1px solid rgba(201,169,110,.1);border-radius:8px}
+.ct-form{display:flex;flex-direction:column;gap:14px}
+.ct-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ct-field{display:flex;flex-direction:column}
+.big{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);font-weight:300;line-height:.96;letter-spacing:-.018em;margin:20px 0 24px}
+.cr{margin-bottom:18px}
+.cl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px;font-weight:500}
+.cv{font-size:14px;font-weight:300;line-height:1.5;color:rgba(255,255,255,.7)}
 
 /* FOOTER */
 .footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;padding:60px 56px;border-top:1px solid rgba(255,255,255,.08)}
@@ -745,6 +748,8 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
   .cap-bl{bottom:28px;left:24px}.cap-br{bottom:28px;right:24px}.cap-tl{top:72px;left:24px}.cap-tr{top:72px;right:24px}
   .h1{font-size:clamp(52px,12vw,80px)}.h2{font-size:clamp(36px,9vw,60px)}
   .split,.split3,.ct{grid-template-columns:1fr}
+  .ct{padding:48px 24px;gap:32px;min-height:auto}
+  .ct-row-2{grid-template-columns:1fr}
   .split .blk,.split3 .blk{height:60vh}
   .why-v2{padding:90px 0 40px}
   .why-text-block{margin:20px auto 64px;padding:0 22px}
@@ -755,7 +760,8 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
   .svc-card{height:70vh}
   .svc-desc,.svc-link{opacity:1;transform:none}
   .svc-title{margin-bottom:16px}
-  .ctl,.ctr{padding:30px 24px 24px}
+  .ctl{padding:0}
+  .ctr{padding:24px}
   .blog-sec{padding:80px 20px 30px}
   footer,.footer-main,.footer-bottom{padding-left:24px;padding-right:24px}
   .footer-main{grid-template-columns:1fr;gap:32px;padding-top:48px;padding-bottom:48px}
@@ -769,7 +775,7 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
   .testi-v2-quotes{font-size:28px}
   .sup-grid{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr}
-  .ctl{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  .ctl{border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:32px}
   .big{font-size:clamp(40px,10vw,64px)}
   #comp-badge{bottom:20px;right:20px;width:40px;height:40px;font-size:14px}
   #comp-dialog{padding:40px 24px}
@@ -1569,10 +1575,12 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
   </div>
   <div class="ctr">
     <span class="eye r">Enviar mensaje</span>
-    <form onsubmit="subCt(event)" style="margin-top:32px" autocomplete="off" data-form-type="other" data-lpignore="true">
-      <div class="r d1"><label class="fl">Nombre</label><input class="fi" type="text" placeholder="Nombre completo" required></div>
-      <div class="r d1"><label class="fl">Correo</label><input class="fi" type="email" placeholder="correo@ejemplo.com" required></div>
-      <div class="r d2"><label class="fl">¿Qué buscas?</label>
+    <form class="ct-form r d1" onsubmit="subCt(event)" autocomplete="off" data-form-type="other" data-lpignore="true">
+      <div class="ct-row-2">
+        <div class="ct-field"><label class="fl">Nombre</label><input class="fi" type="text" placeholder="Nombre completo" required></div>
+        <div class="ct-field"><label class="fl">Correo</label><input class="fi" type="email" placeholder="correo@ejemplo.com" required></div>
+      </div>
+      <div class="ct-field"><label class="fl">¿Qué buscas?</label>
         <select class="fi-select" name="interes">
           <option>Comprar casa</option>
           <option>Comprar departamento</option>
@@ -1585,37 +1593,39 @@ textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
           <option>Asesoría general</option>
         </select>
       </div>
-      <div class="r d2"><label class="fl">Presupuesto (MXN)</label>
-        <select class="fi-select" name="presupuesto">
-          <option>Menos de $5M</option>
-          <option>$5M — $10M</option>
-          <option>$10M — $20M</option>
-          <option>$20M — $35M</option>
-          <option>$35M — $50M</option>
-          <option>$50M — $75M</option>
-          <option>$75M — $100M</option>
-          <option>$100M+</option>
-        </select>
+      <div class="ct-row-2">
+        <div class="ct-field"><label class="fl">Presupuesto (MXN)</label>
+          <select class="fi-select" name="presupuesto">
+            <option>Menos de $5M</option>
+            <option>$5M — $10M</option>
+            <option>$10M — $20M</option>
+            <option>$20M — $35M</option>
+            <option>$35M — $50M</option>
+            <option>$50M — $75M</option>
+            <option>$75M — $100M</option>
+            <option>$100M+</option>
+          </select>
+        </div>
+        <div class="ct-field"><label class="fl">Zona de interés</label>
+          <select class="fi-select" name="zona">
+            <option>Cualquier zona</option>
+            <option>Valle Oriente</option>
+            <option>Valle del Campestre</option>
+            <option>Del Valle</option>
+            <option>San Agustín</option>
+            <option>Centrito Valle</option>
+            <option>Lomas del Valle</option>
+            <option>Chipinque</option>
+            <option>Carretera Nacional</option>
+            <option>Colinas de San Jerónimo</option>
+            <option>Fuentes del Valle</option>
+          </select>
+        </div>
       </div>
-      <div class="r d2"><label class="fl">Zona de interés</label>
-        <select class="fi-select" name="zona">
-          <option>Cualquier zona</option>
-          <option>Valle Oriente</option>
-          <option>Valle del Campestre</option>
-          <option>Del Valle</option>
-          <option>San Agustín</option>
-          <option>Centrito Valle</option>
-          <option>Lomas del Valle</option>
-          <option>Chipinque</option>
-          <option>Carretera Nacional</option>
-          <option>Colinas de San Jerónimo</option>
-          <option>Fuentes del Valle</option>
-        </select>
-      </div>
-      <div class="r d3"><label class="fl">Mensaje</label>
+      <div class="ct-field"><label class="fl">Mensaje</label>
         <textarea class="fi" placeholder="Cuéntanos sobre tu propiedad ideal..."></textarea>
       </div>
-      <button class="bsub r d3" type="submit" style="margin-top:16px">Enviar →</button>
+      <button class="bsub" type="submit">Enviar →</button>
     </form>
   </div>
 </div>
