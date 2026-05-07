@@ -717,17 +717,19 @@ em{font-style:italic}
 }
 
 /* FORMS (contact) */
-.fi{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.12);color:var(--white);font-family:var(--sans);font-size:14px;font-weight:300;padding:15px 0;outline:none;transition:border-color .3s;display:block;margin-bottom:32px}
-.fi::placeholder{color:rgba(255,255,255,.28);font-size:13px;font-weight:300}
-.fi:focus{border-bottom-color:var(--gold);background:rgba(201,169,110,.02)}
+.fi{width:100%;background:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;color:#e8e6e1;font-family:var(--sans);font-size:14px;font-weight:300;padding:14px 16px;outline:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;display:block;margin-bottom:24px}
+.fi::placeholder{color:rgba(232,230,225,.4);font-size:13px;font-weight:300}
+.fi:hover{border-color:rgba(201,169,110,.4)}
+.fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+textarea.fi{min-height:120px;resize:vertical;line-height:1.55}
 /* Custom dark dropdown for contact form */
-.fi-select{width:100%;background-color:#1a1e2a;border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#fff;font-family:var(--sans);font-size:14px;font-weight:300;padding:14px 44px 14px 16px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;transition:border-color .3s,background-color .3s,box-shadow .3s;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;margin-bottom:28px}
-.fi-select:hover{border-color:rgba(201,169,110,.35);background-color:#22283a}
-.fi-select:focus{border-color:var(--gold);outline:1px solid rgba(201,169,110,.4);outline-offset:2px;box-shadow:0 0 0 3px rgba(201,169,110,.12)}
-.fi-select option{background-color:#2a2f3e;color:#fff;padding:10px 14px;font-weight:300}
+.fi-select{width:100%;background-color:#232a3d;border:1px solid rgba(201,169,110,.15);border-radius:4px;color:#e8e6e1;font-family:var(--sans);font-size:14px;font-weight:300;padding:14px 44px 14px 16px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;transition:border-color .3s ease,box-shadow .3s ease,background .3s ease;background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;margin-bottom:24px}
+.fi-select:hover{border-color:rgba(201,169,110,.4);background-color:#262d40}
+.fi-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+.fi-select option{background-color:#2a2f3e;color:#e8e6e1;padding:10px 14px;font-weight:300}
 .fi-select option:hover,.fi-select option:focus{background-color:rgba(201,169,110,.2)!important;color:#fff}
 .fi-select option:checked{background:var(--gold) linear-gradient(0deg,var(--gold),var(--gold));color:#000;font-weight:500}
-.fl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:10px;font-weight:500}
+.fl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#a8a8a8;display:block;margin-bottom:8px;font-weight:500}
 .bsub{width:100%;background:linear-gradient(135deg,var(--gold) 0%,rgba(201,169,110,.85) 100%);color:var(--black);border:none;font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:18px;font-weight:500;transition:all .4s cubic-bezier(.25,.46,.45,.94);margin-top:16px;cursor:pointer;border-radius:4px}
 .bsub:hover{background:linear-gradient(135deg,var(--white) 0%,rgba(245,244,240,.9) 100%);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,169,110,.2)}
 
@@ -1692,7 +1694,7 @@ em{font-style:italic}
         </select>
       </div>
       <div class="r d3"><label class="fl">Mensaje</label>
-        <textarea class="fi" style="height:96px;resize:none;width:100%;font-family:var(--sans);font-size:14px;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);color:var(--white);outline:none;padding-top:10px" placeholder="Cuéntanos sobre tu propiedad ideal..."></textarea>
+        <textarea class="fi" placeholder="Cuéntanos sobre tu propiedad ideal..."></textarea>
       </div>
       <button class="bsub r d3" type="submit" style="margin-top:16px">Enviar →</button>
     </form>
