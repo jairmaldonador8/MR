@@ -1815,7 +1815,7 @@ document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.
     const flagHtml=flag?`<span class="pcard-flag pcard-${flag.cls}">${flag.label}</span>`:(opType?`<span class="pcard-flag pcard-${op.type==='rental'?'rent':'sale'}">${opType}</span>`:'');
     const img=p.title_image_full||p.title_image_thumb||'';
     return `
-      <a href="propiedades.html?id=${encodeURIComponent(p.public_id||'')}" class="pcard">
+      <a href="propiedad.html?id=${encodeURIComponent(p.public_id||'')}" class="pcard">
         <div class="pcard-img">
           <img src="${escapeHtml(img)}" alt="${escapeHtml(cleanTitle)}" loading="lazy">
           ${flagHtml}

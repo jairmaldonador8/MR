@@ -512,7 +512,7 @@ function renderProperty(p){
   const highlight=(state.highlightId&&p.public_id===state.highlightId)?' highlight':'';
   const img=p.title_image_full||p.title_image_thumb||'';
   return `
-    <a class="prop-card${highlight}" href="propiedades.html?id=${id}" data-id="${escHtml(p.public_id||'')}">
+    <a class="prop-card${highlight}" href="propiedad.html?id=${id}" data-id="${escHtml(p.public_id||'')}">
       <div class="prop-img">
         <img src="${escHtml(img)}" alt="${escHtml(p.title||'Propiedad')}" loading="lazy">
         ${opType?`<span class="prop-badge">${escHtml(opType)}</span>`:''}
@@ -527,7 +527,7 @@ function renderProperty(p){
             <button type="button" class="prop-btn" title="Agendar visita" onclick="event.preventDefault();event.stopPropagation();window.location.href='index.html#cta'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </button>
-            <button type="button" class="prop-btn" title="Compartir" onclick="event.preventDefault();event.stopPropagation();navigator.share?navigator.share({title:'Montana Realty',url:location.origin+'/propiedades.html?id=${id}'}):navigator.clipboard.writeText(location.origin+'/propiedades.html?id=${id}')">
+            <button type="button" class="prop-btn" title="Compartir" onclick="event.preventDefault();event.stopPropagation();navigator.share?navigator.share({title:'Montana Realty',url:location.origin+'/propiedad.html?id=${id}'}):navigator.clipboard.writeText(location.origin+'/propiedad.html?id=${id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
             </button>
           </div>

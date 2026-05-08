@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cargando propiedad… | Montana Realty Co.</title>
+<meta name="description" content="Detalle de propiedad en Montana Realty Co. — agencia boutique de bienes raíces de lujo en San Pedro Garza García.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nav-h:72px;
+  --white:#ffffff;
+  --black:#0d0d0d;
+  --navy:#1a1f2e;
+  --navy-2:#232a3d;
+  --gold:#c9a96e;
+  --gold-2:#d4b67e;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Poppins',Helvetica,Arial,sans-serif;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden;font-weight:300}
+em{font-style:italic}
+
+/* ── NAV (light, matches equipo/nosotros/propiedades) ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:var(--nav-h);background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #e8e8e8;transition:height .3s}
+#nav.scrolled{height:60px}
+.nav-logo{display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.nav-logo-img{height:44px;width:auto;display:block;filter:brightness(0);transition:filter .3s}
+.nav-center{display:flex;align-items:center}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.55);text-decoration:none;transition:color .3s;position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:currentColor;transition:width .3s ease;transform-origin:left}
+.nav-links a:hover,.nav-links a.active{color:#111}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:24px}
+.nav-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.45);text-decoration:none;transition:color .3s}
+.nav-sub:hover{color:#111}
+.nav-action{font-size:11px;letter-spacing:.06em;color:#111;font-family:var(--sans);font-weight:500;padding:10px 24px;border:1.5px solid rgba(0,0,0,.3);border-radius:30px;transition:all .3s;text-decoration:none;display:inline-block}
+.nav-action:hover{background:#111;color:#fff;border-color:#111}
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer}
+.nav-ham span{display:block;width:22px;height:1.5px;background:#111;transition:all .3s}
+.nav-ham.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.nav-ham.open span:nth-child(2){opacity:0}
+.nav-ham.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+/* MOB MENU */
+.mob-menu{position:fixed;inset:0;background:#fdf5ec;z-index:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;opacity:0;pointer-events:none;transition:opacity .4s}
+.mob-menu.open{opacity:1;pointer-events:all}
+.mob-menu a{font-family:var(--serif);font-size:clamp(32px,7vw,56px);font-weight:400;color:#111;text-decoration:none}
+.mob-menu a:hover{color:var(--gold)}
+
+/* ── DETAIL MAIN (navy) ── */
+.property-detail-main{background:var(--navy);color:#e8e6e1;padding:calc(var(--nav-h) + 48px) 32px 96px;min-height:100vh}
+.property-loading,.property-error{text-align:center;padding:120px 20px;color:#a8a8a8;font-family:var(--sans);max-width:640px;margin:0 auto}
+.property-loading{font-size:14px;letter-spacing:.04em;opacity:.7;animation:propPulse 1.6s ease-in-out infinite}
+@keyframes propPulse{0%,100%{opacity:.4}50%{opacity:.85}}
+.property-error h2{font-family:var(--serif);font-size:2.5rem;color:#e8e6e1;margin-bottom:12px;font-weight:400}
+.property-error p{font-size:14px;line-height:1.6;margin-bottom:24px}
+
+.property-content{max-width:1400px;margin:0 auto}
+
+/* Breadcrumb */
+.property-breadcrumb{display:flex;gap:8px;align-items:center;margin-bottom:32px;font-family:var(--sans);font-size:.8rem;color:#a8a8a8;letter-spacing:.04em;flex-wrap:wrap}
+.property-breadcrumb a{color:#a8a8a8;text-decoration:none;transition:color .3s}
+.property-breadcrumb a:hover{color:var(--gold)}
+.property-breadcrumb span:not(.bc-sep){color:var(--gold)}
+.property-breadcrumb .bc-sep{color:rgba(255,255,255,.2)}
+
+/* Gallery */
+.property-gallery{margin-bottom:60px}
+.gallery-main{position:relative;width:100%;height:600px;background:#0f1419;border-radius:8px;overflow:hidden;margin-bottom:14px}
+.gallery-main img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .3s}
+.gallery-main img.swap{opacity:.4}
+.gallery-prev,.gallery-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(26,31,46,.78);color:var(--gold);border:1px solid rgba(201,169,110,.35);width:48px;height:48px;border-radius:50%;font-size:24px;line-height:1;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;font-family:var(--serif);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.gallery-prev{left:16px}
+.gallery-next{right:16px}
+.gallery-prev:hover,.gallery-next:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.gallery-counter{position:absolute;bottom:16px;right:16px;background:rgba(26,31,46,.92);color:var(--gold);padding:8px 16px;border-radius:20px;font-family:var(--sans);font-size:.78rem;letter-spacing:.08em;backdrop-filter:blur(6px)}
+.gallery-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.gallery-thumb{aspect-ratio:4/3;border-radius:4px;overflow:hidden;cursor:pointer;opacity:.55;transition:all .3s;border:2px solid transparent;background:#0f1419}
+.gallery-thumb.active,.gallery-thumb:hover{opacity:1;border-color:var(--gold)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Info layout */
+.property-info{display:grid;grid-template-columns:1.5fr 1fr;gap:60px;align-items:start}
+.property-eyebrow{display:block;font-family:var(--sans);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:500}
+.property-info h1{font-family:var(--serif);font-size:clamp(28px,3.8vw,52px);font-weight:400;line-height:1.05;color:#e8e6e1;margin:0 0 14px;letter-spacing:-.012em}
+.property-location{font-family:var(--sans);font-size:.95rem;color:#a8a8a8;margin:0 0 36px;line-height:1.55}
+
+/* Features */
+.property-features{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:48px;padding:28px;background:rgba(255,255,255,.02);border:1px solid rgba(201,169,110,.12);border-radius:8px}
+.property-feature{display:flex;align-items:center;gap:14px}
+.property-feature-icon{font-size:22px;flex-shrink:0;width:36px;text-align:center}
+.property-feature-text{display:flex;flex-direction:column;min-width:0}
+.property-feature-label{font-family:var(--sans);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:#a8a8a8;font-weight:500;margin-bottom:2px}
+.property-feature-value{font-family:var(--serif);font-size:1.3rem;color:#e8e6e1;font-weight:400;line-height:1.2}
+
+/* Description / amenities */
+.property-description-section,.property-amenities-section{margin-bottom:44px}
+.property-description-section h2,.property-amenities-section h2{font-family:var(--serif);font-size:1.8rem;font-weight:400;color:#e8e6e1;margin:0 0 18px;letter-spacing:-.01em}
+#propertyDescription{font-family:var(--sans);font-size:.95rem;line-height:1.75;color:#a8a8a8;font-weight:300;white-space:pre-line}
+#propertyAmenities{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px;padding:0;margin:0}
+#propertyAmenities li{font-family:var(--sans);font-size:.9rem;color:#a8a8a8;padding-left:18px;position:relative;line-height:1.5}
+#propertyAmenities li::before{content:'';position:absolute;left:0;top:9px;width:6px;height:6px;background:var(--gold);border-radius:50%}
+
+/* Sidebar */
+.property-info-right{position:sticky;top:calc(var(--nav-h) + 24px);height:fit-content}
+.property-price-card{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,110,.22);border-radius:10px;padding:30px}
+.property-operation{display:inline-block;background:rgba(201,169,110,.14);color:var(--gold);padding:6px 12px;font-family:var(--sans);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;border-radius:4px;margin-bottom:14px;font-weight:600}
+.property-price{font-family:var(--serif);font-size:clamp(28px,3vw,42px);color:var(--gold);margin:0 0 6px;font-weight:500;line-height:1.05}
+.property-id{font-family:var(--sans);font-size:.72rem;color:#7a7a7a;margin:0 0 22px;letter-spacing:.06em}
+.btn-full{width:100%;text-align:center;display:block}
+.btn-primary{background:var(--gold);color:var(--navy);border:none;padding:15px 24px;font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;border-radius:50px;cursor:pointer;text-decoration:none;transition:all .3s;margin-bottom:10px}
+.btn-primary:hover{background:var(--gold-2);transform:translateY(-2px);box-shadow:0 10px 26px rgba(201,169,110,.3)}
+.btn-whatsapp{background:#25d366;color:#fff;border:none;padding:14px 24px;font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;border-radius:50px;cursor:pointer;text-decoration:none;transition:all .3s}
+.btn-whatsapp:hover{background:#1ea85a;transform:translateY(-2px);box-shadow:0 10px 26px rgba(37,211,102,.28)}
+
+/* Agent block */
+.property-agent{margin-top:28px;padding-top:24px;border-top:1px solid rgba(201,169,110,.15)}
+.property-agent-label{font-family:var(--sans);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:#a8a8a8;margin:0 0 8px;font-weight:600}
+.property-agent-name{font-family:var(--serif);font-size:1.3rem;color:#e8e6e1;margin:0 0 2px;font-weight:400}
+.property-agent-role{font-family:var(--sans);font-size:.82rem;color:#a8a8a8;margin:0 0 8px;font-weight:300}
+.property-agent-phone{font-family:var(--sans);font-size:.88rem;color:var(--gold);text-decoration:none;letter-spacing:.04em;border-bottom:1px solid rgba(201,169,110,.3);padding-bottom:1px;transition:color .3s,border-color .3s}
+.property-agent-phone:hover{color:#fff;border-color:var(--gold)}
+
+/* Contact modal */
+.property-contact-modal{display:none;position:fixed;inset:0;z-index:9999;justify-content:center;align-items:center;padding:20px}
+.property-contact-modal.active{display:flex}
+.property-contact-modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer}
+.property-contact-modal-content{position:relative;background:var(--navy);border:1px solid rgba(201,169,110,.22);border-radius:8px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:44px 40px;z-index:1;animation:propModalSlide .4s ease;scrollbar-width:thin;scrollbar-color:rgba(201,169,110,.4) transparent}
+.property-contact-modal-content::-webkit-scrollbar{width:6px}
+.property-contact-modal-content::-webkit-scrollbar-thumb{background:rgba(201,169,110,.4);border-radius:100px}
+@keyframes propModalSlide{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.property-contact-modal-close{position:absolute;top:16px;right:20px;background:transparent;border:none;color:var(--gold);font-size:30px;line-height:1;cursor:pointer;transition:transform .3s;padding:6px 10px;font-family:var(--sans)}
+.property-contact-modal-close:hover{transform:rotate(90deg)}
+.property-contact-modal-header{text-align:center;margin-bottom:28px}
+.contact-eyebrow{display:block;color:var(--gold);font-family:var(--sans);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px;font-weight:600}
+.property-contact-modal-header h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,34px);font-weight:400;color:#e8e6e1;margin:0 0 10px;letter-spacing:-.012em;line-height:1.1}
+.property-contact-modal-header h2 em{color:var(--gold);font-style:italic;font-weight:500}
+.property-contact-modal-header p{color:#a8a8a8;font-family:var(--sans);font-size:.9rem;line-height:1.55;font-weight:300;margin:0}
+#propertyContactForm{display:flex;flex-direction:column;gap:18px}
+#propertyContactForm .form-group{display:flex;flex-direction:column}
+#propertyContactForm label{font-family:var(--sans);color:#a8a8a8;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+#propertyContactForm input,#propertyContactForm textarea{background:var(--navy-2);border:1px solid rgba(201,169,110,.15);border-radius:4px;padding:13px 14px;color:#e8e6e1;font-family:var(--sans);font-size:.92rem;font-weight:400;outline:none;transition:border-color .3s,box-shadow .3s,background .3s;width:100%}
+#propertyContactForm textarea{resize:vertical;min-height:90px;line-height:1.5}
+#propertyContactForm input::placeholder,#propertyContactForm textarea::placeholder{color:rgba(232,230,225,.4)}
+#propertyContactForm input:hover,#propertyContactForm textarea:hover{border-color:rgba(201,169,110,.4)}
+#propertyContactForm input:focus,#propertyContactForm textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+
+/* Footer (matches site footer) */
+.site-footer{background:#0d0d0d;color:#fff;font-family:var(--sans)}
+.footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;padding:100px 56px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-brand .footer-text-block{display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:380px}
+.footer-brand .footer-tagline{font-family:var(--serif);font-style:italic;font-size:1.25rem;font-weight:400;color:#e8e6e1;line-height:1.4;margin:0}
+.footer-brand .footer-description{font-family:var(--sans);font-size:.9rem;font-weight:300;color:#a8a8a8;line-height:1.6;margin:0}
+.footer-logo{height:32px;width:auto;display:block;margin-bottom:8px;filter:brightness(0) invert(1);opacity:.9}
+.footer-social{display:flex;gap:14px;margin-top:32px}
+.fs-icon{width:40px;height:40px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);text-decoration:none;transition:all .4s cubic-bezier(.25,.46,.45,.94);border-radius:8px}
+.fs-icon svg{width:18px;height:18px;display:block;transition:transform .4s}
+.fs-icon:hover{border-color:var(--gold);background:rgba(201,169,110,.1);transform:translateY(-4px);color:var(--gold)}
+.fs-icon:hover svg{transform:scale(1.08)}
+.footer-col-title{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:24px;display:block;font-weight:500}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.52);text-decoration:none;margin-bottom:14px;transition:all .3s;font-weight:300;position:relative}
+.footer-col a::before{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.footer-col a:hover{color:var(--gold)}
+.footer-col a:hover::before{width:100%}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:32px 56px;border-top:1px solid rgba(255,255,255,.08)}
+.footer-copy{font-size:9px;letter-spacing:.12em;color:#a8a8a8;text-transform:uppercase;font-weight:400}
+.footer-legal{display:flex;gap:28px;flex-wrap:wrap}
+.footer-legal a{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#a8a8a8;text-decoration:none;transition:color .3s;font-weight:400}
+.footer-legal a:hover{color:var(--gold)}
+
+/* Responsive */
+@media(max-width:968px){
+  .property-info{grid-template-columns:1fr;gap:36px}
+  .property-info-right{position:static}
+  .gallery-main{height:420px}
+  .property-features{grid-template-columns:1fr;padding:22px}
+  #propertyAmenities{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  #nav{padding:0 20px}
+  .nav-center,.nav-right{display:none}
+  .nav-ham{display:flex}
+  .property-detail-main{padding:calc(var(--nav-h) + 28px) 20px 64px}
+  .footer-main{grid-template-columns:1fr;gap:32px;padding:72px 24px}
+  .footer-bottom{flex-direction:column;gap:14px;padding:24px;text-align:center}
+  .footer-brand .footer-tagline{font-size:1.1rem}
+  .footer-brand .footer-description{font-size:.85rem}
+}
+@media(max-width:640px){
+  .property-detail-main{padding:calc(var(--nav-h) + 20px) 16px 56px}
+  .gallery-main{height:300px}
+  .gallery-prev,.gallery-next{width:40px;height:40px;font-size:20px}
+  .property-contact-modal-content{padding:32px 22px}
+}
+</style>
+<meta name="autofill" content="off">
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="propiedades.html" onclick="closeMob()">Propiedades</a>
+  <a href="index.html#svc" onclick="closeMob()">Servicios</a>
+  <a href="equipo.html" onclick="closeMob()">Equipo</a>
+  <a href="nosotros.html" onclick="closeMob()">Nosotros</a>
+  <a href="blog.html" onclick="closeMob()">Blog</a>
+  <a href="index.html#cta" onclick="closeMob()">Agendar visita</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.png" class="nav-logo-img" alt="Montana Realty">
+  </a>
+  <div class="nav-center">
+    <ul class="nav-links">
+      <li><a href="propiedades.html" class="active">Propiedades</a></li>
+      <li><a href="index.html#svc">Servicios</a></li>
+      <li><a href="equipo.html">Equipo</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="admin-login.html" class="nav-sub">Iniciar sesión</a>
+    <a href="index.html#cta" class="nav-action">Agendar visita</a>
+  </div>
+  <button class="nav-ham" id="navHam" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- DETAIL -->
+<main class="property-detail-main">
+
+  <div id="propertyLoading" class="property-loading">Cargando información de la propiedad…</div>
+
+  <div id="propertyError" class="property-error" style="display:none">
+    <h2>Propiedad no encontrada</h2>
+    <p>La propiedad que buscas no está disponible o el enlace es incorrecto.</p>
+    <a href="propiedades.html" class="btn-primary" style="display:inline-block">Ver todas las propiedades</a>
+  </div>
+
+  <div id="propertyContent" class="property-content" style="display:none">
+
+    <nav class="property-breadcrumb" aria-label="Migas">
+      <a href="index.html">Inicio</a>
+      <span class="bc-sep">/</span>
+      <a href="propiedades.html">Propiedades</a>
+      <span class="bc-sep">/</span>
+      <span id="propertyBreadcrumbCurrent">Cargando…</span>
+    </nav>
+
+    <section class="property-gallery">
+      <div class="gallery-main">
+        <img id="galleryMainImage" src="" alt="Imagen principal de la propiedad">
+        <button type="button" class="gallery-prev" onclick="changeGalleryImage(-1)" aria-label="Anterior">‹</button>
+        <button type="button" class="gallery-next" onclick="changeGalleryImage(1)" aria-label="Siguiente">›</button>
+        <div class="gallery-counter">
+          <span id="galleryCurrent">1</span> / <span id="galleryTotal">1</span>
+        </div>
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </section>
+
+    <section class="property-info">
+      <div class="property-info-left">
+        <span class="property-eyebrow" id="propertyZone">Cargando…</span>
+        <h1 id="propertyTitle">Cargando propiedad…</h1>
+        <p class="property-location" id="propertyLocation"></p>
+
+        <div class="property-features" id="propertyFeatures"></div>
+
+        <div class="property-description-section">
+          <h2>Descripción</h2>
+          <div id="propertyDescription"></div>
+        </div>
+
+        <div class="property-amenities-section" id="propertyAmenitiesSection" style="display:none">
+          <h2>Amenidades</h2>
+          <ul id="propertyAmenities"></ul>
+        </div>
+      </div>
+
+      <aside class="property-info-right">
+        <div class="property-price-card">
+          <span class="property-operation" id="propertyOperation">Venta</span>
+          <h2 class="property-price" id="propertyPrice">Cargando…</h2>
+          <p class="property-id">ID: <span id="propertyPublicId"></span></p>
+
+          <button type="button" class="btn-primary btn-full" onclick="openContactModal()">Solicitar Información →</button>
+
+          <a id="propertyWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="btn-whatsapp btn-full">Contactar por WhatsApp</a>
+
+          <div class="property-agent">
+            <p class="property-agent-label">Asesor asignado</p>
+            <p class="property-agent-name">Maricela Arcia</p>
+            <p class="property-agent-role">Directora</p>
+            <a href="tel:+528110448818" class="property-agent-phone">+52 81 1044-8818</a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- CONTACT MODAL -->
+<div class="property-contact-modal" id="propertyContactModal" aria-hidden="true" role="dialog" aria-labelledby="propertyContactTitle">
+  <div class="property-contact-modal-overlay" onclick="closeContactModal()"></div>
+  <div class="property-contact-modal-content" role="document">
+    <button type="button" class="property-contact-modal-close" onclick="closeContactModal()" aria-label="Cerrar">×</button>
+    <div class="property-contact-modal-header">
+      <span class="contact-eyebrow">Solicitar información</span>
+      <h2 id="propertyContactTitle">Quiero conocer esta <em>propiedad.</em></h2>
+      <p>Completa tus datos y nuestra Directora Maricela Arcia te contactará para agendar una visita o resolver tus dudas.</p>
+    </div>
+    <form id="propertyContactForm" onsubmit="submitPropertyContact(event)" autocomplete="off" data-form-type="other" data-lpignore="true">
+      <div class="form-group">
+        <label for="contactPropName">Nombre completo *</label>
+        <input type="text" id="contactPropName" name="name" required placeholder="Tu nombre completo">
+      </div>
+      <div class="form-group">
+        <label for="contactPropPhone">Teléfono (WhatsApp) *</label>
+        <input type="tel" id="contactPropPhone" name="phone" required placeholder="+52 81 1234 5678">
+      </div>
+      <div class="form-group">
+        <label for="contactPropEmail">Correo electrónico *</label>
+        <input type="email" id="contactPropEmail" name="email" required placeholder="correo@ejemplo.com">
+      </div>
+      <div class="form-group">
+        <label for="contactPropMessage">Mensaje</label>
+        <textarea id="contactPropMessage" name="message" rows="4" placeholder="¿Quieres agendar una visita? ¿Tienes alguna duda específica?"></textarea>
+      </div>
+      <button type="submit" class="btn-primary btn-full">Enviar solicitud →</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Montana Realty" class="footer-logo">
+      <div class="footer-text-block">
+        <p class="footer-tagline">Creando tu sueño inmobiliario.</p>
+        <p class="footer-description">La agencia boutique de propiedades de lujo en San Pedro Garza García.</p>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/montanarealtyco/" class="fs-icon" title="Instagram" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.facebook.com/MRdesarrollos/" class="fs-icon" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+        </a>
+        <a href="https://wa.me/528123532365" class="fs-icon" title="WhatsApp" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-title">Propiedades</span>
+      <a href="propiedades.html">Casas</a>
+      <a href="propiedades.html">Penthouses</a>
+      <a href="propiedades.html">Terrenos</a>
+      <a href="propiedades.html">Departamentos</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-title">Servicios</span>
+      <a href="index.html#svc">Comprar</a>
+      <a href="index.html#svc">Vender</a>
+      <a href="index.html#svc">Rentar</a>
+      <a href="index.html#cta">Hipoteca</a>
+      <a href="index.html#cta">Valuación</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-col-title">Empresa</span>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="equipo.html">Equipo</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#cta">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Montana Realty Co · San Pedro Garza García, Nuevo León</span>
+    <div class="footer-legal">
+      <a href="aviso-privacidad.html">Aviso de privacidad</a>
+      <a href="terminos-uso.html">Términos de uso</a>
+      <a href="politica-cookies.html">Política de cookies</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50),{passive:true});
+function toggleMob(){
+  const m=document.getElementById('mobMenu'),h=document.getElementById('navHam');
+  m.classList.toggle('open');h.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMob(){
+  document.getElementById('mobMenu').classList.remove('open');
+  document.getElementById('navHam').classList.remove('open');
+  document.body.style.overflow='';
+}
+</script>
+
+<script>
+// ── PROPERTY DETAIL (EasyBroker via /api/property-detail) ──
+let currentGallery=[];
+let currentGalleryIndex=0;
+let currentProperty=null;
+
+const AGENT={name:'Maricela Arcia',role:'Directora',phone:'528110448818',phoneDisplay:'+52 81 1044-8818'};
+
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function getPropertyId(){
+  return new URLSearchParams(window.location.search).get('id');
+}
+
+function cleanTitle(raw){
+  return String(raw||'Propiedad').replace(/\$[\d,.]+(\s*M\.?N?\.?)?/gi,'').trim()||'Propiedad';
+}
+
+function showError(){
+  document.getElementById('propertyLoading').style.display='none';
+  document.getElementById('propertyContent').style.display='none';
+  document.getElementById('propertyError').style.display='block';
+  document.title='Propiedad no encontrada | Montana Realty Co.';
+}
+
+async function loadPropertyDetail(){
+  const id=getPropertyId();
+  if(!id){showError();return;}
+  try{
+    const r=await fetch(`/api/property-detail?id=${encodeURIComponent(id)}`);
+    if(!r.ok){
+      if(r.status===404) return showError();
+      throw new Error('API '+r.status);
+    }
+    const property=await r.json();
+    currentProperty=property;
+    renderProperty(property);
+  }catch(err){
+    console.error(err);
+    showError();
+  }
+}
+
+function renderProperty(p){
+  document.getElementById('propertyLoading').style.display='none';
+  document.getElementById('propertyContent').style.display='block';
+
+  const op=(p.operations&&p.operations[0])||{};
+  const opType=op.type==='sale'?'En Venta':(op.type==='rental'?'En Renta':'Consultar');
+  const price=op.formatted_amount||'Consultar precio';
+
+  const title=cleanTitle(p.title);
+  const locParts=(p.location||'').split(',');
+  const zone=(locParts[0]||'').trim();
+  const fullLocation=p.location||'';
+
+  document.title=`${title} | Montana Realty Co.`;
+  document.getElementById('propertyZone').textContent=(zone||'Ubicación reservada').toUpperCase();
+  document.getElementById('propertyTitle').textContent=title;
+  document.getElementById('propertyLocation').textContent=fullLocation;
+  document.getElementById('propertyOperation').textContent=opType.toUpperCase();
+  document.getElementById('propertyPrice').textContent=price;
+  document.getElementById('propertyPublicId').textContent=p.public_id||'—';
+  document.getElementById('propertyBreadcrumbCurrent').textContent=title;
+
+  renderFeatures(p);
+  renderDescription(p);
+  renderAmenities(p);
+  renderGallery(p);
+  setupWhatsAppButton(p);
+}
+
+function renderFeatures(p){
+  const feats=[];
+  if(p.bedrooms) feats.push({icon:'🛏️',label:'Recámaras',value:p.bedrooms});
+  if(p.bathrooms) feats.push({icon:'🚿',label:'Baños',value:p.bathrooms});
+  if(p.parking_spaces) feats.push({icon:'🚗',label:'Estacionamientos',value:p.parking_spaces});
+  if(p.construction_size) feats.push({icon:'📐',label:'Construcción',value:`${p.construction_size} m²`});
+  if(p.lot_size) feats.push({icon:'🌳',label:'Terreno',value:`${p.lot_size} m²`});
+  if(p.property_type) feats.push({icon:'🏠',label:'Tipo',value:p.property_type});
+  const html=feats.map(f=>`
+    <div class="property-feature">
+      <span class="property-feature-icon" aria-hidden="true">${f.icon}</span>
+      <div class="property-feature-text">
+        <span class="property-feature-label">${escapeHtml(f.label)}</span>
+        <span class="property-feature-value">${escapeHtml(f.value)}</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('propertyFeatures').innerHTML=html||'<p style="color:#a8a8a8;font-size:.9rem">Detalles disponibles a solicitud.</p>';
+}
+
+function renderDescription(p){
+  const raw=p.description||'';
+  if(!raw){
+    document.getElementById('propertyDescription').textContent='Solicita más información a nuestro asesor para conocer todos los detalles de esta propiedad.';
+    return;
+  }
+  // Strip HTML tags from description, preserve line breaks
+  const text=String(raw).replace(/<\s*br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,'').trim();
+  document.getElementById('propertyDescription').textContent=text;
+}
+
+function renderAmenities(p){
+  const list=Array.isArray(p.amenities)?p.amenities:[];
+  if(!list.length) return;
+  const items=list.map(a=>{
+    const text=typeof a==='string'?a:(a&&(a.name||a.value||a.label))||'';
+    return text?`<li>${escapeHtml(text)}</li>`:'';
+  }).filter(Boolean).join('');
+  if(items){
+    document.getElementById('propertyAmenities').innerHTML=items;
+    document.getElementById('propertyAmenitiesSection').style.display='block';
+  }
+}
+
+function renderGallery(p){
+  const images=[];
+  if(p.title_image_full) images.push(p.title_image_full);
+  if(Array.isArray(p.property_images)){
+    p.property_images.forEach(img=>{
+      const url=(typeof img==='string')?img:(img&&(img.url_full||img.url))||'';
+      if(url&&!images.includes(url)) images.push(url);
+    });
+  }
+  if(!images.length){
+    images.push('data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect width="800" height="600" fill="#0f1419"/><text x="50%" y="50%" font-family="Cormorant Garamond, serif" font-size="36" fill="#c9a96e" text-anchor="middle" dy=".3em">Sin imagen disponible</text></svg>'));
+  }
+
+  currentGallery=images;
+  currentGalleryIndex=0;
+
+  const mainImg=document.getElementById('galleryMainImage');
+  mainImg.src=images[0];
+  mainImg.alt=cleanTitle(p.title);
+  document.getElementById('galleryTotal').textContent=images.length;
+  document.getElementById('galleryCurrent').textContent='1';
+
+  const thumbsHtml=images.map((src,i)=>`
+    <div class="gallery-thumb${i===0?' active':''}" data-index="${i}" role="button" tabindex="0" aria-label="Imagen ${i+1}">
+      <img src="${escapeHtml(src)}" alt="Imagen ${i+1}" loading="lazy">
+    </div>`).join('');
+  const thumbsWrap=document.getElementById('galleryThumbs');
+  thumbsWrap.innerHTML=thumbsHtml;
+  thumbsWrap.querySelectorAll('.gallery-thumb').forEach(t=>{
+    t.addEventListener('click',()=>setGalleryImage(parseInt(t.dataset.index)));
+    t.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setGalleryImage(parseInt(t.dataset.index));}});
+  });
+
+  // Hide nav buttons + counter if only 1 image
+  if(images.length<=1){
+    document.querySelector('.gallery-prev').style.display='none';
+    document.querySelector('.gallery-next').style.display='none';
+  }
+}
+
+function setGalleryImage(index){
+  if(index<0||index>=currentGallery.length) return;
+  currentGalleryIndex=index;
+  const img=document.getElementById('galleryMainImage');
+  img.classList.add('swap');
+  setTimeout(()=>{
+    img.src=currentGallery[index];
+    img.classList.remove('swap');
+  },140);
+  document.getElementById('galleryCurrent').textContent=(index+1).toString();
+  document.querySelectorAll('.gallery-thumb').forEach((t,i)=>t.classList.toggle('active',i===index));
+}
+
+function changeGalleryImage(delta){
+  if(!currentGallery.length) return;
+  let i=currentGalleryIndex+delta;
+  if(i<0) i=currentGallery.length-1;
+  if(i>=currentGallery.length) i=0;
+  setGalleryImage(i);
+}
+
+function setupWhatsAppButton(p){
+  const title=cleanTitle(p.title);
+  const op=(p.operations&&p.operations[0])||{};
+  const price=op.formatted_amount||'';
+  const url=window.location.href;
+  let msg=`Hola ${AGENT.name.split(' ')[0]}, vi en el sitio web de Montana Realty Co. la propiedad "${title}"`;
+  if(price) msg+=` (${price})`;
+  msg+=` y me gustaría más información.\n\nEnlace: ${url}\n\n¿Cuándo podemos agendar una visita?`;
+  document.getElementById('propertyWhatsapp').href=`https://wa.me/${AGENT.phone}?text=${encodeURIComponent(msg)}`;
+}
+
+// Modal
+function openContactModal(){
+  const m=document.getElementById('propertyContactModal');
+  m.classList.add('active');
+  m.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeContactModal(){
+  const m=document.getElementById('propertyContactModal');
+  m.classList.remove('active');
+  m.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+async function submitPropertyContact(event){
+  event.preventDefault();
+  if(!currentProperty) return;
+
+  const name=document.getElementById('contactPropName').value.trim();
+  const phone=document.getElementById('contactPropPhone').value.trim();
+  const email=document.getElementById('contactPropEmail').value.trim();
+  const message=document.getElementById('contactPropMessage').value.trim();
+
+  const title=cleanTitle(currentProperty.title);
+  const op=(currentProperty.operations&&currentProperty.operations[0])||{};
+  const price=op.formatted_amount||'';
+  const propertyId=currentProperty.public_id||'';
+
+  let waMsg=`Hola ${AGENT.name.split(' ')[0]}, solicito información sobre una propiedad del sitio:\n\n`;
+  waMsg+=`🏠 PROPIEDAD:\n• ${title}\n`;
+  if(price) waMsg+=`• ${price}\n`;
+  waMsg+=`• ID: ${propertyId}\n\n`;
+  waMsg+=`📋 MIS DATOS:\n• Nombre: ${name}\n• Teléfono: ${phone}\n• Email: ${email}\n`;
+  if(message) waMsg+=`\n💬 MENSAJE:\n${message}\n`;
+  waMsg+=`\nEnlace de la propiedad: ${window.location.href}`;
+
+  // Fire-and-forget the EasyBroker contact request — don't block WhatsApp on it
+  fetch('/api/contact-request',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,email,phone,message,property_id:propertyId,source:'Sitio web - Detalle de propiedad'})
+  }).catch(err=>console.warn('contact-request failed:',err));
+
+  window.open(`https://wa.me/${AGENT.phone}?text=${encodeURIComponent(waMsg)}`,'_blank','noopener,noreferrer');
+
+  setTimeout(()=>{
+    closeContactModal();
+    document.getElementById('propertyContactForm').reset();
+  },500);
+}
+
+// Keyboard shortcuts: ESC closes modal, ←/→ moves gallery
+document.addEventListener('keydown',e=>{
+  const modal=document.getElementById('propertyContactModal');
+  const modalOpen=modal.classList.contains('active');
+  if(e.key==='Escape'){
+    if(modalOpen) closeContactModal();
+    return;
+  }
+  if(modalOpen) return;
+  if(e.key==='ArrowLeft') changeGalleryImage(-1);
+  else if(e.key==='ArrowRight') changeGalleryImage(1);
+});
+
+document.addEventListener('DOMContentLoaded',loadPropertyDetail);
+</script>
+
+<script>
+// Anti-autofill: strip autofill hints to prevent password manager popups
+document.querySelectorAll('input,textarea').forEach(el=>{
+  el.setAttribute('autocomplete','off');
+  el.setAttribute('data-lpignore','true');
+  el.setAttribute('data-form-type','other');
+});
+</script>
+</body>
+</html>
