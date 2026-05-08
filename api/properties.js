@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
     // Solo activas/publicadas (≈159 de 682). Permitir opt-out con ?include_disabled=1
     if (!req.query.include_disabled) {
-      params.append('search[search_disabled]', 'false');
+      params.append('search[statuses][]', 'published');
     }
 
     if (search) params.append('search[query]', search);
