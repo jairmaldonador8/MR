@@ -495,16 +495,68 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 .map-action-btn-search.visible{display:flex}
 .map-action-btn-search:hover{background:#2a3142;border-color:#c9a96e;color:#fff}
 
-/* Drawn-zone indicator */
-.map-zone-indicator{
-  position:absolute;bottom:16px;left:16px;background:#1a1f2e;color:#c9a96e;
-  padding:8px 16px;border-radius:50px;font-family:var(--sans);font-size:12px;
-  z-index:500;display:none;align-items:center;gap:8px;
-  box-shadow:0 4px 12px rgba(0,0,0,.2);
+/* Drawn-zone polygon — animated dashed gold border (marching ants) */
+.leaflet-interactive.zone-drawn-border{
+  stroke:#c9a96e;
+  stroke-width:3;
+  stroke-dasharray:10,6;
+  fill:#c9a96e;
+  fill-opacity:.12;
+  filter:drop-shadow(0 4px 12px rgba(201,169,110,.25));
+  animation:marching-ants 1s linear infinite;
 }
-.map-zone-indicator.visible{display:flex}
-.map-zone-clear{background:transparent;border:none;color:#c9a96e;cursor:pointer;font-size:18px;padding:0;line-height:1;transition:color .2s}
-.map-zone-clear:hover{color:#fff}
+@keyframes marching-ants{to{stroke-dashoffset:-16}}
+
+/* Drawn-zone indicator (rich version) */
+.map-zone-indicator{
+  position:absolute;bottom:16px;left:16px;
+  background:linear-gradient(135deg,#1a1f2e 0%,#2a3142 100%);
+  color:#fff;padding:12px 20px;border-radius:50px;
+  font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.03em;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);border:1.5px solid #c9a96e;
+  z-index:500;display:none;align-items:center;gap:12px;
+}
+.map-zone-indicator.visible{display:flex;animation:zoneSlideUp .4s ease-out}
+@keyframes zoneSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.map-zone-indicator-icon{
+  width:24px;height:24px;background:#c9a96e;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#1a1f2e;font-size:12px;font-weight:700;flex-shrink:0;
+}
+.map-zone-indicator-text{display:flex;flex-direction:column;line-height:1.2}
+.map-zone-indicator-count{font-size:14px;font-weight:600;color:#c9a96e}
+.map-zone-indicator-label{font-size:11px;color:#a0a4ad;letter-spacing:.05em}
+
+.map-zone-stats{
+  display:none;gap:16px;padding-left:12px;
+  border-left:1px solid rgba(255,255,255,.15);
+}
+.map-zone-stats.visible{display:flex}
+.map-zone-stat{display:flex;flex-direction:column}
+.map-zone-stat-value{font-size:13px;font-weight:600;color:#c9a96e}
+.map-zone-stat-label{font-size:10px;color:#a0a4ad;letter-spacing:.05em;text-transform:uppercase}
+
+.map-zone-clear{
+  background:transparent;border:1px solid rgba(201,169,110,.4);color:#c9a96e;
+  width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;padding:0;
+  transition:background .2s,color .2s,transform .2s;margin-left:8px;line-height:1;
+}
+.map-zone-clear:hover{background:#c9a96e;color:#1a1f2e;transform:rotate(90deg)}
+
+/* Floating drawing hint */
+.drawing-hint{
+  position:absolute;top:70px;left:50%;transform:translateX(-50%);
+  background:rgba(26,31,46,.95);color:#c9a96e;
+  padding:10px 20px;border-radius:50px;
+  font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.05em;
+  z-index:600;pointer-events:none;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+  animation:pulseHint 2s ease-in-out infinite;
+  white-space:nowrap;
+}
+@keyframes pulseHint{0%,100%{opacity:.9}50%{opacity:1}}
 
 /* Drawing-mode cursor */
 .leaflet-container.leaflet-crosshair,
@@ -799,10 +851,24 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
       </button>
     </div>
 
-    <!-- Indicador de zona activa -->
+    <!-- Indicador de zona activa (con stats) -->
     <div class="map-zone-indicator" id="zoneIndicator">
-      <span id="zoneCount">0 propiedades en la zona</span>
-      <button type="button" class="map-zone-clear" id="zoneClearBtn" aria-label="Quitar zona">×</button>
+      <div class="map-zone-indicator-icon" aria-hidden="true">📍</div>
+      <div class="map-zone-indicator-text">
+        <span class="map-zone-indicator-count" id="zoneCount">0</span>
+        <span class="map-zone-indicator-label" id="zoneLabel">PROPIEDADES EN LA ZONA</span>
+      </div>
+      <div class="map-zone-stats" id="zoneStats">
+        <div class="map-zone-stat">
+          <span class="map-zone-stat-value" id="zoneAvgPrice">-</span>
+          <span class="map-zone-stat-label">PRECIO PROM</span>
+        </div>
+        <div class="map-zone-stat">
+          <span class="map-zone-stat-value" id="zoneMinPrice">-</span>
+          <span class="map-zone-stat-label">DESDE</span>
+        </div>
+      </div>
+      <button type="button" class="map-zone-clear" id="zoneClearBtn" aria-label="Quitar zona" title="Eliminar zona">×</button>
     </div>
   </div>
 
@@ -1466,8 +1532,9 @@ function sortCards(){
 let mapInitialized=false;
 let markersCluster=null;
 let mapReqId=0;
-let allMapMarkers=[];   // every marker created from latest fetch
-let drawnPolygon=null;  // user-drawn polygon (if any)
+let allMapMarkers=[];     // every marker created from latest fetch
+let allMapProperties=[];  // parallel array of property data for stats
+let drawnPolygon=null;    // user-drawn polygon (if any)
 let drawHandler=null;   // L.Draw.Polygon handle
 let isDrawing=false;
 let mapMoved=false;     // becomes true after first user-driven moveend
@@ -1628,12 +1695,13 @@ async function loadMapMarkers(){
     return true;
   });
   let withCoords=0,withoutCoords=0;
-  const markers=[];
+  const markers=[],props=[];
   filtered.forEach(p=>{
     const m=createPropertyMarker(p);
-    if(m){markers.push(m);withCoords++;} else {withoutCoords++;}
+    if(m){markers.push(m);props.push(p);withCoords++;} else {withoutCoords++;}
   });
   allMapMarkers=markers;
+  allMapProperties=props;
   console.log(`✅ ${withCoords} pins / ❌ ${withoutCoords} sin coords / total ${filtered.length}`);
 
   // If user has drawn a zone, re-apply that filter; else just add everything
@@ -1690,6 +1758,20 @@ function initMapDrawing(){
   }
 }
 
+function showDrawingHint(){
+  if(document.getElementById('drawingHint')) return;
+  const hint=document.createElement('div');
+  hint.id='drawingHint';
+  hint.className='drawing-hint';
+  hint.textContent='Haz click en el mapa para crear puntos. Doble click para cerrar.';
+  document.getElementById('map-side').appendChild(hint);
+}
+
+function hideDrawingHint(){
+  const hint=document.getElementById('drawingHint');
+  if(hint) hint.remove();
+}
+
 function startDrawing(){
   if(!drawHandler) return;
   isDrawing=true;
@@ -1697,6 +1779,7 @@ function startDrawing(){
   btn.classList.add('active');
   btn.querySelector('.map-action-btn-label').textContent='Termina con doble click';
   document.getElementById('propertiesMap').classList.add('leaflet-crosshair');
+  showDrawingHint();
   drawHandler.enable();
 }
 
@@ -1706,6 +1789,7 @@ function stopDrawing(){
   btn.classList.remove('active');
   btn.querySelector('.map-action-btn-label').textContent='Dibujar zona';
   document.getElementById('propertiesMap').classList.remove('leaflet-crosshair');
+  hideDrawingHint();
   if(drawHandler) drawHandler.disable();
 }
 
@@ -1715,6 +1799,7 @@ function clearDrawnZone(){
     drawnPolygon=null;
   }
   document.getElementById('zoneIndicator').classList.remove('visible');
+  document.getElementById('zoneStats').classList.remove('visible');
   // Restore all markers (no zone, no view filter)
   if(markersCluster){
     markersCluster.clearLayers();
@@ -1733,19 +1818,69 @@ function pointInPolygon(point,polygon){
   return inside;
 }
 
+function formatCompactPrice(amount){
+  const n=Number(amount)||0;
+  if(n<=0) return '-';
+  if(n>=1000000) return `$${(n/1000000).toFixed(1).replace(/\.0$/,'')}M`;
+  if(n>=1000) return `$${Math.round(n/1000)}K`;
+  return `$${n}`;
+}
+
+function paintZoneStyle(){
+  if(!drawnPolygon) return;
+  drawnPolygon.setStyle({
+    color:'#c9a96e',weight:3,opacity:1,
+    fillColor:'#c9a96e',fillOpacity:.12,dashArray:'10, 6'
+  });
+  // Apply CSS class for marching-ants animation (CSS overrides SVG attrs)
+  if(drawnPolygon._path){
+    drawnPolygon._path.classList.add('zone-drawn-border');
+  }
+}
+
+function updateZoneIndicator(count,kind,inZoneProps){
+  const indicator=document.getElementById('zoneIndicator');
+  const countEl=document.getElementById('zoneCount');
+  const labelEl=document.getElementById('zoneLabel');
+  const stats=document.getElementById('zoneStats');
+  const avgEl=document.getElementById('zoneAvgPrice');
+  const minEl=document.getElementById('zoneMinPrice');
+
+  countEl.textContent=String(count);
+  labelEl.textContent=`Propiedad${count===1?'':'es'} en ${kind==='view'?'la vista':'la zona'}`;
+  labelEl.style.textTransform='uppercase';
+
+  // Compute price stats
+  let total=0,min=Infinity,n=0;
+  (inZoneProps||[]).forEach(p=>{
+    const amt=Number(p.operations&&p.operations[0]&&p.operations[0].amount)||0;
+    if(amt>0){total+=amt;if(amt<min) min=amt;n++;}
+  });
+  if(n>0){
+    avgEl.textContent=formatCompactPrice(total/n);
+    minEl.textContent=formatCompactPrice(min);
+    stats.classList.add('visible');
+  } else {
+    stats.classList.remove('visible');
+  }
+
+  indicator.classList.add('visible');
+}
+
 function filterPropertiesByZone(){
   if(!drawnPolygon||!markersCluster) return;
+  paintZoneStyle();
   const ring=drawnPolygon.getLatLngs()[0];
   markersCluster.clearLayers();
-  let count=0;
-  allMapMarkers.forEach(mk=>{
+  const inZoneProps=[];
+  allMapMarkers.forEach((mk,idx)=>{
     if(pointInPolygon(mk.getLatLng(),ring)){
       markersCluster.addLayer(mk);
-      count++;
+      const p=allMapProperties[idx];
+      if(p) inZoneProps.push(p);
     }
   });
-  document.getElementById('zoneCount').textContent=`${count} propiedad${count===1?'':'es'} en la zona`;
-  document.getElementById('zoneIndicator').classList.add('visible');
+  updateZoneIndicator(inZoneProps.length,'zone',inZoneProps);
   document.getElementById('searchInAreaBtn').classList.remove('visible');
   mapMoved=false;
 }
@@ -1755,15 +1890,15 @@ function searchInCurrentView(){
   if(!map||!markersCluster) return;
   const bounds=map.getBounds();
   markersCluster.clearLayers();
-  let count=0;
-  allMapMarkers.forEach(mk=>{
+  const inViewProps=[];
+  allMapMarkers.forEach((mk,idx)=>{
     if(bounds.contains(mk.getLatLng())){
       markersCluster.addLayer(mk);
-      count++;
+      const p=allMapProperties[idx];
+      if(p) inViewProps.push(p);
     }
   });
-  document.getElementById('zoneCount').textContent=`${count} propiedad${count===1?'':'es'} en la vista`;
-  document.getElementById('zoneIndicator').classList.add('visible');
+  updateZoneIndicator(inViewProps.length,'view',inViewProps);
   document.getElementById('searchInAreaBtn').classList.remove('visible');
   mapMoved=false;
 }
