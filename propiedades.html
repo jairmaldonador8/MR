@@ -1476,26 +1476,12 @@ function initPropertiesMap(){
   if(mapInitialized||typeof L==='undefined') return;
   const m=L.map('propertiesMap',{zoomControl:true,scrollWheelZoom:true}).setView([25.6573,-100.4023],12);
 
-  // Primary tile layer: Jawg Streets (Google-Maps-like). Falls back to Carto Voyager
-  // automatically if the tiles error out (unreachable / rate-limited).
-  const jawg=L.tileLayer('https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=community',{
-    attribution:'<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom:22,
+  // Tile layer: CartoDB Voyager (clean, OSM-based, free for our origin)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom:20,
     subdomains:'abcd'
-  });
-  let fellBack=false;
-  jawg.on('tileerror',()=>{
-    if(fellBack) return;
-    fellBack=true;
-    console.warn('Jawg tiles unavailable, falling back to Carto Voyager');
-    m.removeLayer(jawg);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png',{
-      attribution:'&copy; OpenStreetMap, &copy; CartoDB',
-      maxZoom:20,
-      subdomains:'abcd'
-    }).addTo(m);
-  });
-  jawg.addTo(m);
+  }).addTo(m);
 
   markersCluster=L.markerClusterGroup({
     showCoverageOnHover:false,
