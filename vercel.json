@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "functions": {
+    "api/properties.js": {
+      "maxDuration": 10
+    },
+    "api/property-detail.js": {
+      "maxDuration": 10
+    },
+    "api/contact-request.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/properties",
+      "destination": "/api/properties.js"
+    },
+    {
+      "source": "/api/property-detail",
+      "destination": "/api/property-detail.js"
+    },
+    {
+      "source": "/api/contact-request",
+      "destination": "/api/contact-request.js"
+    }
+  ]
+}
