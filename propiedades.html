@@ -11,7 +11,9 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --nav-h:68px;
-  --bar-h:60px;
+  --bar-h:80px;
+  --gold-2:#d4b67e;
+  --navy:#1a1f2e;
   --red:#ffffff;
   --gold:#c9a96e;
   --black:#0d0d0d;
@@ -49,50 +51,211 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 .nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;cursor:pointer}
 .nav-ham span{display:block;width:22px;height:1.5px;background:#111;transition:all .3s}
 
-/* ── SEARCH BAR ── */
+/* ── FILTERS BAR (advanced) ── */
 #searchbar{
   position:sticky;top:var(--nav-h);z-index:800;
-  background:#fff;border-bottom:1px solid #e5e5e5;
-  padding:10px 24px;
-  display:flex;align-items:center;gap:8px;
-  flex-wrap:wrap;
+  background:#fff;border-bottom:1px solid rgba(201,169,110,.15);
   min-height:var(--bar-h);
 }
-.search-input-wrap{
-  display:flex;align-items:center;gap:8px;
-  background:#f5f5f5;border:1px solid #e5e5e5;border-radius:8px;
-  padding:0 14px;height:38px;flex:1 1 220px;max-width:340px;
+.filters-container{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  padding:16px 24px;
 }
-.search-input-wrap svg{opacity:.4;flex-shrink:0}
-.search-input{
-  border:none;background:transparent;outline:none;
-  font-family:var(--sans);font-size:13px;color:#111;width:100%;
+.filter-search-main{
+  flex:1;min-width:240px;position:relative;
+  background:#f8f7f5;border:1px solid rgba(0,0,0,.08);border-radius:50px;
+  padding:0 20px;display:flex;align-items:center;gap:12px;
+  height:48px;transition:all .2s;
 }
-.search-input::placeholder{color:#aaa}
-.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1}
-.pill{
-  display:flex;align-items:center;gap:6px;
-  height:38px;padding:0 14px;
-  border:1px solid #e5e5e5;border-radius:8px;
-  background:#fff;font-family:var(--sans);font-size:12px;
-  color:#333;cursor:pointer;white-space:nowrap;
-  transition:background .2s,border-color .2s;
-  position:relative;
+.filter-search-main:hover,
+.filter-search-main:focus-within{border-color:var(--gold);background:#fff}
+.filter-icon{font-size:16px;color:#888}
+.filter-search-main input{
+  flex:1;border:none;background:transparent;outline:none;
+  font-family:var(--sans);font-size:14px;color:var(--navy);
 }
-.pill:hover{background:#f5f5f5;border-color:#ccc}
-.pill svg{opacity:.5}
-.pill select{
-  position:absolute;inset:0;opacity:0;cursor:pointer;
-  font-family:var(--sans);font-size:12px;
+.filter-search-main input::placeholder{color:#aaa}
+.filter-search-suggestions{
+  position:absolute;top:100%;left:0;right:0;background:#fff;
+  border-radius:8px;margin-top:8px;max-height:300px;overflow-y:auto;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:100;display:none;
 }
+.filter-search-suggestions.active{display:block}
+.filter-suggestion-item{
+  padding:12px 20px;font-family:var(--sans);font-size:14px;color:var(--navy);
+  cursor:pointer;border-bottom:1px solid rgba(0,0,0,.05);transition:background .15s;
+}
+.filter-suggestion-item:last-child{border-bottom:none}
+.filter-suggestion-item:hover{background:#f8f7f5}
+
+/* Dropdown */
+.filter-dropdown{position:relative}
+.filter-trigger{
+  display:flex;align-items:center;gap:8px;background:#fff;
+  border:1px solid rgba(0,0,0,.12);border-radius:50px;
+  padding:0 20px;height:48px;cursor:pointer;
+  font-family:var(--sans);transition:all .2s;white-space:nowrap;
+}
+.filter-trigger:hover{border-color:var(--gold)}
+.filter-trigger.active{border-color:var(--gold);background:#faf8f3}
+.filter-trigger.has-value{border-color:var(--gold)}
+.filter-label{font-size:13px;color:#888;letter-spacing:.05em}
+.filter-value{font-size:14px;color:var(--navy);font-weight:500}
+.filter-trigger.has-value .filter-value{color:var(--gold)}
+.filter-chevron{font-size:10px;color:#888;transition:transform .2s}
+.filter-trigger.active .filter-chevron{transform:rotate(180deg)}
+
+/* Panel */
+.filter-panel{
+  position:absolute;top:calc(100% + 8px);left:0;background:#fff;
+  border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:20px;
+  min-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.12);
+  z-index:100;display:none;
+}
+.filter-panel.active{display:block}
+.filter-panel-title{
+  font-family:var(--serif);font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy);margin-bottom:16px;
+  padding-bottom:12px;border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+.filter-radio,
+.filter-checkbox{
+  display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer;
+  font-family:var(--sans);font-size:14px;color:var(--navy);transition:color .2s;
+}
+.filter-radio:hover,
+.filter-checkbox:hover{color:var(--gold)}
+.filter-radio input,
+.filter-checkbox input{margin:0;accent-color:var(--gold)}
+.filter-radio-inline{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
+  cursor:pointer;font-size:13px;font-family:var(--sans);color:var(--navy);
+}
+.filter-radio-inline input{accent-color:var(--gold)}
+
+.filter-panel-range{min-width:320px}
+.filter-range-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.filter-range-label{
+  display:block;font-family:var(--sans);font-size:11px;color:#888;
+  margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;
+}
+.filter-range-grid select,
+.filter-range-grid input{
+  width:100%;padding:10px 12px;border:1px solid rgba(0,0,0,.12);
+  border-radius:6px;font-family:var(--sans);font-size:14px;color:var(--navy);background:#fff;
+}
+.filter-range-grid select:focus,
+.filter-range-grid input:focus{outline:none;border-color:var(--gold)}
+
+.filter-currency-toggle{
+  display:flex;gap:4px;margin-bottom:16px;padding:4px;
+  background:#f8f7f5;border-radius:6px;
+}
+.filter-currency-toggle .filter-radio-inline{flex:1;justify-content:center}
+
+.filter-panel-actions{
+  display:flex;justify-content:space-between;margin-top:16px;
+  padding-top:16px;border-top:1px solid rgba(0,0,0,.08);gap:8px;
+}
+.filter-btn-clear,
+.filter-btn-apply{
+  padding:10px 20px;border-radius:50px;font-family:var(--sans);font-size:13px;
+  font-weight:500;cursor:pointer;transition:all .2s;border:none;
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.filter-btn-clear{background:transparent;color:#888}
+.filter-btn-clear:hover{color:var(--navy)}
+.filter-btn-apply{background:var(--gold);color:var(--navy)}
+.filter-btn-apply:hover{background:var(--gold-2)}
+
+/* More filters button */
+.filter-more-btn{
+  display:flex;align-items:center;gap:8px;background:#fff;
+  border:1px solid rgba(0,0,0,.12);border-radius:50px;
+  padding:0 20px;height:48px;cursor:pointer;
+  font-family:var(--sans);font-size:14px;color:var(--navy);
+  font-weight:500;transition:all .2s;
+}
+.filter-more-btn:hover{border-color:var(--gold)}
+.filter-more-icon{font-size:16px}
+.filter-more-count{
+  background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;
+  width:20px;height:20px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+
+/* More filters modal */
+.more-filters-modal{
+  display:none;position:fixed;inset:0;z-index:9999;
+}
+.more-filters-modal.active{display:flex;justify-content:center;align-items:center}
+.more-filters-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.more-filters-content{
+  position:relative;background:#fff;border-radius:12px;
+  width:90%;max-width:600px;max-height:90vh;
+  display:flex;flex-direction:column;
+  animation:moreFiltersIn .3s cubic-bezier(.25,.46,.45,.94);
+}
+@keyframes moreFiltersIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.more-filters-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:24px 32px;border-bottom:1px solid rgba(0,0,0,.08);
+}
+.more-filters-header h2{
+  font-family:var(--serif);font-size:20px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--navy);margin:0;font-weight:500;
+}
+.more-filters-close{
+  background:transparent;border:none;font-size:28px;cursor:pointer;
+  color:#888;line-height:1;padding:4px 12px;transition:color .2s;
+}
+.more-filters-close:hover{color:var(--navy)}
+.more-filters-body{flex:1;overflow-y:auto;padding:24px 32px}
+.more-filter-section{margin-bottom:32px}
+.more-filter-section:last-child{margin-bottom:0}
+.more-filter-section h3{
+  font-family:var(--serif);font-size:14px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy);margin:0 0 16px;font-weight:500;
+}
+
+.filter-pills{display:flex;gap:8px;flex-wrap:wrap}
+.filter-pill{
+  padding:8px 20px;border:1px solid rgba(0,0,0,.12);border-radius:50px;
+  background:#fff;font-family:var(--sans);font-size:13px;color:var(--navy);
+  cursor:pointer;transition:all .2s;
+}
+.filter-pill:hover{border-color:var(--gold)}
+.filter-pill.active{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:500}
+
+.filter-amenities-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.more-filters-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 32px;border-top:1px solid rgba(0,0,0,.08);gap:12px;
+}
+.filter-btn-clear-all{
+  background:transparent;border:none;color:#888;
+  font-family:var(--sans);font-size:13px;cursor:pointer;padding:12px 20px;
+  letter-spacing:.05em;text-transform:uppercase;transition:color .2s;
+}
+.filter-btn-clear-all:hover{color:var(--navy)}
+.filter-btn-apply-all{
+  background:var(--gold);color:var(--navy);border:none;border-radius:50px;
+  padding:14px 32px;font-family:var(--sans);font-size:13px;font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background .2s;
+}
+.filter-btn-apply-all:hover{background:var(--gold-2)}
+
+/* View toggle (preserved) */
 .bar-right{display:flex;align-items:center;gap:8px;margin-left:auto}
-.view-toggle{display:flex;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden}
+.view-toggle{display:flex;border:1px solid rgba(0,0,0,.12);border-radius:50px;overflow:hidden}
 .view-btn{
-  height:38px;padding:0 16px;font-family:var(--sans);font-size:12px;
+  height:48px;padding:0 20px;font-family:var(--sans);font-size:12px;
   font-weight:500;letter-spacing:.04em;border:none;cursor:pointer;
   transition:background .2s,color .2s;
 }
-.view-btn.active{background:#111;color:#fff}
+.view-btn.active{background:var(--navy);color:#fff}
 .view-btn:not(.active){background:#fff;color:#666}
 
 /* ── MAIN LAYOUT ── */
@@ -233,12 +396,21 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
   #map-side{width:100%;height:45vh;min-height:340px;position:relative;top:auto;flex-shrink:1}
   #map-side.hidden{display:none}
   #list-side{width:100%}
-  #main{flex-direction:column;height:auto;margin-top:calc(var(--nav-h) + var(--bar-h))}
+  #main{flex-direction:column;height:auto;margin-top:0}
   .prop-grid{grid-template-columns:1fr;padding:16px}
-  #searchbar{gap:6px;padding:8px 16px}
-  .search-input-wrap{max-width:100%;flex:1 1 100%}
-  .filters{display:none}
-  .bar-right{margin-left:0}
+  #searchbar{position:relative;top:auto;margin-top:var(--nav-h)}
+  .filters-container{flex-direction:column;align-items:stretch;padding:12px 16px;gap:8px}
+  .filter-search-main{width:100%}
+  .filter-dropdown,.filter-more-btn{width:100%}
+  .filter-trigger{width:100%;justify-content:space-between}
+  .filter-panel{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    width:100%;height:100%;border-radius:0;overflow-y:auto;z-index:9998;
+  }
+  .bar-right{margin-left:0;width:100%;justify-content:center}
+  .view-toggle{width:100%}
+  .view-btn{flex:1}
+  .filter-amenities-grid{grid-template-columns:1fr}
 }
 
 /* MOB MENU */
@@ -317,82 +489,221 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 
 <!-- SEARCH BAR -->
 <div id="searchbar">
-  <div class="search-input-wrap">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" type="text" id="searchInput" placeholder="Buscar por dirección o zona..." autocomplete="off" data-lpignore="true" data-form-type="other">
+  <div class="filters-container">
+    <!-- Búsqueda principal -->
+    <div class="filter-search-main">
+      <span class="filter-icon">🔍</span>
+      <input type="text" id="filterSearch" placeholder="Buscar por dirección o zona..." autocomplete="off" data-lpignore="true" data-form-type="other">
+      <div class="filter-search-suggestions" id="searchSuggestions"></div>
+    </div>
+
+    <!-- Filtro: Operación -->
+    <div class="filter-dropdown" data-filter="operation">
+      <button class="filter-trigger" type="button">
+        <span class="filter-label">Operación</span>
+        <span class="filter-value" data-default="Comprar">Comprar</span>
+        <span class="filter-chevron">▾</span>
+      </button>
+      <div class="filter-panel">
+        <div class="filter-panel-title">Tipo de operación</div>
+        <label class="filter-radio"><input type="radio" name="operation" value="sale" checked><span>Comprar</span></label>
+        <label class="filter-radio"><input type="radio" name="operation" value="rental"><span>Rentar</span></label>
+        <label class="filter-radio"><input type="radio" name="operation" value="foreclosure"><span>Remates</span></label>
+      </div>
+    </div>
+
+    <!-- Filtro: Inmueble (tipo) -->
+    <div class="filter-dropdown" data-filter="propertyType">
+      <button class="filter-trigger" type="button">
+        <span class="filter-label">Inmueble</span>
+        <span class="filter-value" data-default="Todos">Todos</span>
+        <span class="filter-chevron">▾</span>
+      </button>
+      <div class="filter-panel">
+        <div class="filter-panel-title">Tipo de inmueble</div>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Casa"><span>Casa</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Departamento"><span>Departamento</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Casa en condominio"><span>Casa en condominio</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Penthouse"><span>Penthouse</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Terreno"><span>Terreno</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Oficina"><span>Oficina</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Local comercial"><span>Local comercial</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Bodega comercial"><span>Bodega</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Quinta"><span>Quinta</span></label>
+        <label class="filter-checkbox"><input type="checkbox" name="propertyType" value="Villa"><span>Villa</span></label>
+        <div class="filter-panel-actions">
+          <button type="button" class="filter-btn-clear" data-filter="propertyType">Limpiar</button>
+          <button type="button" class="filter-btn-apply">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtro: Recámaras -->
+    <div class="filter-dropdown" data-filter="bedrooms">
+      <button class="filter-trigger" type="button">
+        <span class="filter-label">Recámaras</span>
+        <span class="filter-value" data-default="Todas">Todas</span>
+        <span class="filter-chevron">▾</span>
+      </button>
+      <div class="filter-panel filter-panel-range">
+        <div class="filter-panel-title">Recámaras</div>
+        <div class="filter-range-grid">
+          <div>
+            <label class="filter-range-label">Mínimo</label>
+            <select id="bedroomsMin">
+              <option value="">Sin mínimo</option>
+              <option value="1">1 recámara</option>
+              <option value="2">2 recámaras</option>
+              <option value="3">3 recámaras</option>
+              <option value="4">4 recámaras</option>
+              <option value="5">5 recámaras</option>
+              <option value="6">6+ recámaras</option>
+            </select>
+          </div>
+          <div>
+            <label class="filter-range-label">Máximo</label>
+            <select id="bedroomsMax">
+              <option value="">Sin máximo</option>
+              <option value="1">1 recámara</option>
+              <option value="2">2 recámaras</option>
+              <option value="3">3 recámaras</option>
+              <option value="4">4 recámaras</option>
+              <option value="5">5 recámaras</option>
+              <option value="6">6+ recámaras</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-panel-actions">
+          <button type="button" class="filter-btn-clear" data-filter="bedrooms">Limpiar</button>
+          <button type="button" class="filter-btn-apply">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtro: Precio -->
+    <div class="filter-dropdown" data-filter="price">
+      <button class="filter-trigger" type="button">
+        <span class="filter-label">Precio</span>
+        <span class="filter-value" data-default="Cualquiera">Cualquiera</span>
+        <span class="filter-chevron">▾</span>
+      </button>
+      <div class="filter-panel filter-panel-range">
+        <div class="filter-panel-title">Precio</div>
+        <div class="filter-currency-toggle">
+          <label class="filter-radio-inline"><input type="radio" name="currency" value="MXN" checked><span>MXN (Pesos)</span></label>
+          <label class="filter-radio-inline"><input type="radio" name="currency" value="USD"><span>USD (Dólares)</span></label>
+        </div>
+        <div class="filter-range-grid">
+          <div>
+            <label class="filter-range-label">Desde</label>
+            <input type="number" id="priceMin" placeholder="Mínimo" min="0">
+          </div>
+          <div>
+            <label class="filter-range-label">Hasta</label>
+            <input type="number" id="priceMax" placeholder="Máximo" min="0">
+          </div>
+        </div>
+        <div class="filter-panel-actions">
+          <button type="button" class="filter-btn-clear" data-filter="price">Limpiar</button>
+          <button type="button" class="filter-btn-apply">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón: Más filtros -->
+    <button type="button" class="filter-more-btn" id="openMoreFilters">
+      <span class="filter-more-icon">⚙</span>
+      <span>Más filtros</span>
+      <span class="filter-more-count" id="moreFiltersCount" style="display:none;">0</span>
+    </button>
+
+    <div class="bar-right">
+      <div class="view-toggle">
+        <button class="view-btn active" id="btnMapa" type="button" onclick="setView('mapa')">Mapa</button>
+        <button class="view-btn" id="btnLista" type="button" onclick="setView('lista')">Lista</button>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="filters">
-    <label class="pill">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span id="zonaLabel">Zona</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      <select id="zonaFilter" onchange="updateLabel('zonaLabel',this,'Zona')">
-        <option value="">Todas las zonas</option>
-        <option value="Valle">Valle</option>
-        <option value="Valle Oriente">Valle Oriente</option>
-        <option value="Carretera Nacional">Carretera Nacional</option>
-        <option value="San Agustín">San Agustín</option>
-        <option value="Cumbres">Cumbres</option>
-        <option value="Lomas del Valle">Lomas del Valle</option>
-        <option value="Centro">Centro</option>
-        <option value="Del Valle">Del Valle</option>
-      </select>
-    </label>
+<!-- MODAL: Más filtros -->
+<div class="more-filters-modal" id="moreFiltersModal" aria-hidden="true">
+  <div class="more-filters-overlay" onclick="closeMoreFilters()"></div>
+  <div class="more-filters-content">
+    <div class="more-filters-header">
+      <h2>Más filtros</h2>
+      <button type="button" class="more-filters-close" onclick="closeMoreFilters()" aria-label="Cerrar">×</button>
+    </div>
 
-    <label class="pill">
-      <span id="tipoLabel">Tipo</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      <select id="tipoFilter" onchange="updateLabel('tipoLabel',this,'Tipo')">
-        <option value="">En Venta / Renta</option>
-        <option value="En Venta">En Venta</option>
-        <option value="En Renta">En Renta</option>
-      </select>
-    </label>
+    <div class="more-filters-body">
+      <!-- Baños -->
+      <div class="more-filter-section">
+        <h3>Baños</h3>
+        <div class="filter-pills" id="bathroomsPills">
+          <button type="button" class="filter-pill active" data-value="">Cualquiera</button>
+          <button type="button" class="filter-pill" data-value="1">1+</button>
+          <button type="button" class="filter-pill" data-value="2">2+</button>
+          <button type="button" class="filter-pill" data-value="3">3+</button>
+          <button type="button" class="filter-pill" data-value="4">4+</button>
+          <button type="button" class="filter-pill" data-value="5">5+</button>
+        </div>
+      </div>
 
-    <label class="pill">
-      <span id="precioLabel">Precio</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      <select id="precioFilter" onchange="updateLabel('precioLabel',this,'Precio')">
-        <option value="">Cualquier precio</option>
-        <option value="5">Hasta $5M</option>
-        <option value="10">$5M – $10M</option>
-        <option value="20">$10M – $20M</option>
-        <option value="20+">$20M+</option>
-      </select>
-    </label>
+      <!-- Estacionamientos -->
+      <div class="more-filter-section">
+        <h3>Estacionamientos</h3>
+        <div class="filter-pills" id="parkingPills">
+          <button type="button" class="filter-pill active" data-value="">Cualquiera</button>
+          <button type="button" class="filter-pill" data-value="0">0</button>
+          <button type="button" class="filter-pill" data-value="1">1+</button>
+          <button type="button" class="filter-pill" data-value="2">2+</button>
+          <button type="button" class="filter-pill" data-value="3">3+</button>
+          <button type="button" class="filter-pill" data-value="4">4+</button>
+        </div>
+      </div>
 
-    <label class="pill">
-      <span id="inmuebleLabel">Inmueble</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      <select id="inmuebleFilter" onchange="updateLabel('inmuebleLabel',this,'Inmueble')">
-        <option value="">Todo tipo</option>
-        <option value="Casa">Casa</option>
-        <option value="Penthouse">Penthouse</option>
-        <option value="Departamento">Departamento</option>
-        <option value="Terreno">Terreno</option>
-        <option value="Local">Local</option>
-      </select>
-    </label>
+      <!-- Superficie -->
+      <div class="more-filter-section">
+        <h3>Superficie</h3>
+        <div class="filter-currency-toggle" style="margin-bottom:12px">
+          <label class="filter-radio-inline"><input type="radio" name="surfaceType" value="construction" checked><span>Construida</span></label>
+          <label class="filter-radio-inline"><input type="radio" name="surfaceType" value="lot"><span>Terreno</span></label>
+        </div>
+        <div class="filter-range-grid">
+          <div>
+            <label class="filter-range-label">Desde (m²)</label>
+            <input type="number" id="surfaceMin" placeholder="Mínimo" min="0">
+          </div>
+          <div>
+            <label class="filter-range-label">Hasta (m²)</label>
+            <input type="number" id="surfaceMax" placeholder="Máximo" min="0">
+          </div>
+        </div>
+      </div>
 
-    <label class="pill">
-      <span id="recLabel">Recámaras</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      <select id="recFilter" onchange="updateLabel('recLabel',this,'Recámaras')">
-        <option value="">Cualquiera</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-        <option value="4">4+</option>
-        <option value="5">5+</option>
-      </select>
-    </label>
-  </div>
+      <!-- Amenidades -->
+      <div class="more-filter-section">
+        <h3>Amenidades de lujo</h3>
+        <div class="filter-amenities-grid">
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="alberca"><span>Alberca</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="jardin"><span>Jardín</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="terraza"><span>Terraza</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="roof garden"><span>Roof Garden</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="cuarto de servicio"><span>Cuarto de servicio</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="estudio"><span>Estudio</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="bodega"><span>Bodega</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="gimnasio"><span>Gimnasio</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="seguridad"><span>Seguridad 24/7</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="circuito cerrado"><span>Circuito cerrado</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="elevador"><span>Elevador</span></label>
+          <label class="filter-checkbox"><input type="checkbox" name="amenity" value="vista panoramica"><span>Vista panorámica</span></label>
+        </div>
+      </div>
+    </div>
 
-  <div class="bar-right">
-    <div class="view-toggle">
-      <button class="view-btn active" id="btnMapa" onclick="setView('mapa')">Mapa</button>
-      <button class="view-btn" id="btnLista" onclick="setView('lista')">Lista</button>
+    <div class="more-filters-footer">
+      <button type="button" class="filter-btn-clear-all" id="clearAllFilters">Limpiar todo</button>
+      <button type="button" class="filter-btn-apply-all" id="applyAllFilters">Ver resultados</button>
     </div>
   </div>
 </div>
@@ -456,12 +767,320 @@ function setView(v){
   }
 }
 
-// ── PILL LABEL UPDATE ──
-function updateLabel(labelId,sel,defaultLabel){
-  const label=document.getElementById(labelId);
-  const opt=sel.options[sel.selectedIndex];
-  label.textContent=opt.value?opt.text:defaultLabel;
+// ── ADVANCED FILTERS STATE ──
+let currentFilters={
+  search:'',
+  operation:'sale',
+  propertyTypes:[],
+  bedroomsMin:'',
+  bedroomsMax:'',
+  bathrooms:'',
+  parking:'',
+  priceMin:'',
+  priceMax:'',
+  currency:'MXN',
+  surfaceType:'construction',
+  surfaceMin:'',
+  surfaceMax:'',
+  amenities:[]
+};
+
+const KNOWN_ZONES=[
+  'San Pedro Garza García','Carrizalejo','Del Valle','Valle Oriente',
+  'Santa María','Sierra Madre','Zona Gómez Morín','Cumbres',
+  'Bosques de Valle Alto','Balcones del Campestre','Lomas del Valle',
+  'Carretera Nacional','San Agustín','Centro'
+];
+
+function updateFilterValue(filterName,value){
+  const trigger=document.querySelector(`.filter-dropdown[data-filter="${filterName}"] .filter-trigger`);
+  if(!trigger) return;
+  const valueEl=trigger.querySelector('.filter-value');
+  const defaultValue=valueEl.dataset.default||'';
+  valueEl.textContent=value;
+  if(value && value!==defaultValue) trigger.classList.add('has-value');
+  else trigger.classList.remove('has-value');
+}
+
+function updateBedroomsLabel(){
+  const min=currentFilters.bedroomsMin,max=currentFilters.bedroomsMax;
+  let label='Todas';
+  if(min&&max) label=`${min} - ${max} rec`;
+  else if(min) label=`${min}+ rec`;
+  else if(max) label=`Hasta ${max} rec`;
+  updateFilterValue('bedrooms',label);
+}
+
+function formatPriceShort(val){
+  const n=parseInt(val);
+  if(!isFinite(n)) return val;
+  if(n>=1000000) return `${(n/1000000).toFixed(1).replace(/\.0$/,'')}M`;
+  if(n>=1000) return `${Math.round(n/1000)}K`;
+  return String(n);
+}
+
+function updatePriceLabel(){
+  const min=currentFilters.priceMin,max=currentFilters.priceMax,cur=currentFilters.currency;
+  let label='Cualquiera';
+  if(min&&max) label=`${cur} ${formatPriceShort(min)} - ${formatPriceShort(max)}`;
+  else if(min) label=`${cur} ${formatPriceShort(min)}+`;
+  else if(max) label=`Hasta ${cur} ${formatPriceShort(max)}`;
+  updateFilterValue('price',label);
+}
+
+function clearFilter(filterType){
+  if(filterType==='propertyType'){
+    document.querySelectorAll('input[name="propertyType"]').forEach(c=>c.checked=false);
+    currentFilters.propertyTypes=[];
+    updateFilterValue('propertyType','Todos');
+  } else if(filterType==='bedrooms'){
+    document.getElementById('bedroomsMin').value='';
+    document.getElementById('bedroomsMax').value='';
+    currentFilters.bedroomsMin='';
+    currentFilters.bedroomsMax='';
+    updateBedroomsLabel();
+  } else if(filterType==='price'){
+    document.getElementById('priceMin').value='';
+    document.getElementById('priceMax').value='';
+    currentFilters.priceMin='';
+    currentFilters.priceMax='';
+    updatePriceLabel();
+  }
   applyFilters();
+}
+
+function clearAllFilters(){
+  currentFilters={
+    search:'',operation:'sale',propertyTypes:[],
+    bedroomsMin:'',bedroomsMax:'',bathrooms:'',parking:'',
+    priceMin:'',priceMax:'',currency:'MXN',
+    surfaceType:'construction',surfaceMin:'',surfaceMax:'',amenities:[]
+  };
+  document.getElementById('filterSearch').value='';
+  const saleRadio=document.querySelector('input[name="operation"][value="sale"]');
+  if(saleRadio) saleRadio.checked=true;
+  document.querySelectorAll('input[name="propertyType"]').forEach(c=>c.checked=false);
+  document.getElementById('bedroomsMin').value='';
+  document.getElementById('bedroomsMax').value='';
+  document.getElementById('priceMin').value='';
+  document.getElementById('priceMax').value='';
+  const mxnRadio=document.querySelector('input[name="currency"][value="MXN"]');
+  if(mxnRadio) mxnRadio.checked=true;
+  document.querySelectorAll('.filter-pills').forEach(group=>{
+    group.querySelectorAll('.filter-pill').forEach(p=>{
+      if(p.dataset.value==='') p.classList.add('active');
+      else p.classList.remove('active');
+    });
+  });
+  document.getElementById('surfaceMin').value='';
+  document.getElementById('surfaceMax').value='';
+  const constrRadio=document.querySelector('input[name="surfaceType"][value="construction"]');
+  if(constrRadio) constrRadio.checked=true;
+  document.querySelectorAll('input[name="amenity"]').forEach(c=>c.checked=false);
+  updateFilterValue('operation','Comprar');
+  updateFilterValue('propertyType','Todos');
+  updateBedroomsLabel();
+  updatePriceLabel();
+  updateMoreFiltersCount();
+  applyFilters();
+}
+
+function updateMoreFiltersCount(){
+  let count=0;
+  if(currentFilters.bathrooms) count++;
+  if(currentFilters.parking!=='') count++;
+  if(currentFilters.surfaceMin||currentFilters.surfaceMax) count++;
+  count+=currentFilters.amenities.length;
+  const badge=document.getElementById('moreFiltersCount');
+  if(count>0){badge.textContent=count;badge.style.display='inline-flex';}
+  else{badge.style.display='none';}
+}
+
+function closeMoreFilters(){
+  document.getElementById('moreFiltersModal').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+function showSearchSuggestions(query){
+  const container=document.getElementById('searchSuggestions');
+  if(!query||query.length<2){container.classList.remove('active');return;}
+  const filtered=KNOWN_ZONES.filter(z=>z.toLowerCase().includes(query.toLowerCase()));
+  if(!filtered.length){container.classList.remove('active');return;}
+  container.innerHTML=filtered.map(z=>`<div class="filter-suggestion-item" data-zone="${escHtml(z)}">📍 ${escHtml(z)}</div>`).join('');
+  container.classList.add('active');
+  container.querySelectorAll('.filter-suggestion-item').forEach(item=>{
+    item.addEventListener('click',()=>selectSuggestion(item.dataset.zone));
+  });
+}
+
+function selectSuggestion(zone){
+  document.getElementById('filterSearch').value=zone;
+  currentFilters.search=zone;
+  document.getElementById('searchSuggestions').classList.remove('active');
+  applyFilters();
+}
+
+function initFilters(){
+  // Dropdown triggers
+  document.querySelectorAll('.filter-dropdown .filter-trigger').forEach(trigger=>{
+    trigger.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const dropdown=trigger.closest('.filter-dropdown');
+      const wasActive=trigger.classList.contains('active');
+      document.querySelectorAll('.filter-trigger').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('active'));
+      if(!wasActive){
+        trigger.classList.add('active');
+        dropdown.querySelector('.filter-panel').classList.add('active');
+      }
+    });
+  });
+
+  // Click outside closes dropdowns + suggestions
+  document.addEventListener('click',(e)=>{
+    if(!e.target.closest('.filter-dropdown')){
+      document.querySelectorAll('.filter-trigger').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('active'));
+    }
+    if(!e.target.closest('.filter-search-main')){
+      document.getElementById('searchSuggestions').classList.remove('active');
+    }
+  });
+
+  // Search input
+  const searchInput=document.getElementById('filterSearch');
+  let searchTimeout;
+  searchInput.addEventListener('input',(e)=>{
+    currentFilters.search=e.target.value;
+    clearTimeout(searchTimeout);
+    searchTimeout=setTimeout(()=>{
+      showSearchSuggestions(e.target.value);
+      applyFilters();
+    },350);
+  });
+  searchInput.addEventListener('keypress',(e)=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      document.getElementById('searchSuggestions').classList.remove('active');
+      applyFilters();
+    }
+  });
+
+  // Operation radios — apply immediately
+  document.querySelectorAll('input[name="operation"]').forEach(radio=>{
+    radio.addEventListener('change',(e)=>{
+      currentFilters.operation=e.target.value;
+      const labels={sale:'Comprar',rental:'Rentar',foreclosure:'Remates'};
+      updateFilterValue('operation',labels[e.target.value]||'Comprar');
+      applyFilters();
+    });
+  });
+
+  // Property type checkboxes
+  document.querySelectorAll('input[name="propertyType"]').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      const checked=Array.from(document.querySelectorAll('input[name="propertyType"]:checked')).map(c=>c.value);
+      currentFilters.propertyTypes=checked;
+      const text=checked.length===0?'Todos':checked.length===1?checked[0]:`${checked.length} seleccionados`;
+      updateFilterValue('propertyType',text);
+    });
+  });
+
+  // Bedrooms
+  document.getElementById('bedroomsMin').addEventListener('change',(e)=>{
+    currentFilters.bedroomsMin=e.target.value;updateBedroomsLabel();
+  });
+  document.getElementById('bedroomsMax').addEventListener('change',(e)=>{
+    currentFilters.bedroomsMax=e.target.value;updateBedroomsLabel();
+  });
+
+  // Price
+  document.getElementById('priceMin').addEventListener('input',(e)=>{
+    currentFilters.priceMin=e.target.value;updatePriceLabel();
+  });
+  document.getElementById('priceMax').addEventListener('input',(e)=>{
+    currentFilters.priceMax=e.target.value;updatePriceLabel();
+  });
+  document.querySelectorAll('input[name="currency"]').forEach(radio=>{
+    radio.addEventListener('change',(e)=>{
+      currentFilters.currency=e.target.value;updatePriceLabel();
+    });
+  });
+
+  // Apply buttons inside dropdown panels
+  document.querySelectorAll('.filter-panel-actions .filter-btn-apply').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const dropdown=btn.closest('.filter-dropdown');
+      if(dropdown){
+        dropdown.querySelector('.filter-trigger').classList.remove('active');
+        dropdown.querySelector('.filter-panel').classList.remove('active');
+      }
+      applyFilters();
+    });
+  });
+
+  // Clear buttons inside dropdown panels
+  document.querySelectorAll('.filter-panel-actions .filter-btn-clear').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      clearFilter(btn.dataset.filter);
+    });
+  });
+
+  // More filters modal
+  document.getElementById('openMoreFilters').addEventListener('click',()=>{
+    document.getElementById('moreFiltersModal').classList.add('active');
+    document.body.style.overflow='hidden';
+  });
+
+  // Bathrooms pills
+  document.querySelectorAll('#bathroomsPills .filter-pill').forEach(pill=>{
+    pill.addEventListener('click',()=>{
+      document.querySelectorAll('#bathroomsPills .filter-pill').forEach(p=>p.classList.remove('active'));
+      pill.classList.add('active');
+      currentFilters.bathrooms=pill.dataset.value;
+    });
+  });
+
+  // Parking pills
+  document.querySelectorAll('#parkingPills .filter-pill').forEach(pill=>{
+    pill.addEventListener('click',()=>{
+      document.querySelectorAll('#parkingPills .filter-pill').forEach(p=>p.classList.remove('active'));
+      pill.classList.add('active');
+      currentFilters.parking=pill.dataset.value;
+    });
+  });
+
+  // Surface
+  document.getElementById('surfaceMin').addEventListener('input',(e)=>{
+    currentFilters.surfaceMin=e.target.value;
+  });
+  document.getElementById('surfaceMax').addEventListener('input',(e)=>{
+    currentFilters.surfaceMax=e.target.value;
+  });
+  document.querySelectorAll('input[name="surfaceType"]').forEach(radio=>{
+    radio.addEventListener('change',(e)=>{
+      currentFilters.surfaceType=e.target.value;
+    });
+  });
+
+  // Amenities
+  document.querySelectorAll('input[name="amenity"]').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      currentFilters.amenities=Array.from(document.querySelectorAll('input[name="amenity"]:checked')).map(c=>c.value);
+    });
+  });
+
+  // Modal apply / clear all
+  document.getElementById('applyAllFilters').addEventListener('click',()=>{
+    closeMoreFilters();
+    updateMoreFiltersCount();
+    applyFilters();
+  });
+  document.getElementById('clearAllFilters').addEventListener('click',()=>{
+    clearAllFilters();
+  });
 }
 
 // ── API-DRIVEN PROPERTY LIST (EasyBroker via /api/properties) ──
@@ -477,29 +1096,69 @@ function buildApiParams(){
   q.set('page',String(state.page));
   q.set('limit',String(PER_PAGE));
 
-  const search=document.getElementById('searchInput').value.trim();
-  const zona=document.getElementById('zonaFilter').value;
-  const tipo=document.getElementById('tipoFilter').value;
-  const precio=document.getElementById('precioFilter').value;
-  const inmueble=document.getElementById('inmuebleFilter').value;
-
+  const search=(currentFilters.search||'').trim();
   if(search) q.set('search',search);
-  if(zona) q.set('location',zona);
-  if(inmueble) q.set('property_type',inmueble);
-  if(tipo==='En Venta') q.set('operation_type','sale');
-  else if(tipo==='En Renta') q.set('operation_type','rental');
-  if(precio==='5'){q.set('max_price','5000000');}
-  else if(precio==='10'){q.set('min_price','5000001');q.set('max_price','10000000');}
-  else if(precio==='20'){q.set('min_price','10000001');q.set('max_price','20000000');}
-  else if(precio==='20+'){q.set('min_price','20000001');}
+
+  // operation_type: 'sale' | 'rental' (foreclosure passes through; backend may ignore)
+  if(currentFilters.operation && currentFilters.operation!=='foreclosure'){
+    q.set('operation_type',currentFilters.operation);
+  } else if(currentFilters.operation==='foreclosure'){
+    q.set('operation_type','foreclosure');
+  }
+
+  // property_type: only one supported by API; multi-select handled client-side
+  if(currentFilters.propertyTypes.length===1){
+    q.set('property_type',currentFilters.propertyTypes[0]);
+  }
+
+  if(currentFilters.priceMin) q.set('min_price',String(currentFilters.priceMin));
+  if(currentFilters.priceMax) q.set('max_price',String(currentFilters.priceMax));
+
   return q;
 }
 
 function applyClientFilters(list){
-  const minRec=parseInt(document.getElementById('recFilter').value)||0;
   return list.filter(p=>{
     if(!p.title_image_full) return false;
-    if(minRec && (parseInt(p.bedrooms)||0)<minRec) return false;
+
+    // Multi property type
+    if(currentFilters.propertyTypes.length>1){
+      if(!currentFilters.propertyTypes.includes(p.property_type)) return false;
+    }
+
+    // Bedrooms range
+    const bed=parseInt(p.bedrooms)||0;
+    if(currentFilters.bedroomsMin && bed<parseInt(currentFilters.bedroomsMin)) return false;
+    if(currentFilters.bedroomsMax && bed>parseInt(currentFilters.bedroomsMax)) return false;
+
+    // Bathrooms (min)
+    if(currentFilters.bathrooms){
+      const bath=parseFloat(p.bathrooms)||0;
+      if(bath<parseFloat(currentFilters.bathrooms)) return false;
+    }
+
+    // Parking
+    if(currentFilters.parking!==''){
+      const parking=parseInt(p.parking_spaces)||0;
+      const want=parseInt(currentFilters.parking);
+      if(want===0){if(parking!==0) return false;}
+      else if(parking<want) return false;
+    }
+
+    // Surface
+    if(currentFilters.surfaceMin||currentFilters.surfaceMax){
+      const field=currentFilters.surfaceType==='lot'?'lot_size':'construction_size';
+      const surf=parseFloat(p[field])||0;
+      if(currentFilters.surfaceMin && surf<parseFloat(currentFilters.surfaceMin)) return false;
+      if(currentFilters.surfaceMax && surf>parseFloat(currentFilters.surfaceMax)) return false;
+    }
+
+    // Amenities (search in title + description)
+    if(currentFilters.amenities.length>0){
+      const text=`${p.title||''} ${p.description||''}`.toLowerCase();
+      if(!currentFilters.amenities.every(a=>text.includes(a.toLowerCase()))) return false;
+    }
+
     return true;
   });
 }
@@ -636,27 +1295,19 @@ function sortCards(){
   renderResults();
 }
 
-// Live search (debounced)
-let searchTimer;
-document.getElementById('searchInput').addEventListener('input',()=>{
-  clearTimeout(searchTimer);
-  searchTimer=setTimeout(applyFilters,400);
-});
-
-// ── PRE-APPLY URL PARAMS (?operacion=venta|renta, ?id=XX) ──
+// ── PRE-APPLY URL PARAMS (?operacion=venta|renta|remates, ?id=XX) ──
 (function(){
   const params=new URLSearchParams(window.location.search);
   const op=params.get('operacion');
   if(op){
-    const map={venta:'En Venta',renta:'En Renta'};
+    const map={venta:'sale',renta:'rental',remates:'foreclosure'};
     const v=map[op.toLowerCase()];
     if(v){
-      const tipoFilter=document.getElementById('tipoFilter');
-      if(tipoFilter){
-        tipoFilter.value=v;
-        const lbl=document.getElementById('tipoLabel');
-        if(lbl) lbl.textContent=v;
-      }
+      currentFilters.operation=v;
+      const radio=document.querySelector(`input[name="operation"][value="${v}"]`);
+      if(radio) radio.checked=true;
+      const labels={sale:'Comprar',rental:'Rentar',foreclosure:'Remates'};
+      updateFilterValue('operation',labels[v]);
     }
   }
   const id=params.get('id');
@@ -753,7 +1404,7 @@ async function loadMapMarkers(){
   const baseParams=buildApiParams();
   baseParams.set('limit','50');
   baseParams.set('include_location','1');
-  const minRec=parseInt(document.getElementById('recFilter').value)||0;
+  const minRec=parseInt(currentFilters.bedroomsMin)||0;
   const collected=[];
   const maxPages=8; // safety: 8 * 50 = 400 max
   for(let pg=1;pg<=maxPages;pg++){
@@ -775,7 +1426,33 @@ async function loadMapMarkers(){
   if(collected[0]){
     console.log('🔍 sample:',{id:collected[0].public_id,latitude:collected[0].latitude,longitude:collected[0].longitude,locationType:typeof collected[0].location});
   }
-  const filtered=minRec?collected.filter(p=>(parseInt(p.bedrooms)||0)>=minRec):collected;
+  // Apply same client-side filters as list (minus image requirement)
+  const filtered=collected.filter(p=>{
+    if(currentFilters.propertyTypes.length>1 && !currentFilters.propertyTypes.includes(p.property_type)) return false;
+    const bed=parseInt(p.bedrooms)||0;
+    if(currentFilters.bedroomsMin && bed<parseInt(currentFilters.bedroomsMin)) return false;
+    if(currentFilters.bedroomsMax && bed>parseInt(currentFilters.bedroomsMax)) return false;
+    if(currentFilters.bathrooms){
+      const bath=parseFloat(p.bathrooms)||0;
+      if(bath<parseFloat(currentFilters.bathrooms)) return false;
+    }
+    if(currentFilters.parking!==''){
+      const parking=parseInt(p.parking_spaces)||0;
+      const want=parseInt(currentFilters.parking);
+      if(want===0){if(parking!==0) return false;} else if(parking<want) return false;
+    }
+    if(currentFilters.surfaceMin||currentFilters.surfaceMax){
+      const field=currentFilters.surfaceType==='lot'?'lot_size':'construction_size';
+      const surf=parseFloat(p[field])||0;
+      if(currentFilters.surfaceMin && surf<parseFloat(currentFilters.surfaceMin)) return false;
+      if(currentFilters.surfaceMax && surf>parseFloat(currentFilters.surfaceMax)) return false;
+    }
+    if(currentFilters.amenities.length>0){
+      const text=`${p.title||''} ${p.description||''}`.toLowerCase();
+      if(!currentFilters.amenities.every(a=>text.includes(a.toLowerCase()))) return false;
+    }
+    return true;
+  });
   let withCoords=0,withoutCoords=0;
   const markers=[];
   filtered.forEach(p=>{
@@ -791,6 +1468,7 @@ async function loadMapMarkers(){
 }
 
 // Initial load
+initFilters();
 loadPage();
 window.addEventListener('load',()=>{
   initPropertiesMap();
