@@ -942,12 +942,36 @@ let currentFilters={
   amenities:[]
 };
 
-const KNOWN_ZONES=[
+const FALLBACK_ZONES=[
   'San Pedro Garza García','Carrizalejo','Del Valle','Valle Oriente',
   'Santa María','Sierra Madre','Zona Gómez Morín','Cumbres',
   'Bosques de Valle Alto','Balcones del Campestre','Lomas del Valle',
-  'Carretera Nacional','San Agustín','Centro'
+  'Carretera Nacional','San Agustín','Centro','Monterrey',
+  'San Nicolás','Apodaca','Guadalupe','Santiago','Saltillo','Nuevo León'
 ];
+let cachedUniqueZones=null;
+
+function invalidateZoneCache(){cachedUniqueZones=null;}
+
+function getUniqueZonesFromProperties(){
+  if(cachedUniqueZones) return cachedUniqueZones;
+  const set=new Set();
+  if(allMapProperties && allMapProperties.length){
+    allMapProperties.forEach(p=>{
+      let loc='';
+      if(typeof p.location==='string') loc=p.location;
+      else if(p.location && typeof p.location==='object') loc=p.location.name||p.location.full_address||'';
+      if(loc){
+        loc.split(',').map(s=>s.trim()).forEach(part=>{
+          if(part && part.length>2) set.add(part);
+        });
+      }
+    });
+  }
+  if(set.size===0) FALLBACK_ZONES.forEach(z=>set.add(z));
+  cachedUniqueZones=Array.from(set).sort((a,b)=>a.localeCompare(b,'es'));
+  return cachedUniqueZones;
+}
 
 function updateFilterValue(filterName,value){
   const trigger=document.querySelector(`.filter-dropdown[data-filter="${filterName}"] .filter-trigger`);
@@ -1060,12 +1084,32 @@ function closeMoreFilters(){
 
 function showSearchSuggestions(query){
   const container=document.getElementById('searchSuggestions');
-  if(!query||query.length<2){container.classList.remove('active');return;}
-  const filtered=KNOWN_ZONES.filter(z=>z.toLowerCase().includes(query.toLowerCase()));
-  if(!filtered.length){container.classList.remove('active');return;}
-  container.innerHTML=filtered.map(z=>`<div class="filter-suggestion-item" data-zone="${escHtml(z)}">📍 ${escHtml(z)}</div>`).join('');
+  if(!container) return;
+  const q=(query||'').trim();
+  if(q.length<2){
+    container.classList.remove('active');
+    container.innerHTML='';
+    return;
+  }
+  const zones=getUniqueZonesFromProperties();
+  const filtered=zones.filter(z=>z.toLowerCase().includes(q.toLowerCase())).slice(0,8);
+
+  if(!filtered.length){
+    container.innerHTML=`
+      <div class="filter-suggestion-item" style="cursor:default;opacity:.85">
+        <span style="color:#c9a96e">⚠️</span>
+        <span>No encontramos "${escHtml(q)}" en nuestro inventario</span>
+      </div>
+      <div class="filter-suggestion-item" style="border-top:1px solid rgba(0,0,0,.05);cursor:default;opacity:.7;font-size:.8rem">
+        Tu búsqueda se aplicará al título y descripción de las propiedades
+      </div>`;
+    container.classList.add('active');
+    return;
+  }
+
+  container.innerHTML=filtered.map(z=>`<div class="filter-suggestion-item" data-zone="${escHtml(z)}"><span style="color:#c9a96e">📍</span> ${escHtml(z)}</div>`).join('');
   container.classList.add('active');
-  container.querySelectorAll('.filter-suggestion-item').forEach(item=>{
+  container.querySelectorAll('.filter-suggestion-item[data-zone]').forEach(item=>{
     item.addEventListener('click',()=>selectSuggestion(item.dataset.zone));
   });
 }
@@ -1108,12 +1152,18 @@ function initFilters(){
   const searchInput=document.getElementById('filterSearch');
   let searchTimeout;
   searchInput.addEventListener('input',(e)=>{
-    currentFilters.search=e.target.value;
-    clearTimeout(searchTimeout);
-    searchTimeout=setTimeout(()=>{
-      showSearchSuggestions(e.target.value);
+    const val=e.target.value;
+    currentFilters.search=val;
+    // Empty field → restore the unfiltered list immediately
+    if(val===''){
+      const sug=document.getElementById('searchSuggestions');
+      if(sug) sug.classList.remove('active');
       applyFilters();
-    },350);
+      return;
+    }
+    // Debounced autocomplete; results are committed on Enter
+    clearTimeout(searchTimeout);
+    searchTimeout=setTimeout(()=>showSearchSuggestions(val),300);
   });
   searchInput.addEventListener('keypress',(e)=>{
     if(e.key==='Enter'){
@@ -1121,6 +1171,13 @@ function initFilters(){
       document.getElementById('searchSuggestions').classList.remove('active');
       applyFilters();
     }
+  });
+  searchInput.addEventListener('blur',()=>{
+    // Slight delay so a click on a suggestion still registers
+    setTimeout(()=>{
+      const sug=document.getElementById('searchSuggestions');
+      if(sug) sug.classList.remove('active');
+    },200);
   });
 
   // Operation radios — apply immediately
@@ -1251,10 +1308,10 @@ function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&am
 function buildApiParams(){
   const q=new URLSearchParams();
   q.set('page',String(state.page));
-  q.set('limit',String(PER_PAGE));
-
-  const search=(currentFilters.search||'').trim();
-  if(search) q.set('search',search);
+  // Widen the net when a free-text search is active so client-side filtering
+  // doesn't run out of candidates on one paginated page. The proxy caps at 50.
+  const searchActive=!!(currentFilters.search||'').trim();
+  q.set('limit',String(searchActive?50:PER_PAGE));
 
   // operation_type: 'sale' | 'rental' (foreclosure passes through; backend may ignore)
   if(currentFilters.operation && currentFilters.operation!=='foreclosure'){
@@ -1275,8 +1332,18 @@ function buildApiParams(){
 }
 
 function applyClientFilters(list){
+  const searchTerm=(currentFilters.search||'').trim().toLowerCase();
   return list.filter(p=>{
     if(!p.title_image_full) return false;
+
+    // Free-text search across title, description, location, and public_id
+    if(searchTerm){
+      const locStr=typeof p.location==='string'
+        ? p.location
+        : ((p.location && (p.location.name||p.location.full_address))||'');
+      const haystack=`${p.title||''} ${p.description||''} ${locStr} ${p.public_id||''}`.toLowerCase();
+      if(!haystack.includes(searchTerm)) return false;
+    }
 
     // Multi property type
     if(currentFilters.propertyTypes.length>1){
@@ -1440,9 +1507,10 @@ function renderProperty(p){
 function renderResults(){
   const filtered=applyClientFilters(state.results);
   const sorted=sortClientSide(filtered);
-  document.getElementById('countNum').textContent=state.total;
+  // Show post-filter count (more honest than API total once client filters narrow it)
+  document.getElementById('countNum').textContent=String(sorted.length);
   if(!sorted.length){
-    grid.innerHTML='<div class="prop-state">Sin resultados que coincidan con tu búsqueda.</div>';
+    grid.innerHTML=renderNoResultsEmptyState();
     return;
   }
   grid.innerHTML=sorted.map(renderProperty).join('');
@@ -1450,6 +1518,27 @@ function renderResults(){
     const el=grid.querySelector(`.property-card[data-id="${CSS.escape(state.highlightId)}"]`);
     if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
   }
+}
+
+function renderNoResultsEmptyState(){
+  const term=(currentFilters.search||'').trim();
+  const waMsg=encodeURIComponent('Hola Maricela, busco una propiedad pero no la encontré en el sitio. ¿Me ayudas?');
+  const waUrl=`https://wa.me/528110448818?text=${waMsg}`;
+  const termHtml=term
+    ? `<p style="font-size:1rem;color:#666;margin:0 0 8px 0">No encontramos propiedades para <strong style="color:#c9a96e">"${escHtml(term)}"</strong></p>
+       <p style="font-size:.9rem;color:#888;margin:0 0 24px 0">Nuestro inventario está enfocado en San Pedro Garza García y zona metropolitana de Monterrey</p>`
+    : `<p style="font-size:.95rem;color:#666;margin:0 0 24px 0">No hay propiedades que coincidan con los filtros seleccionados</p>`;
+  return `
+    <div class="no-results-message" style="grid-column:1/-1;text-align:center;padding:60px 20px;font-family:var(--sans)">
+      <div style="font-size:3rem;margin-bottom:16px;opacity:.3">🔍</div>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;color:#1a1f2e;margin:0 0 12px 0;letter-spacing:.05em;text-transform:uppercase;font-weight:500">Sin resultados</h3>
+      ${termHtml}
+      <button type="button" onclick="if(typeof clearAllFilters==='function')clearAllFilters()" style="background:#c9a96e;color:#1a1f2e;border:none;padding:12px 32px;border-radius:50px;font-family:var(--sans);font-size:.85rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s">Limpiar búsqueda</button>
+      <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(0,0,0,.08)">
+        <p style="font-size:.85rem;color:#888;margin:0 0 8px 0">¿Buscas algo específico?</p>
+        <a href="${waUrl}" target="_blank" rel="noopener" style="color:#25D366;text-decoration:none;font-weight:600;font-size:.9rem">💬 Contacta a Maricela por WhatsApp →</a>
+      </div>
+    </div>`;
 }
 
 function renderPagination(){
@@ -1706,6 +1795,7 @@ async function loadMapMarkers(){
   });
   allMapMarkers=markers;
   allMapProperties=props;
+  invalidateZoneCache();
   console.log(`✅ ${withCoords} pins / ❌ ${withoutCoords} sin coords / total ${filtered.length}`);
 
   // If user has drawn a zone, re-apply that filter; else just add everything
