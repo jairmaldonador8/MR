@@ -3,8 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cargando propiedad… | Montana Realty Co.</title>
-<meta name="description" content="Detalle de propiedad en Montana Realty Co. — agencia boutique de bienes raíces de lujo en San Pedro Garza García.">
+
+<!-- SEO: actualizado dinámicamente por updateSEOForProperty() -->
+<title id="pageTitle">Propiedad de Lujo | Montana Realty Co.</title>
+<meta id="metaDescription" name="description" content="Propiedad exclusiva en San Pedro Garza García. Conoce todos los detalles y agenda una visita con nuestro equipo de Montana Realty Co.">
+<meta name="keywords" content="propiedad lujo san pedro, casa venta monterrey, departamento lujo san pedro garza garcía, montana realty">
+<meta name="author" content="Montana Realty Co.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link id="canonicalLink" rel="canonical" href="https://montana-realty-co.com/propiedad.html">
+
+<!-- Geo Tags -->
+<meta name="geo.region" content="MX-NLE">
+<meta name="geo.placename" content="San Pedro Garza García">
+<meta name="geo.position" content="25.6573;-100.4023">
+<meta name="ICBM" content="25.6573, -100.4023">
+
+<!-- Open Graph dinámico -->
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Montana Realty Co.">
+<meta id="ogTitle" property="og:title" content="Propiedad de Lujo | Montana Realty">
+<meta id="ogDescription" property="og:description" content="Propiedad exclusiva en San Pedro Garza García.">
+<meta id="ogImage" property="og:image" content="https://montana-realty-co.com/assets/og-image.jpg">
+<meta id="ogUrl" property="og:url" content="https://montana-realty-co.com/propiedad.html">
+<meta property="og:locale" content="es_MX">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta id="twitterTitle" name="twitter:title" content="Propiedad de Lujo | Montana Realty">
+<meta id="twitterDescription" name="twitter:description" content="Propiedad exclusiva en San Pedro Garza García.">
+<meta id="twitterImage" name="twitter:image" content="https://montana-realty-co.com/assets/og-image.jpg">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/assets/logo-mr.png">
+<link rel="apple-touch-icon" href="/assets/logo-mr.png">
+
+<!-- Schema.org Product (se actualiza dinámicamente) -->
+<script id="schemaProperty" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Propiedad",
+  "description": "",
+  "image": "",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "MXN",
+    "price": "",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "RealEstateAgent",
+      "name": "Montana Realty Co.",
+      "url": "https://montana-realty-co.com"
+    }
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -438,6 +492,56 @@ function showError(){
   document.title='Propiedad no encontrada | Montana Realty Co.';
 }
 
+function updateSEOForProperty(property){
+  try{
+    const cleanT=cleanTitle(property.title);
+    const op=(property.operations&&property.operations[0])||{};
+    const price=op.formatted_amount||'';
+    const operationType=op.type==='rental'?'Renta':(op.type==='foreclosure'?'Remate':'Venta');
+    let zone='';
+    if(typeof property.location==='string') zone=(property.location.split(',')[0]||'').trim();
+    else if(property.location&&property.location.name) zone=(property.location.name.split(',')[0]||'').trim();
+    const fullTitle=`${cleanT} en ${operationType}${zone?' - '+zone:''} | Montana Realty`;
+    const description=`${cleanT} en ${operationType}.${price?' Precio: '+price+'.':''}${zone?' Ubicada en '+zone+'.':''}${property.bedrooms?' '+property.bedrooms+' recámaras.':''}${property.construction_size?' '+property.construction_size+'m² de construcción.':''} Conoce más y agenda una visita con Montana Realty Co.`;
+    const url=`https://montana-realty-co.com/propiedad.html?id=${encodeURIComponent(property.public_id||'')}`;
+    const imageUrl=property.title_image_full||property.title_image_thumb||'https://montana-realty-co.com/assets/og-image.jpg';
+    document.title=fullTitle;
+    const setText=(id,v)=>{const el=document.getElementById(id);if(el) el.textContent=v;};
+    const setAttr=(id,a,v)=>{const el=document.getElementById(id);if(el) el.setAttribute(a,v);};
+    setText('pageTitle',fullTitle);
+    setAttr('metaDescription','content',description);
+    setAttr('canonicalLink','href',url);
+    setAttr('ogTitle','content',fullTitle);
+    setAttr('ogDescription','content',description);
+    setAttr('ogImage','content',imageUrl);
+    setAttr('ogUrl','content',url);
+    setAttr('twitterTitle','content',fullTitle);
+    setAttr('twitterDescription','content',description);
+    setAttr('twitterImage','content',imageUrl);
+    const schema={
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":cleanT,
+      "description":description,
+      "image":imageUrl,
+      "url":url,
+      "offers":{
+        "@type":"Offer",
+        "priceCurrency":"MXN",
+        "price":op.amount||0,
+        "availability":"https://schema.org/InStock",
+        "seller":{
+          "@type":"RealEstateAgent",
+          "name":"Montana Realty Co.",
+          "url":"https://montana-realty-co.com"
+        }
+      }
+    };
+    const sEl=document.getElementById('schemaProperty');
+    if(sEl) sEl.textContent=JSON.stringify(schema);
+  }catch(e){console.warn('SEO update failed',e);}
+}
+
 async function loadPropertyDetail(){
   const id=getPropertyId();
   if(!id){showError();return;}
@@ -450,6 +554,7 @@ async function loadPropertyDetail(){
     const property=await r.json();
     currentProperty=property;
     renderProperty(property);
+    updateSEOForProperty(property);
   }catch(err){
     console.error(err);
     showError();
