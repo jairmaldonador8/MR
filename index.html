@@ -1076,22 +1076,57 @@ textarea.fi{min-height:70px;max-height:110px;resize:vertical;line-height:1.5}
 <section class="hero" id="hero">
   <div class="hero-sticky" id="heroSticky">
 
-  <!-- Capa 0: Video de fondo -->
-  <video autoplay muted loop playsinline id="hero-video"
-    poster="casa.png"
-    style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0;">
-    <source src="video-inicio-compressed.mp4" type="video/mp4">
-  </video>
+  <!-- Capa 0: Gradiente cielo claro -->
+  <div class="hero-bg"></div>
 
-  <!-- Capa 1: Overlay oscuro para legibilidad del texto -->
-  <div class="hero-vid-overlay" aria-hidden="true"></div>
+  <!-- Capa 1: Nubes detrás de la casa -->
+  <div class="hero-clouds-bk" id="heroCloudsBk">
+    <img class="cloud-img cb1" src="assets/cloud.png" alt="">
+    <img class="cloud-img cb2" src="assets/cloud.png" alt="">
+    <img class="cloud-img cb3" src="assets/cloud.png" alt="">
+  </div>
 
-  <!-- Capa 2: Texto principal -->
+  <!-- Capa 2: Casa — sube + zoom al scroll -->
+  <div class="hero-house" id="heroHouse">
+    <img src="casa.png" alt="Casa Montana Realty" loading="eager">
+  </div>
+
+  <!-- Capa 3: Niebla base + humo lateral -->
+  <div class="hero-fog-wrap" id="heroFog">
+    <div class="hero-fog"></div>
+    <div class="fog-lat fog-lat-l"></div>
+    <div class="fog-lat fog-lat-r"></div>
+    <img class="cloud-img sm1" src="assets/smoke.png" alt="">
+    <img class="cloud-img sm2" src="assets/smoke.png" alt="">
+  </div>
+
+  <!-- Capa 4: Nubes delante de la casa -->
+  <div class="hero-clouds-fr" id="heroCloudsF">
+    <img class="cloud-img cf1" src="assets/cloud.png" alt="">
+    <img class="cloud-img cf2" src="assets/cloud.png" alt="">
+  </div>
+
+  <!-- Capa 5: Texto principal -->
   <div class="hero-cnt" id="heroCnt">
     <p class="hero-eyebrow r v">Montana Realty Co · San Pedro Garza García</p>
     <h1 class="hero-title r v d1">Creando Tu<br>Sueño<br>Inmobiliario</h1>
     <p class="hero-sub r v d2"><span class="hero-sub-dark">Agentes expertos. Asesoría real.</span> <span class="hero-sub-light">El camino hacia tu próximo hogar.</span></p>
   </div>
+
+  <!-- Overlay oscuro para typewriter -->
+  <div class="hero-overlay" id="heroOverlay"></div>
+
+  <!-- Typewriter reveal -->
+  <div class="hero-reveal" id="heroReveal">
+    <svg class="reveal-icon" id="revealIcon" width="60" height="40" viewBox="0 0 60 40" fill="none">
+      <polygon points="0,40 18,6 30,22 42,6 60,40" fill="rgba(201,169,110,.18)"/>
+      <polyline points="0,40 18,6 30,22 42,6 60,40" stroke="#c9a96e" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+      <line x1="0" y1="40" x2="60" y2="40" stroke="#c9a96e" stroke-width="1" opacity="0.3"/>
+    </svg>
+    <div class="tw-city" id="twCity"></div>
+    <img src="assets/logo.png" alt="Montana Realty" id="twName" style="height:160px;width:auto;opacity:0;transition:opacity 0.3s;margin-top:16px">
+  </div>
+
 
   </div>
 </section>
@@ -1838,7 +1873,7 @@ function closeMob(){
     }
 
     // Nav adaptativo: dark-hero cuando el overlay es visible (y aún estamos en el hero)
-    if(nav) nav.classList.toggle('dark-hero', sy<=50);
+    if(nav) nav.classList.toggle('dark-hero', progress>0.55 && sy<=vh);
 
     // Overlay oscurece (progress 0.55→0.75)
     if(heroOverlay) heroOverlay.style.opacity=String(remap(progress,.55,.75)*.85);
