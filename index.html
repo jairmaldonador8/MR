@@ -1542,27 +1542,6 @@ textarea.fi{min-height:70px;max-height:110px;resize:vertical;line-height:1.5}
         </select>
       </div>
       <div class="form-group">
-        <label for="applyPortfolio">¿Tienes cartera de clientes propia?</label>
-        <select id="applyPortfolio" name="portfolio">
-          <option value="">Selecciona</option>
-          <option value="Sí, tengo cartera consolidada">Sí, tengo cartera consolidada</option>
-          <option value="Sí, en construcción">Sí, en construcción</option>
-          <option value="No, pero tengo red de contactos">No, pero tengo red de contactos</option>
-          <option value="No, empezando desde cero">No, empezando desde cero</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="applyCertification">¿Tienes certificación AMPI o similar?</label>
-        <select id="applyCertification" name="certification">
-          <option value="">Selecciona</option>
-          <option value="Sí, AMPI">Sí, AMPI</option>
-          <option value="Sí, otra certificación">Sí, otra certificación</option>
-          <option value="En proceso">En proceso</option>
-          <option value="No, pero estoy interesado">No, pero estoy interesado</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-      <div class="form-group">
         <label for="applyWhy">¿Por qué quieres unirte a Montana Realty? *</label>
         <textarea id="applyWhy" name="why" required rows="3" placeholder="Cuéntanos qué te motiva a formar parte del equipo..."></textarea>
       </div>
@@ -2547,8 +2526,6 @@ function sendApplyToWhatsApp(event){
   const age=document.getElementById('applyAge').value;
   const city=document.getElementById('applyCity').value.trim();
   const experience=document.getElementById('applyExperience').value;
-  const portfolio=document.getElementById('applyPortfolio').value;
-  const certification=document.getElementById('applyCertification').value;
   const why=document.getElementById('applyWhy').value.trim();
   const availability=document.getElementById('applyAvailability').value;
 
@@ -2561,8 +2538,6 @@ function sendApplyToWhatsApp(event){
   message+='• Ciudad: '+city+'\n\n';
   message+='💼 EXPERIENCIA PROFESIONAL:\n';
   message+='• Experiencia: '+experience+'\n';
-  if(portfolio) message+='• Cartera de clientes: '+portfolio+'\n';
-  if(certification) message+='• Certificación: '+certification+'\n';
   message+='\n💭 MOTIVACIÓN:\n'+why+'\n\n';
   if(availability){
     message+='📅 DISPONIBILIDAD:\n';
