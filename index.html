@@ -281,8 +281,9 @@ body{background:var(--black);color:var(--white);font-family:var(--sans);font-wei
 .hs-titem input:checked~.hs-ticon{color:var(--gold)}
 
 /* Inline pill buttons (rec/baños/est) */
-.hs-pills{display:flex;flex-wrap:wrap;gap:8px}
-.hs-pill{flex:1;min-width:46px;border:none;background:#f0f0f0;color:#555;font-family:var(--sans);font-size:13px;font-weight:600;padding:10px 6px;border-radius:9px;cursor:pointer;transition:all .15s}
+.hs-pills{display:flex;flex-wrap:nowrap;gap:8px}
+.hs-pill{flex:1 1 0;min-width:0;border:none;background:#f0f0f0;color:#555;font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 12px;border-radius:9px;cursor:pointer;transition:all .15s;white-space:nowrap;overflow:visible;text-align:center}
+#hsPopRec{min-width:440px}
 .hs-pill:hover{background:#e6e6e6}
 .hs-pill.active{background:#111;color:#fff}
 
@@ -3289,7 +3290,7 @@ document.querySelectorAll('.svc-card').forEach(card=>{
   <div class="hs-sep"></div>
   <div class="hs-field" data-pop="rec" role="button" tabindex="0" aria-haspopup="true">
     <span class="hs-label">Recámaras</span>
-    <span class="hs-value placeholder" id="hsRecVal">Cualquiera</span>
+    <span class="hs-value placeholder" id="hsRecVal">Todos</span>
     <div class="hs-pop" id="hsPopRec">
       <div class="hs-pop-sub">Recámaras</div>
       <div class="hs-pills" data-group="rec"></div>
@@ -3418,9 +3419,9 @@ document.querySelectorAll('.svc-card').forEach(card=>{
     {n:'Desarrollo',s:'desarrollo',i:I('<rect x="3" y="8" width="7" height="13"/><rect x="13" y="3" width="8" height="18"/><path d="M6 12h1M16 7h2M16 11h2M16 15h2"/>')}
   ];
   const PILLS={
-    rec:[['','Cualquiera'],['1','1'],['2','2'],['3','3'],['4','4'],['5','5+']],
-    banos:[['','Cualquiera'],['1','1'],['2','2'],['3','3'],['4','4+']],
-    est:[['','Cualquiera'],['1','1'],['2','2'],['3','3+']]
+    rec:[['','Todos'],['1','1'],['2','2'],['3','3'],['4','4'],['5','5+']],
+    banos:[['','Todos'],['1','1'],['2','2'],['3','3'],['4','4+']],
+    est:[['','Todos'],['1','1'],['2','2'],['3','3+']]
   };
   const STEPS={
     venta:[1e6,2e6,3e6,5e6,8e6,10e6,15e6,20e6,25e6,30e6,35e6,50e6,75e6,100e6],
@@ -3485,7 +3486,7 @@ document.querySelectorAll('.svc-card').forEach(card=>{
     if(state.rec) parts.push(state.rec+(state.rec==='5'?'+':'')+' rec');
     if(state.banos) parts.push(state.banos+(state.banos==='4'?'+':'')+' baños');
     if(state.est) parts.push(state.est+(state.est==='3'?'+':'')+' est');
-    setVal('hsRecVal',parts.length?parts.join(' · '):'Cualquiera',!parts.length);
+    setVal('hsRecVal',parts.length?parts.join(' · '):'Todos',!parts.length);
     // price
     setVal('hsPriceVal',state.pTouched?priceText():'Cualquier precio',!state.pTouched);
   }
