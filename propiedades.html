@@ -1402,7 +1402,8 @@ function buildApiParams(){
 function applyClientFilters(list){
   const searchTerm=(currentFilters.search||'').trim().toLowerCase();
   return list.filter(p=>{
-    if(!p.title_image_full) return false;
+    // NOTA: ya NO se descarta por falta de imagen. Antes `if(!p.title_image_full) return false;`
+    // ocultaba ~25 propiedades sin foto principal. renderProperty usa un placeholder.
 
     // Free-text search across title, description, location, and public_id
     if(searchTerm){
@@ -1567,7 +1568,8 @@ function renderProperty(p){
   return `
     <article class="property-card layout-horizontal${highlight}" data-id="${escHtml(p.public_id||'')}">
       <a href="${detailUrl}" class="property-card-image-link" aria-label="${escHtml(cleanTitle)}">
-        <div class="property-card-image" style="background-image:url('${escHtml(img).replace(/'/g,"\\'")}')">
+        <div class="property-card-image${img?'':' no-img'}"${img?` style="background-image:url('${escHtml(img).replace(/'/g,"\\'")}')"`:''}>
+          ${img?'':'<span class="property-card-noimg-label">Sin imagen disponible</span>'}
           <span class="property-card-badge">${escHtml(opType)}</span>
           ${p.featured?'<span class="property-card-featured-badge">★ DESTACADA</span>':''}
         </div>
@@ -1596,6 +1598,10 @@ function renderProperty(p){
 function renderResults(){
   const filtered=applyClientFilters(state.results);
   const sorted=sortClientSide(filtered);
+  // ── DIAGNÓSTICO de filtrado ──
+  console.log('Después de filtros base (API):',state.results.length);
+  console.log('Después de filtros cliente:',filtered.length,
+    filtered.length<state.results.length?`(se ocultaron ${state.results.length-filtered.length} por filtros activos)`:'(sin reducción)');
   // Show post-filter count (more honest than API total once client filters narrow it)
   document.getElementById('countNum').textContent=String(sorted.length);
   if(!sorted.length){
@@ -1663,8 +1669,10 @@ async function loadPage(){
     const params=buildApiParams();
     params.set('limit','50');
     const all=[];
+    const seenIds=new Set();
+    let dupes=0;
     let apiTotal=0;
-    const MAX_PAGES=40; // safety: 40 * 50 = 2000 propiedades máx
+    const MAX_PAGES=60; // safety: 60 * 50 = 3000 propiedades máx
     for(let pg=1;pg<=MAX_PAGES;pg++){
       if(reqId!==currentReq) return; // stale: cambió el filtro mientras paginábamos
       params.set('page',String(pg));
@@ -1673,20 +1681,38 @@ async function loadPage(){
       if(!r.ok) throw new Error('API '+r.status);
       const d=await r.json();
       const list=d.content||[];
-      console.log(`Página ${pg}: ${list.length} propiedades`);
-      all.push(...list);
-      console.log(`Total acumulado: ${all.length}`);
       apiTotal=(d.pagination&&d.pagination.total)||apiTotal;
+      // Dedup por public_id (el loop podría repetir si la API solapa páginas)
+      let added=0;
+      for(const p of list){
+        const key=p.public_id||p.id||JSON.stringify(p);
+        if(seenIds.has(key)){dupes++;continue;}
+        seenIds.add(key);
+        all.push(p);
+        added++;
+      }
+      console.log(`Página ${pg}: ${list.length} propiedades (nuevas: ${added}, duplicadas: ${list.length-added})`);
+      console.log(`Total acumulado: ${all.length}`);
       const next=d.pagination&&d.pagination.next_page;
-      // Última página: la API ya no apunta a una siguiente, o devolvió < 50.
-      if(!next || list.length<50) break;
+      // Parar SOLO cuando: no hay página siguiente, la página vino vacía,
+      // o ya acumulamos el total que reporta la API. (No usar list.length<limit:
+      // la última página puede traer exactamente 50.)
+      if(list.length===0) break;
+      if(apiTotal && all.length>=apiTotal) break;
+      if(!next) break;
     }
     if(reqId!==currentReq) return;
     state.results=all;
     state.total=apiTotal||all.length;
     state.totalPages=1; // todo se muestra en una sola vista (sin paginación de servidor)
     state.page=1;
-    console.log(`✅ Propiedades cargadas del CRM: ${all.length}${apiTotal?` (API total: ${apiTotal})`:''}`);
+    // ── DIAGNÓSTICO ──
+    console.log('Total de la API:',all.length,'(API pagination.total:',apiTotal,')');
+    console.log('IDs únicos:',new Set(all.map(p=>p.public_id||p.id)).size,'/ duplicados descartados:',dupes);
+    console.log('Operaciones encontradas:',[...new Set(all.flatMap(p=>(p.operations||[]).map(o=>o.type)))]);
+    console.log('Estados (status) encontrados:',[...new Set(all.map(p=>p.status))]);
+    const sinImagen=all.filter(p=>!p.title_image_full).length;
+    console.log('Propiedades SIN imagen principal:',sinImagen,'(antes se ocultaban; ahora se muestran con placeholder)');
     renderResults();
     renderPagination(); // no-op cuando totalPages<=1
   }catch(e){
