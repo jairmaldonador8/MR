@@ -30,15 +30,11 @@ export default async function handler(req, res) {
       limit: Math.min(Number(limit), 50).toString()
     });
 
-    // Traer TODO el inventario del CRM. La API de listado de EasyBroker SOLO
-    // acepta 'published' y 'not_published' en search[statuses][] (otros valores
-    // como 'available'/'on_the_market' los ignora). Por defecto devuelve solo
-    // 'published'; pedimos ambos para obtener el universo completo y luego el
-    // cliente excluye únicamente los estados dados de baja (sold/rented/draft/…)
-    // para igualar el conjunto activo que muestra Pincali (~159). El estado real
-    // viaja en cada propiedad como `p.status` y se pinta como badge en la card.
+    // Solo propiedades PUBLICADAS — replica exactamente lo que sindica Pincali.
+    // (Antes pedíamos también 'not_published', lo que inflaba a ~408. Pincali
+    // solo lista 'published'; el conteo de ~159 se obtiene además renderizando
+    // por anuncio/operación en el cliente, no por propiedad.)
     params.append('search[statuses][]', 'published');
-    params.append('search[statuses][]', 'not_published');
 
     if (search) params.append('search[query]', search);
     if (min_price) params.append('search[min_price]', String(min_price));

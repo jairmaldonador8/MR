@@ -553,6 +553,8 @@ body{font-family:var(--sans);background:#fff;color:#111;overflow-x:hidden}
 .property-popup-details{font-size:.82rem;color:#6b7280;margin-bottom:10px}
 .property-popup-link{display:inline-block;background:#c9a96e;color:#1a1f2e;padding:7px 14px;border-radius:4px;text-decoration:none;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;transition:all .2s}
 .property-popup-link:hover{background:#d4b67e;transform:translateY(-1px)}
+.pin-both-tip{background:#1a1f2e!important;color:#c9a96e!important;border:none!important;font-family:var(--sans)!important;font-size:11px!important;font-weight:600!important;letter-spacing:.06em!important;text-transform:uppercase!important;padding:5px 10px!important;border-radius:4px!important;box-shadow:0 4px 14px rgba(0,0,0,.25)!important}
+.pin-both-tip::before{border-top-color:#1a1f2e!important}
 .leaflet-popup-content-wrapper{background:#fff;border-radius:8px!important;padding:12px!important;box-shadow:0 8px 32px rgba(0,0,0,.2)!important}
 .leaflet-popup-content{margin:0!important;width:auto!important}
 .leaflet-popup-tip{background:#fff!important}
@@ -1499,8 +1501,8 @@ function sortClientSide(list){
   const by=document.getElementById('sortSelect').value;
   const out=list.slice();
   out.sort((a,b)=>{
-    const pa=(a.operations&&a.operations[0]&&a.operations[0].amount)||0;
-    const pb=(b.operations&&b.operations[0]&&b.operations[0].amount)||0;
+    const pa=(a.__op&&a.__op.amount)||(a.operations&&a.operations[0]&&a.operations[0].amount)||0;
+    const pb=(b.__op&&b.__op.amount)||(b.operations&&b.operations[0]&&b.operations[0].amount)||0;
     if(by==='price-asc') return pa-pb;
     if(by==='price-desc') return pb-pa;
     return new Date(b.updated_at||0)-new Date(a.updated_at||0);
@@ -1562,7 +1564,8 @@ function pcStatusBadge(p,op){
 }
 
 function renderProperty(p){
-  const op=(p.operations&&p.operations[0])||{};
+  // p puede ser un "listing" (propiedad + 1 operación específica) → usar esa op.
+  const op=p.__op||(p.operations&&p.operations[0])||{};
   const sb=pcStatusBadge(p,op);
   const priceStr=op.formatted_amount||'Consultar precio';
   const m=String(priceStr).match(/^(\$?[\d.,]+)\s*(MXN|USD)?/i);
@@ -1607,7 +1610,9 @@ function renderProperty(p){
   // la card completa y "Ver detalle" redirigen a la landing.
   const landing=(window.LANDINGS&&window.LANDINGS[p.public_id])||null;
   const tourUrl=(landing&&landing.active!==false&&landing.path)?landing.path:null;
-  const detailUrl=tourUrl||`propiedad.html?id=${id}`;
+  // Pasa la operación específica al detalle para que muestre venta o renta correcta.
+  const opParam=(op&&op.type)?`&op=${encodeURIComponent(op.type)}`:'';
+  const detailUrl=tourUrl||`propiedad.html?id=${id}${opParam}`;
 
   // WhatsApp
   const waText=`Hola Maricela, estoy interesado en la propiedad "${cleanTitle}" (${priceStr}, ID: ${p.public_id||''}). ¿Podemos agendar una visita?`;
@@ -1644,20 +1649,43 @@ function renderProperty(p){
     </article>`;
 }
 
+// Expande propiedades → "listings": 1 entrada por operación (venta/renta),
+// igual que Pincali cuenta por anuncio. Respeta el filtro Comprar/Rentar.
+function buildListings(props){
+  const opFilter=currentFilters.operation||''; // ''=ambas | 'sale' | 'rental' | 'foreclosure'
+  const out=[];
+  for(const p of props){
+    const ops=(p&&p.operations)||[];
+    if(!ops.length) continue; // sin operaciones → no se muestra
+    for(const op of ops){
+      if(opFilter && op.type!==opFilter) continue;
+      out.push(Object.assign({},p,{
+        __op:op,
+        operationType:op.type,
+        operationAmount:op.amount,
+        operationCurrency:op.currency,
+        badge:op.type==='sale'?'EN VENTA':(op.type==='rental'?'EN RENTA':(op.type==='foreclosure'?'EN REMATE':'CONSULTAR'))
+      }));
+    }
+  }
+  return out;
+}
+
 function renderResults(){
   const filtered=applyClientFilters(state.results||[]);
-  const sorted=sortClientSide(filtered);
+  const listings=buildListings(filtered);
+  const sorted=sortClientSide(listings);
+  // Contador = anuncios (listings), no propiedades únicas → ~159 como Pincali.
   document.getElementById('countNum').textContent=String(sorted.length);
   if(!sorted.length){
     grid.innerHTML=renderNoResultsEmptyState();
     return;
   }
-  // Render defensivo: una propiedad con forma inesperada NO debe tumbar
-  // todo el panel (antes un throw aquí mostraba "No se pudieron cargar").
+  // Render defensivo: un listing con forma inesperada NO debe tumbar el panel.
   const html=[];
-  for(const p of sorted){
-    try{ html.push(renderProperty(p)); }
-    catch(err){ console.warn('[propiedades] card omitida por error de render:',p&&p.public_id,err); }
+  for(const l of sorted){
+    try{ html.push(renderProperty(l)); }
+    catch(err){ console.warn('[propiedades] card omitida por error de render:',l&&l.public_id,err); }
   }
   grid.innerHTML=html.join('');
   if(state.highlightId){
@@ -1716,7 +1744,7 @@ function propCacheKey(){
   // Una entrada por combinación de filtros de servidor (sin page/limit).
   const p=buildApiParams();
   p.delete('page'); p.delete('limit');
-  return 'mr_props_v1::'+p.toString();
+  return 'mr_props_v2::'+p.toString();
 }
 function readPropCache(){
   try{
@@ -1835,10 +1863,14 @@ async function loadPage(){
     }
     if(reqId!==currentReq) return;
     setStreamFooter(null);
-    // Logs ligeros (solo conteos numéricos).
-    console.log('[propiedades] TOTAL API:',all.length,
-      '| estados:',[...new Set(all.map(p=>p.status))],
-      '| operaciones:',[...new Set(all.flatMap(p=>(p.operations||[]).map(o=>o.type)))]);
+    // ── VERIFICACIÓN vs Pincali (conteo por anuncio/operación) ──
+    const opTypes=all.flatMap(p=>(p.operations||[]).map(o=>o.type));
+    console.log('Propiedades únicas (published):',all.length);
+    console.log('Listings totales (por operación):',opTypes.length);
+    console.log('Solo venta:',opTypes.filter(t=>t==='sale').length);
+    console.log('Solo renta:',opTypes.filter(t=>t==='rental').length);
+    console.log('Propiedades con ambas operaciones:',all.filter(p=>(p.operations||[]).length>1).length);
+    console.log('Diferencia vs Pincali (159):',159-opTypes.length);
     writePropCache(all); // 3) cache para próximas navegaciones
   }catch(e){
     if(reqId!==currentReq) return;
@@ -2046,6 +2078,12 @@ function createPropertyMarker(p){
     iconAnchor:[40,32]
   });
   const marker=L.marker(coords,{icon});
+
+  // Pin único por propiedad. Si tiene venta Y renta, tooltip al hacer hover.
+  const opTypes=new Set((p.operations||[]).map(o=>o.type));
+  if(opTypes.has('sale')&&opTypes.has('rental')){
+    marker.bindTooltip('Venta y Renta',{direction:'top',offset:[0,-30],className:'pin-both-tip'});
+  }
 
   const title=cleanTitle(p.title||'Propiedad');
   const locStr=(typeof p.location==='string')?p.location:((p.location&&(p.location.name||p.location.full_address))||'');
