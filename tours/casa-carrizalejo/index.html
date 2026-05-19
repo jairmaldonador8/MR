@@ -97,6 +97,36 @@ body::before {
 }
 .nav.scrolled { padding-top: 12px; padding-bottom: 12px; }
 
+/* ── Navbar transparente sobre el hero (estado por defecto) ── */
+.nav {
+  background: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease, padding 0.3s ease;
+}
+.nav__logo-img { transition: filter 0.4s ease; }
+.nav:not(.nav--scrolled) .nav__back,
+.nav:not(.nav--scrolled) .nav__center,
+.nav:not(.nav--scrolled) .nav__center a,
+.nav:not(.nav--scrolled) .nav__cta { color: #ffffff; }
+.nav:not(.nav--scrolled) .nav__cta { border-color: rgba(255, 255, 255, 0.6); background: transparent; }
+.nav:not(.nav--scrolled) .nav__sep { background: rgba(255, 255, 255, 0.4); }
+.nav:not(.nav--scrolled) .nav__logo-img { filter: brightness(0) invert(1); }
+.nav:not(.nav--scrolled) .nav__burger span { background: #ffffff; }
+.nav:not(.nav--scrolled) .nav__center.open a { color: var(--ink-2); }
+
+/* ── Navbar opaco al pasar el hero ── */
+.nav--scrolled {
+  background: rgba(245, 244, 240, 0.95);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-bottom-color: var(--line);
+}
+.nav--scrolled .nav__back,
+.nav--scrolled .nav__center,
+.nav--scrolled .nav__center a { color: #1a1f2e; }
+
 /* (CSS del antiguo nav__brand eliminado: ahora se usa nav__left) */
 
 .nav__center {
@@ -2781,6 +2811,16 @@ const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
+
+// Navbar: transparente sobre el hero → opaco al pasar el hero
+const heroEl = document.querySelector('.hero');
+const updateNavScrolled = () => {
+  const heroHeight = heroEl ? heroEl.offsetHeight : window.innerHeight;
+  nav.classList.toggle('nav--scrolled', window.scrollY > heroHeight - 100);
+};
+window.addEventListener('scroll', updateNavScrolled, { passive: true });
+window.addEventListener('resize', updateNavScrolled, { passive: true });
+updateNavScrolled();
 
 // Mobile hamburger toggle
 const navBurger = document.getElementById('navBurger');
