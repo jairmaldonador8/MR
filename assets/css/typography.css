@@ -67,8 +67,8 @@ h1, h2, h3, h4,
 .nav-sub,
 .nav-logo-sub {
   font-family: 'Cinzel', Georgia, serif;
-  font-weight: 400;
-  letter-spacing: 0.18em;
+  font-weight: 500;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
