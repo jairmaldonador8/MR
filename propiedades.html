@@ -1659,15 +1659,36 @@ async function loadPage(){
   grid.innerHTML='<div class="prop-state loading">Cargando propiedades…</div>';
   pagWrap.innerHTML='';
   try{
-    const r=await fetch('/api/properties?'+buildApiParams().toString());
-    if(reqId!==currentReq) return; // stale response
-    if(!r.ok) throw new Error('API '+r.status);
-    const d=await r.json();
-    state.total=(d.pagination&&d.pagination.total)||0;
-    state.totalPages=Math.max(1,Math.ceil(state.total/PER_PAGE));
-    state.results=d.content||[];
+    // Trae TODAS las propiedades del CRM paginando en loop (el proxy capa el limit en 50).
+    const params=buildApiParams();
+    params.set('limit','50');
+    const all=[];
+    let apiTotal=0;
+    const MAX_PAGES=40; // safety: 40 * 50 = 2000 propiedades máx
+    for(let pg=1;pg<=MAX_PAGES;pg++){
+      if(reqId!==currentReq) return; // stale: cambió el filtro mientras paginábamos
+      params.set('page',String(pg));
+      const r=await fetch('/api/properties?'+params.toString());
+      if(reqId!==currentReq) return;
+      if(!r.ok) throw new Error('API '+r.status);
+      const d=await r.json();
+      const list=d.content||[];
+      console.log(`Página ${pg}: ${list.length} propiedades`);
+      all.push(...list);
+      console.log(`Total acumulado: ${all.length}`);
+      apiTotal=(d.pagination&&d.pagination.total)||apiTotal;
+      const next=d.pagination&&d.pagination.next_page;
+      // Última página: la API ya no apunta a una siguiente, o devolvió < 50.
+      if(!next || list.length<50) break;
+    }
+    if(reqId!==currentReq) return;
+    state.results=all;
+    state.total=apiTotal||all.length;
+    state.totalPages=1; // todo se muestra en una sola vista (sin paginación de servidor)
+    state.page=1;
+    console.log(`✅ Propiedades cargadas del CRM: ${all.length}${apiTotal?` (API total: ${apiTotal})`:''}`);
     renderResults();
-    renderPagination();
+    renderPagination(); // no-op cuando totalPages<=1
   }catch(e){
     if(reqId!==currentReq) return;
     console.error(e);
