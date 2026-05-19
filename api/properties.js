@@ -30,10 +30,13 @@ export default async function handler(req, res) {
       limit: Math.min(Number(limit), 50).toString()
     });
 
-    // Solo activas/publicadas (≈159 de 682). Permitir opt-out con ?include_disabled=1
-    if (!req.query.include_disabled) {
-      params.append('search[statuses][]', 'published');
-    }
+    // Traer TODAS las propiedades del CRM, no solo las publicadas.
+    // EasyBroker por defecto solo devuelve "published"; para incluir el resto
+    // (not_published / reservadas / vendidas, etc.) hay que pedir ambos estados
+    // explícitamente. El estado real viaja en cada propiedad como `p.status`
+    // y se muestra como badge en la card.
+    params.append('search[statuses][]', 'published');
+    params.append('search[statuses][]', 'not_published');
 
     if (search) params.append('search[query]', search);
     if (min_price) params.append('search[min_price]', String(min_price));

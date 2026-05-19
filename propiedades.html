@@ -1517,9 +1517,24 @@ function pcFeat(ico,label){
   return `<span class="property-card-feat">${PC_ICONS[ico]}<span>${escHtml(label)}</span></span>`;
 }
 
+// Badge según el estado real de la propiedad en el CRM (p.status) + tipo de operación.
+// dim=true atenúa la card (no disponible activamente).
+function pcStatusBadge(p,op){
+  const st=String(p.status||'').toLowerCase();
+  const ot=op&&op.type;
+  if(st==='sold') return {label:'VENDIDA',cls:'st-sold',dim:true};
+  if(st==='reserved') return {label:'RESERVADA',cls:'st-reserved',dim:false};
+  if(st==='not_published'||st==='draft'||st==='unpublished')
+    return {label:'PRÓXIMAMENTE',cls:'st-soon',dim:true};
+  // published (o estado no reconocido): badge por tipo de operación
+  if(ot==='rental') return {label:'EN RENTA',cls:'st-rent',dim:false};
+  if(ot==='foreclosure') return {label:'EN REMATE',cls:'st-foreclosure',dim:false};
+  return {label:'EN VENTA',cls:'st-sale',dim:false};
+}
+
 function renderProperty(p){
   const op=(p.operations&&p.operations[0])||{};
-  const opType=op.type==='sale'?'EN VENTA':(op.type==='rental'?'EN RENTA':(op.type==='foreclosure'?'EN REMATE':'CONSULTAR'));
+  const sb=pcStatusBadge(p,op);
   const priceStr=op.formatted_amount||'Consultar precio';
   const m=String(priceStr).match(/^(\$?[\d.,]+)\s*(MXN|USD)?/i);
   const priceMain=m?m[1]:priceStr;
@@ -1566,11 +1581,12 @@ function renderProperty(p){
   const waUrl=`https://wa.me/528110448818?text=${encodeURIComponent(waText)}`;
 
   return `
-    <article class="property-card layout-horizontal${highlight}" data-id="${escHtml(p.public_id||'')}">
+    <article class="property-card layout-horizontal${highlight}${sb.dim?' is-unavailable':''}" data-id="${escHtml(p.public_id||'')}">
       <a href="${detailUrl}" class="property-card-image-link" aria-label="${escHtml(cleanTitle)}">
         <div class="property-card-image${img?'':' no-img'}"${img?` style="background-image:url('${escHtml(img).replace(/'/g,"\\'")}')"`:''}>
           ${img?'':'<span class="property-card-noimg-label">Sin imagen disponible</span>'}
-          <span class="property-card-badge">${escHtml(opType)}</span>
+          ${sb.dim?'<span class="property-card-unavail-overlay" aria-hidden="true"></span>':''}
+          <span class="property-card-badge ${sb.cls}">${escHtml(sb.label)}</span>
           ${p.featured?'<span class="property-card-featured-badge">★ DESTACADA</span>':''}
         </div>
       </a>
@@ -1706,13 +1722,15 @@ async function loadPage(){
     state.total=apiTotal||all.length;
     state.totalPages=1; // todo se muestra en una sola vista (sin paginación de servidor)
     state.page=1;
-    // ── DIAGNÓSTICO ──
-    console.log('Total de la API:',all.length,'(API pagination.total:',apiTotal,')');
+    // ── DIAGNÓSTICO (post-fix: ahora se piden published + not_published) ──
+    console.log('Estados encontrados:',[...new Set(all.map(p=>p.status))]);
+    console.log('Total después del fix:',all.length,'(API pagination.total:',apiTotal,')');
     console.log('IDs únicos:',new Set(all.map(p=>p.public_id||p.id)).size,'/ duplicados descartados:',dupes);
     console.log('Operaciones encontradas:',[...new Set(all.flatMap(p=>(p.operations||[]).map(o=>o.type)))]);
-    console.log('Estados (status) encontrados:',[...new Set(all.map(p=>p.status))]);
+    const conteoPorEstado=all.reduce((a,p)=>{const s=p.status||'(sin status)';a[s]=(a[s]||0)+1;return a;},{});
+    console.log('Conteo por estado:',conteoPorEstado);
     const sinImagen=all.filter(p=>!p.title_image_full).length;
-    console.log('Propiedades SIN imagen principal:',sinImagen,'(antes se ocultaban; ahora se muestran con placeholder)');
+    console.log('Propiedades SIN imagen principal:',sinImagen,'(se muestran con placeholder)');
     renderResults();
     renderPagination(); // no-op cuando totalPages<=1
   }catch(e){

@@ -74,6 +74,25 @@
   font-weight:600;
 }
 
+/* Variantes de color del badge según estado/operación */
+.property-card-badge.st-sale{background:#c9a96e;color:#1a1f2e}
+.property-card-badge.st-rent{background:#2563eb;color:#ffffff}
+.property-card-badge.st-reserved{background:#ea7a17;color:#ffffff}
+.property-card-badge.st-sold{background:#6b7280;color:#ffffff}
+.property-card-badge.st-soon{background:#7c3aed;color:#ffffff}
+.property-card-badge.st-foreclosure{background:#b91c1c;color:#ffffff}
+
+/* Propiedad no disponible activamente (vendida / próximamente) */
+.property-card.is-unavailable{opacity:.6;transition:opacity .3s ease}
+.property-card.is-unavailable:hover{opacity:.85}
+.property-card-unavail-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,.35);
+  z-index:1;
+  pointer-events:none;
+}
+
 .property-card-featured-badge{
   position:absolute;
   top:12px;
