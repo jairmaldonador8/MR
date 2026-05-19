@@ -6,5 +6,15 @@
     "path": "/tours/casa-alfonso-reyes/",
     "active": true,
     "premium": true
+  },
+  "casa-carrizalejo": {
+    "propertyId": "EB-TZ4590",
+    "slug": "casa-carrizalejo",
+    "title": "Casa Carrizalejo",
+    "path": "/tours/casa-carrizalejo/",
+    "active": true,
+    "premium": true,
+    "price": 75000000,
+    "operation": "sale"
   }
 }

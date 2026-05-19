@@ -1603,7 +1603,11 @@ function renderProperty(p){
   const id=encodeURIComponent(p.public_id||'');
   const highlight=(state.highlightId&&p.public_id===state.highlightId)?' highlight':'';
   const img=p.title_image_full||p.title_image_thumb||'';
-  const detailUrl=`propiedad.html?id=${id}`;
+  // Landing premium (tours/landings.json): si esta propiedad tiene tour,
+  // la card completa y "Ver detalle" redirigen a la landing.
+  const landing=(window.LANDINGS&&window.LANDINGS[p.public_id])||null;
+  const tourUrl=(landing&&landing.active!==false&&landing.path)?landing.path:null;
+  const detailUrl=tourUrl||`propiedad.html?id=${id}`;
 
   // WhatsApp
   const waText=`Hola Maricela, estoy interesado en la propiedad "${cleanTitle}" (${priceStr}, ID: ${p.public_id||''}). ¿Podemos agendar una visita?`;
@@ -1616,7 +1620,7 @@ function renderProperty(p){
           ${img?'':'<span class="property-card-noimg-label">Sin imagen disponible</span>'}
           ${sb.dim?'<span class="property-card-unavail-overlay" aria-hidden="true"></span>':''}
           <span class="property-card-badge ${sb.cls}">${escHtml(sb.label)}</span>
-          ${p.featured?'<span class="property-card-featured-badge">★ DESTACADA</span>':''}
+          ${tourUrl?'<span class="property-card-tour-badge">TOUR PREMIUM ✨</span>':(p.featured?'<span class="property-card-featured-badge">★ DESTACADA</span>':'')}
         </div>
       </a>
       <div class="property-card-content">
@@ -1634,7 +1638,7 @@ function renderProperty(p){
         <div class="property-card-actions">
           <a href="tel:+528110448818" class="property-card-btn property-card-btn-phone" title="Llamar a Maricela" aria-label="Llamar">📞</a>
           <a href="${escHtml(waUrl)}" target="_blank" rel="noopener" class="property-card-btn property-card-btn-whatsapp">💬 WhatsApp</a>
-          <a href="${detailUrl}" class="property-card-btn property-card-btn-contact">Ver detalle →</a>
+          <a href="${detailUrl}" class="property-card-btn property-card-btn-contact">${tourUrl?'Ver tour ✨':'Ver detalle →'}</a>
         </div>
       </div>
     </article>`;
@@ -2375,9 +2379,29 @@ function updatePropertiesListWithZone(properties){
   }
 }
 
-// Initial load
+// ── LANDINGS PREMIUM (tours/landings.json) ──
+// Mapea propertyId → entrada de landing. Las propiedades cuyo public_id
+// coincida muestran badge "TOUR PREMIUM ✨" y redirigen a la landing.
+window.LANDINGS={};
+async function loadLandings(){
+  try{
+    const r=await fetch('/tours/landings.json',{cache:'no-cache'});
+    if(!r.ok) return;
+    const data=await r.json();
+    const map={};
+    Object.values(data||{}).forEach(L=>{
+      if(L&&L.propertyId&&L.active!==false) map[L.propertyId]=L;
+    });
+    window.LANDINGS=map;
+    console.log('[landings] tours premium activos:',Object.keys(map));
+  }catch(e){
+    console.warn('[landings] no se pudo cargar landings.json:',e);
+  }
+}
+
+// Initial load — landings primero para que el primer render ya marque los tours.
 initFilters();
-loadPage();
+loadLandings().finally(()=>loadPage());
 window.addEventListener('load',()=>{
   initPropertiesMap();
   loadMapMarkers();

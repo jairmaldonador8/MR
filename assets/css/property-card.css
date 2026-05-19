@@ -108,6 +108,23 @@
   font-weight:600;
 }
 
+/* Badge "TOUR PREMIUM ✨" — propiedades con landing dedicada (tours/landings.json) */
+.property-card-tour-badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:linear-gradient(135deg,#d4b67e 0%,#c9a96e 55%,#b8924f 100%);
+  color:#1a1f2e;
+  padding:6px 12px;
+  font-family:'Poppins',Helvetica,Arial,sans-serif;
+  font-size:11px;
+  letter-spacing:1.2px;
+  border-radius:4px;
+  z-index:3;
+  font-weight:700;
+  box-shadow:0 2px 10px rgba(201,169,110,.45);
+}
+
 /* Content */
 .property-card-content{
   padding:20px 24px;
