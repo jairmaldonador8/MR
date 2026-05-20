@@ -854,6 +854,7 @@ em{font-style:italic}
 
 /* BLOG */
 .blog-sec{padding:120px 56px 40px;background:var(--black)}
+.blog-head{display:flex;align-items:flex-end;justify-content:space-between}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:60px}
 .blog-card{display:block;text-decoration:none;color:inherit;overflow:hidden;transition:transform .5s cubic-bezier(.25,.46,.45,.94),box-shadow .5s cubic-bezier(.25,.46,.45,.94),border-color .5s ease;border-radius:8px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .blog-card:hover{transform:translateY(-4px);border-color:rgba(201,169,110,.18);box-shadow:0 18px 42px rgba(0,0,0,.32)}
@@ -1010,6 +1011,8 @@ textarea.fi{min-height:70px;max-height:110px;resize:vertical;line-height:1.5}
   .ctl{padding:0}
   .ctr{padding:24px}
   .blog-sec{padding:80px 20px 30px}
+  .blog-head{flex-direction:column;align-items:flex-start;gap:18px}
+  .hero-title{font-size:clamp(34px,11vw,52px);word-break:keep-all;overflow-wrap:normal;hyphens:none}
   footer,.footer-main,.footer-bottom{padding-left:24px;padding-right:24px}
   .footer-main{grid-template-columns:1fr;gap:32px;padding-top:48px;padding-bottom:48px}
   .footer-bottom{flex-direction:column;gap:14px}
@@ -1581,7 +1584,7 @@ textarea.fi{min-height:70px;max-height:110px;resize:vertical;line-height:1.5}
 
 <!-- ⑬ BLOG -->
 <section class="blog-sec" id="blog">
-  <div style="display:flex;align-items:flex-end;justify-content:space-between">
+  <div class="blog-head">
     <div>
       <span class="eye r eye-r">Mercado & Tendencias</span>
       <span class="h3 r d1" style="display:block">Insights del<br><em>mercado</em></span>
