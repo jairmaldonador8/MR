@@ -1967,6 +1967,33 @@ document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.
   const panels=document.querySelectorAll('.props-panel');
   if(!tabs.length||!panels.length) return;
 
+  // ── TOP PROPIEDADES: lista curada por ID (EasyBroker public_id)
+  // ACTUALIZAR ESTA LISTA cuando cambien las propiedades destacadas.
+  // El orden del array es el orden en que aparecen en el grid.
+  const TOP_PROPERTIES=[
+    "EB-TZ4590","EB-RI9142","EB-TG5748","EB-UA1070",
+    "EB-UE8887","EB-OT5312","EB-UE8891","EB-UE8904",
+    "EB-PO1500","EB-VY0624","EB-VP2163","EB-SL5243",
+    "EB-VN2463","EB-VL3166","EB-VM8027","EB-VT5598"
+  ];
+
+  // Landings premium (tours/landings.json) — propertyId → entrada
+  // Se carga una sola vez al inicializar; usada por loadTop para
+  // mostrar badge "TOUR PREMIUM ✨" y redirigir a la landing.
+  let landingsMap={};
+  async function loadLandings(){
+    try{
+      const r=await fetch('/tours/landings.json',{cache:'no-cache'});
+      if(!r.ok) return;
+      const data=await r.json();
+      Object.values(data||{}).forEach(L=>{
+        if(L&&L.propertyId&&L.active!==false) landingsMap[L.propertyId]=L;
+      });
+    }catch(e){
+      console.warn('[landings] no se pudo cargar landings.json:',e);
+    }
+  }
+
   const loaded={top:false,nuevas:false,todas:false};
 
   function escapeHtml(s){
@@ -1999,7 +2026,8 @@ document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.
     return found;
   }
 
-  function renderCard(p, flag){
+  function renderCard(p, flag, opts){
+    opts=opts||{};
     const op=p.operations&&p.operations[0]||{};
     const opType=op.type==='sale'?'EN VENTA':(op.type==='rental'?'EN RENTA':(op.type==='foreclosure'?'EN REMATE':'CONSULTAR'));
     const priceStr=op.formatted_amount||'Consultar precio';
@@ -2036,13 +2064,16 @@ document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.
     const extraCount=amenities.length-visibleAmenities.length;
 
     const id=encodeURIComponent(p.public_id||'');
-    const detailUrl=`propiedad.html?id=${id}`;
+    const detailUrl=opts.detailUrlOverride || `propiedad.html?id=${id}`;
+    const isPremiumLanding=!!opts.detailUrlOverride;
     const img=p.title_image_full||p.title_image_thumb||'';
 
-    // Featured badge: explicit "flag" param wins, else show "Destacada" only when truthy
-    const featuredHtml=flag
-      ? `<span class="property-card-featured-badge">★ ${escapeHtml(flag.label.toUpperCase())}</span>`
-      : (p.featured?'<span class="property-card-featured-badge">★ DESTACADA</span>':'');
+    // Badge: el "TOUR PREMIUM" reemplaza al genérico cuando hay landing.
+    const featuredHtml=isPremiumLanding
+      ? '<span class="property-card-tour-badge">TOUR PREMIUM ✨</span>'
+      : (flag
+        ? `<span class="property-card-featured-badge">★ ${escapeHtml(flag.label.toUpperCase())}</span>`
+        : (p.featured?'<span class="property-card-featured-badge">★ DESTACADA</span>':''));
 
     const waText=`Hola Maricela, estoy interesado en la propiedad "${cleanTitle}" (${priceStr}, ID: ${p.public_id||''}). ¿Podemos agendar una visita?`;
     const waUrl=`https://wa.me/528110448818?text=${encodeURIComponent(waText)}`;
@@ -2070,7 +2101,7 @@ document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.
           <div class="property-card-actions">
             <a href="tel:+528110448818" class="property-card-btn property-card-btn-phone" title="Llamar a Maricela" aria-label="Llamar">📞</a>
             <a href="${escapeHtml(waUrl)}" target="_blank" rel="noopener" class="property-card-btn property-card-btn-whatsapp">💬 WhatsApp</a>
-            <a href="${detailUrl}" class="property-card-btn property-card-btn-contact">Ver detalle →</a>
+            <a href="${detailUrl}" class="property-card-btn property-card-btn-contact">${isPremiumLanding?'Ver tour ✨':'Ver detalle →'}</a>
           </div>
         </div>
       </article>`;
@@ -2089,17 +2120,44 @@ document.querySelectorAll('.r').forEach(el=>{if(!el.classList.contains('v'))obs.
     return r.json();
   }
 
+  async function fetchPropById(id){
+    try{
+      const r=await fetch(`/api/property-detail?id=${encodeURIComponent(id)}`);
+      if(!r.ok) return null;
+      return await r.json();
+    }catch(e){
+      console.warn('[top] error cargando',id,e);
+      return null;
+    }
+  }
+
   async function loadTop(){
     const c=document.getElementById('topPropertiesGrid');
     if(!c) return;
     setState(c,loadingHtml());
     try{
-      const d=await fetchProps('location=San Pedro Garza Garc%C3%ADa&min_price=15000000&limit=50');
-      const allowed=['Casa','Penthouse','Departamento','Casas en condominio','Casa en condominio'];
-      const list=(d.content||[]).filter(p=>p.title_image_full && allowed.includes(p.property_type));
-      const sorted=list.sort((a,b)=>new Date(b.updated_at||0)-new Date(a.updated_at||0)).slice(0,10);
-      if(!sorted.length) return setState(c,emptyHtml('No hay propiedades destacadas en este momento.'));
-      setState(c,sorted.map(p=>renderCard(p,{cls:'top',label:'Top'})).join(''));
+      await loadLandings();
+      const results=await Promise.all(TOP_PROPERTIES.map(fetchPropById));
+      const list=[];
+      const missing=[];
+      results.forEach((p,i)=>{
+        const id=TOP_PROPERTIES[i];
+        if(p && (p.public_id || p.id)){
+          // Normaliza public_id por si la API solo devuelve "id"
+          if(!p.public_id) p.public_id=id;
+          list.push(p);
+        }else{
+          missing.push(id);
+        }
+      });
+      console.log(`[top] cargadas ${list.length}/${TOP_PROPERTIES.length} propiedades destacadas`);
+      if(missing.length) console.log('[top] Top properties no encontradas:',missing);
+      if(!list.length) return setState(c,emptyHtml('No hay propiedades destacadas en este momento.'));
+      setState(c,list.map(p=>{
+        const landing=landingsMap[p.public_id];
+        const opts=(landing&&landing.path)?{detailUrlOverride:landing.path}:null;
+        return renderCard(p,{cls:'top',label:'Top'},opts);
+      }).join(''));
     }catch(e){console.error(e);setState(c,errorHtml());}
   }
 
