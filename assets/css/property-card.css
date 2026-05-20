@@ -108,7 +108,7 @@
   font-weight:600;
 }
 
-/* Badge "TOUR PREMIUM ✨" — propiedades con landing dedicada (tours/landings.json) */
+/* Badge "TOUR PREMIUM" — propiedades con landing dedicada (tours/landings.json) */
 .property-card-tour-badge{
   position:absolute;
   top:12px;
@@ -307,6 +307,14 @@
   color:#1a1f2e;
   border:1.5px solid #c9a96e;
   padding:10px;
+  flex-shrink:0;
+}
+
+.property-card-btn-phone svg,
+.property-card-btn-whatsapp svg{
+  width:16px;
+  height:16px;
+  display:block;
   flex-shrink:0;
 }
 
